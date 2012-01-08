@@ -24,6 +24,9 @@ class DevConfig(Config):
 class TestConfig(Config):
     
     TESTING = True
+    LOGGER_NAME = 'Test. Logger'
+    MONGODB_HOST = 'localhost'
+    MONGODB_PORT = 27017
     
     
 class ProdConfig(Config):

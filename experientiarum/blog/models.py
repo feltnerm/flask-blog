@@ -13,12 +13,15 @@ class Entry(Document):
     @todo: markdown support
     @todo: easy embed media (videos, images)
     @todo: add tagging
-    @todo: add comments (disqus)'''
+    @todo: add comments (disqus)
+    '''
     
     __collection__ = 'blog_entries'
     
     structure = {
                  'title': unicode,
+                 'unique_title' : unicode,
+                 'slug' : unicode,
                  'body' : unicode,
                  'pub_date': datetime,
                  'edit_date' : datetime,
@@ -27,7 +30,13 @@ class Entry(Document):
                  }
     required_fields = ['title', 'pub_date', 'body']
     default_values = {
-                      'pub_date': datetime.utcnow,
+                      'pub_date': datetime.utcnow(),
                       'deleted' : False
                       }
+    indexes = [
+               {
+                'fields':'unique_title',
+                'unique':True
+                },
+               ]
     use_dot_notation = True
