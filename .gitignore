@@ -1,0 +1,12 @@
+.project
+.pydev
+.pydevproject
+*.pyc
+secret_key.py
+
+# Uncomment when you get logging set up
+# log/*.log
+
+# Uncomment when you get Flask-Assets (static content extension)
+# set up
+# experientiarum/static/gen/*

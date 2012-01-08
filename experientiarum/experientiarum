@@ -1,0 +1,47 @@
+#!/usr/bin/env python
+
+import config
+
+from flask import Flask
+from mongokit import import Connection, Document
+
+'''
+    experientiarum
+    
+    ~ a place where I can leave my experiences
+    
+    @todo: dev/prod configs
+    @todo: explicitly define which apps are on/off
+    @todo: logging
+    @todo: email
+    
+'''
+
+## Define the application object
+app = Flask('experientiarum')
+
+## Retrieve the configuration
+app.config.from_object(config)
+
+## Register Blueprints
+# BLOG
+from blog import blog
+app.register_blueprint(blog, prefix = '/blog')
+
+'''
+# BOOKMARKS
+from bookmarks import bookmarks
+app.register_blueprint(bookmarks, prefix = '/bookmarks')
+
+# PASTEBIN
+from pastebin import pastebin
+app.register_blueprint(pastebin, prefix = '/pastebin')
+
+# READLATERS
+from readlaters import readlaters
+app.register_blueprint(readlaters, prefix = '/readlaters')
+
+# TODO
+from todo import todo
+app.register_blueprint(todo, prefix = '/todo')
+'''
