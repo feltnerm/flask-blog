@@ -2,7 +2,8 @@
 
 from datetime import datetime
 
-from flaskext.mongokit import MongoKit, Document, Set
+from flask import current_app
+from flaskext.mongokit import Document
 
 ## MODELS ##
 class Entry(Document):
@@ -14,7 +15,7 @@ class Entry(Document):
     @todo: add tagging
     @todo: add comments (disqus)'''
     
-    __collection__ = 'entries'
+    __collection__ = 'blog_entries'
     
     structure = {
                  'title': unicode,
@@ -27,9 +28,6 @@ class Entry(Document):
     required_fields = ['title', 'pub_date', 'body']
     default_values = {
                       'pub_date': datetime.utcnow,
-                      'published' : False,
                       'deleted' : False
                       }
     use_dot_notation = True
-    
-## DATABASE ##

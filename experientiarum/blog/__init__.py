@@ -1,15 +1,19 @@
 #!/usr/bin/env python
 
-import models
+from models import Entry
 
 from datetime import datetime
 
-from flask import Blueprint, render_template, abort, request, redirect, url_for
+from flask import Blueprint, render_template, abort, request, redirect, \
+    url_for, current_app
 from flask.views import MethodView
 from jinja2 import TemplateNotFound
 
 
 blog = Blueprint('blog', __name__)
+
+# Register models with db
+current_app.db.register[Entry]
 
 ## VIEWS ##
 @blog.route('/')
@@ -28,17 +32,19 @@ def show_entry_id(entry_id, methods = ['GET', 'PUT', 'DELETE']):
 
 @blog.route('/new', methods=['GET', 'POST'])
 def new_entry():
-    ''' Add a entry. '''
+    ''' Add a entry. 
+    
+    @todo: form validation
+    '''
     
     if request.method == 'POST':
-        #entry = db.Entry()
+        entry = Entry()
         entry.title = request.form['title']
         entry.body = request.form['body']
         entry.published = datetime.utcnow()
         entry.comments_enabled = request.form['comments_enabled']
         entry.tags = request.form['tags']
         
-        #@todo: Validate
         entry.save()
         
         return redirect(url_for('show_entries'))
@@ -47,17 +53,19 @@ def new_entry():
 
 @blog.route('/edit/<int:entry_id>', methods=['PUT'])
 def edit_entry(entry_id):
-    ''' Edit an existing entry. '''
+    ''' Edit an existing entry. 
+    
+    @todo: form validation
+    '''
     
     if request.method == 'PUT':
-        #entry = db.Entry()
+        entry = Entry()
         entry.title = request.form['title']
         entry.body = request.form['body']
         entry.edit_date = datetime.utcnow()
         entry.comments_enabled = request.form['comments_enabled']
         entry.tags = request.form['tags']
         
-        #@todo: validate
         entry.save()
         
         return redirect(url_for('show_entries'))

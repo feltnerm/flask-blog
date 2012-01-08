@@ -15,8 +15,8 @@ def console():
     local('ipython -i play.py', capture=False)
 
 def server():
-    '''Run the dev server'''
-    local('env DEV=yes python runserver.py', capture=False)
+    'Run the dev server'''
+    local('python runserver.py --server-type d', capture=False)
 
 def test():
     '''Run the test suite'''

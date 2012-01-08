@@ -2,7 +2,7 @@
 .pydev
 .pydevproject
 *.pyc
-secret_key.py
+secret.py
 
 # Uncomment when you get logging set up
 # log/*.log
