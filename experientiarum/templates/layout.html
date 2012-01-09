@@ -6,4 +6,45 @@
 	<meta name="description content="{{ meta_description }}">
 	<meta name="author" content="{{ meta_author }}">
 
+	{# set up once assets work
+	{% assets filters="cssmin", output="gen/packed.css", "css/style.css", "css/text.css", "css/site.css" %}
+      <link rel="stylesheet" href="{{ ASSET_URL }}"/>
+	{% endassets %}
+	#}
 </head>
+
+<body>
+
+	<div id="container" class="container">
+	
+		<header class="header">
+			{%block header %}
+			
+			{% endblock %}
+		</header>
+		
+		<div id="main" role="main" class="main">
+			<div class="flash_messages">
+				{% for message in get_flashed_messages() %}
+				<div class="flash">
+					{{ message }}
+				</div>
+				{% endfor %}
+			</div>
+			
+			{% block body %}
+			
+			{% endblock %}
+		</div>
+		
+		<footer class="footer">
+		
+			{% block footer %}
+			
+			{% endblock %}
+		
+		</footer>
+	
+	</div>
+
+</body>

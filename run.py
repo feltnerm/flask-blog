@@ -7,16 +7,11 @@ from experientiarum import generate_app
 
 def process_args(argv):
     
-
     if not argv:
         argv = sys.argv[1:]
 
     ap = argparse.ArgumentParser(description='Run experientiarum server')
-    
-    
     ap.add_argument('-s','--server-type', default='dev')
-                    
-    
     args = ap.parse_args(argv)
     
     return args
@@ -32,13 +27,15 @@ def main(argv=None):
     
     run_settings = process_args(argv)
     if run_settings.server_type.startswith('d'):
-        app = generate_app('config.DevConfig')
+        app = generate_app('experientiarum.config.DevConfig')
         
     elif run_settings.server_type.startswith('t'):
-        app = generate_app('config.TestConfig')
+        app = generate_app('experientiarum.config.TestConfig')
     
-    else run_settings.server_type.startswith('d'):
-        app = generate_app('config.ProdConfig')
+    elif run_settings.server_type.startswith('p'):
+        app = generate_app('experientiarum.config.ProdConfig')
+    else:
+        app.generate_app('experientiarum.config.DevConfig')
         
     app.run()
 

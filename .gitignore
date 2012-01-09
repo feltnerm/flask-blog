@@ -4,9 +4,10 @@
 *.pyc
 secret.py
 
+
 # Uncomment when you get logging set up
-# log/*.log
+log/*.log
 
 # Uncomment when you get Flask-Assets (static content extension)
 # set up
-# experientiarum/static/gen/*
+experientiarum/static/gen/*

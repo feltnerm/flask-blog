@@ -11,12 +11,12 @@ from datetime import datetime
 from unicodedata import normalize
 
 from flask import Blueprint, render_template, abort, request, redirect, \
-    url_for, current_app, flash
+    url_for, current_app, flash, g
 from flask.views import MethodView
 from jinja2 import TemplateNotFound
 
 
-blog = Blueprint('blog', __name__)
+blog = Blueprint('blog', __name__, template_folder='templates')
 
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
@@ -36,10 +36,10 @@ def slugify(text, delim=u'-'):
 
 ## VIEWS ##
 @blog.route('/')
-def show_entries(page):
+def show_entries():
     ''' Show all entries. '''
     
-    entries = current_app.db.Entry.find({"deleted":False})
+    entries = g.db.Entry.find({"deleted":False})
     return render_template('entries.html', entries = entries)
 
 
@@ -47,7 +47,7 @@ def show_entries(page):
 def show_entry(unique_title):
     ''' Show a specific entry based on its entry_id. '''
     
-    entry = current_app.db.Entry.one({'unique_title':unique_title, 'deleted':False})
+    entry = g.db.Entry.one({'unique_title':unique_title, 'deleted':False})
     return render_template('entry.html', entry = entry)
 
 
@@ -59,7 +59,7 @@ def edit_entry(unique_title):
     '''
     
     if request.method == 'PUT':
-        entry = current_app.db.Entry.one({'unique_title':unique_title})
+        entry = g.db.Entry.one({'unique_title':unique_title})
         entry.title = request.form['title']
         entry.slug = slugify(entry.title)
         entry.body = request.form['body']
@@ -77,7 +77,7 @@ def delete_entry(unique_title):
     ''' Delete an existing entry. '''
     
     if request.method == 'DELETE':
-        entry = current_app.db.Entry.one({'unique_title':unique_title})
+        entry = g.db.Entry.one({'unique_title':unique_title})
         entry.deleted = request.form['deleted']
         entry.delete_date = datetime.utcnow()
         
@@ -96,7 +96,7 @@ def new_entry():
     '''
     
     if request.method == 'POST':
-        entry = current_app.db.Entry()
+        entry = g.db.Entry()
         entry.title = request.form['title']
         entry.slug = slugify(entry.title)
         entry.body = request.form['body']

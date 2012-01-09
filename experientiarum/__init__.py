@@ -24,7 +24,7 @@ __status__ = "Development"
 import logging
 import os
 
-from flask import Flask
+from flask import Flask, g
 from flaskext.mongokit import MongoKit
 from flaskext.assets import Environment
 
@@ -79,5 +79,9 @@ def generate_app(config):
     from todo import todo
     app.register_blueprint(todo, url_prefix = '/todo')
     '''
+    
+    @app.before_request
+    def before_request():
+        g.db = db
     
     return app

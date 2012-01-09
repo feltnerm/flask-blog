@@ -1,0 +1,6 @@
+{% extends templates/layout.html %}
+{% block body %}
+{% for entry in entries %}
+	<li>{{ entry.title }}</li>
+{% endfor %}
+{% endblock %}

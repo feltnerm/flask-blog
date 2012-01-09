@@ -12,30 +12,36 @@ from fabric.utils import puts, warn
 ## Run things
 def console():
     ''' Open interactive console '''
+    
     local('ipython -i play.py', capture=False)
 
 def server():
     'Run the dev server'''
+    
     local('python runserver.py --server-type d', capture=False)
 
 def test():
     '''Run the test suite'''
+    
     local('env TEST=yes python tests.py', capture=False)
 
 
 ## Deployment
 def pack():
     ''' Pack up code '''
+    
     pass    
 
 def unpack():
     ''' Unpack code '''
+    
     pass
 
 
 ## Utils
 def pep8():
     ''' Flags any violations of the python style guide '''
+    
     print("Checking python style")
     # Grab everything public folder inside the current directory
     dir_list = [x[0] for x in os.walk('./') if not x[0].startswith('./.')]
@@ -51,4 +57,5 @@ def pep8():
 
 def clear_pyc():
     ''' Clear cached .pyc files '''
+    
     local("find . -iname '*.pyc' -exec rm -v {} \;", capture=False)
