@@ -24,6 +24,9 @@ __status__ = "Development"
 import logging
 import os
 
+from logging import Formatter
+from logging.handlers import SMTPHandler, FileHandler
+
 from flask import Flask, g, render_template
 from flaskext.mongokit import MongoKit
 from flaskext.assets import Environment
@@ -43,12 +46,35 @@ def generate_app(config):
     app = Flask(__name__, static_folder = 'static', template_folder = 'templates')
     app.config.from_object(config)
     
-    ## Logging
-    logging.basicConfig(
-                        level=logging.DEBUG,
-                        format='[%(asctime)s] [%(name)s] [%(levelname)s] %(message)s',
-                        datefmt='%Y%m%d-%H:%M%p',
-                        )    
+    ## Error Handling 
+    # Logging
+    file_handler = FileHandler('log/experientarium.log')
+    file_handler.setLevel(logging.WARNING)
+    file_handler.setFormatter(Formatter(
+        '%(asctime)s %(levelname)s: %(message)s '
+        '[in %(pathname)s:%(lineno)d]'
+        )))
+    app.logger.addHandler(file_handler)
+
+    # Email
+    """
+    mail_handler = SMTPHandler('127.0.0.1',
+                               'server-error@example.com',
+                               ADMINS, '{ERROR!!!} [experientiarum]')
+    mail_handler.setlevel(logging.ERROR)
+    mail_handler.setFormatter(Formatter('''
+    Message type:   %(levelname)s
+    Location:       %(pathname)s:%(lineno)d
+    Module:         %(module)s
+    Function:       %(funcName)s
+    Time:           %(asctime)s
+
+    Message:
+
+    %(message)s
+    '''))
+    app.logger.addHandler(mail_handler)
+    """ 
     
     ## Add MongoDB extension
     db = MongoKit(app)
