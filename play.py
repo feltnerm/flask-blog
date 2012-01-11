@@ -6,5 +6,6 @@ import random
 def show(obj):
     '''Show the dump of the properties of the object.'''
     pprint(vars(obj))
-
+    
 from experientiarum import *
+

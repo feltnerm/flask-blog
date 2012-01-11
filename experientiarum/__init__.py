@@ -24,17 +24,23 @@ __status__ = "Development"
 import logging
 import os
 
-from flask import Flask, g
+from flask import Flask, g, render_template
 from flaskext.mongokit import MongoKit
 from flaskext.assets import Environment
 
 
 def generate_app(config):
+    ''' Configures a variety of settings, extensions, and other bits and
+    pieces for the app to be served and.
+     
+    @TODO: More parameters for configuration overload
+    @TODO: Procedurize; put operations in functions
+    '''    
     
     FLASK_APP_DIR = os.path.dirname(os.path.abspath(__file__))
     
     ## Define the application object
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder = 'static', template_folder = 'templates')
     app.config.from_object(config)
     
     ## Logging
@@ -55,6 +61,10 @@ def generate_app(config):
         os.mkdir(assets_output_dir)
 
     ## Register Blueprints
+    # Main
+    from main import main
+    app.register_blueprint(main)
+    
     # BLOG
     from blog import blog
     app.register_blueprint(blog, url_prefix = '/blog')
@@ -83,5 +93,5 @@ def generate_app(config):
     @app.before_request
     def before_request():
         g.db = db
-    
+
     return app

@@ -29,6 +29,12 @@
 			{% endblock %}
 		</header>
 		
+		<div id="nav" role="nav" class="nav">
+		  <ul>
+		      <li><a href="/blog">blog</a></li>
+		  </ul>
+		</div>
+		
 		<div id="main" role="main" class="main">
 			<div class="flash_messages">
 				{% for message in get_flashed_messages() %}

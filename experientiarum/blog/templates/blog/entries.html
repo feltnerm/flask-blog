@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+{% block body %}
+<h1> BLOG </h1>
+{% for entry in entries %}
+	<li>{{ entry.title }}</li>
+{% endfor %}
+{% endblock %}

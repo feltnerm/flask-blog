@@ -19,14 +19,15 @@ class Entry(Document):
     __collection__ = 'blog_entries'
     
     structure = {
+                 'id': int,
                  'title': unicode,
-                 'unique_title' : unicode,
                  'slug' : unicode,
                  'body' : unicode,
                  'pub_date': datetime,
                  'edit_date' : datetime,
                  'delete_date' : datetime,
                  'deleted' : bool,
+                 
                  }
     required_fields = ['title', 'pub_date', 'body']
     default_values = {
@@ -34,9 +35,9 @@ class Entry(Document):
                       'deleted' : False
                       }
     indexes = [
-               {
-                'fields':'unique_title',
-                'unique':True
-                },
+               {'fields': 'slug',},
+               {'fields': 'deleted'},
+               {'fields': 'id'},
+               {'fields': 'pub_date'}
                ]
     use_dot_notation = True
