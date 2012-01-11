@@ -3,17 +3,23 @@
 	<meta charset="utf-8">
 	
 	<title>{{ title }}</title>
-	<meta name="description content="{{ meta_description }}">
+	<meta name="description" content="{{ meta_description }}">
 	<meta name="author" content="{{ meta_author }}">
 
 	{# set up once assets work
 	{% assets filters="cssmin", output="gen/packed.css", "css/style.css", "css/text.css", "css/site.css" %}
-      <link rel="stylesheet" href="{{ ASSET_URL }}"/>
+      <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}"/>
 	{% endassets %}
-	#}
+    #}
+
+    <meta http-equiv="X-UA_Compatible" content="IE-edge">
 </head>
 
-<body>
+<!--[if lt IE 7 ]> <body class="ie6"> <![endif]-->
+<!--[if IE 7 ]> <body class="ie7"> <![endif]-->
+<!--[if IE 8]> <body class="ie8"> <![endif]-->
+<!--[if IE 9> <body class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <body> <!--<![endif]-->
 
 	<div id="container" class="container">
 	
