@@ -37,8 +37,9 @@ def main(argv=None):
     else:
         app.generate_app('experientiarum.config.DevConfig')
         
+    app.logger.info('Experientiarum App Status -- RUNNING')
     app.run()
-
+    app.logger.info('Experientiarum App Status -- STOPPED')
     return 0
 
 if __name__ == '__main__':

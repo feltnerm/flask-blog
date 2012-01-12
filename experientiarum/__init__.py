@@ -41,7 +41,9 @@ def generate_app(config):
     
     ## Define the application object
     app = Flask(__name__, static_folder = 'static', template_folder = 'templates')
+    app.logger.info('Application object created')
     app.config.from_object(config)
+    app.logger.info('%s config loaded from object' % config)
     
     ## Error Handling 
     # Logging
@@ -81,19 +83,23 @@ def generate_app(config):
     # Ensure output directory exists
     assets_output_dir = os.path.join(FLASK_APP_DIR, 'static', 'gen')
     if not os.path.exists(assets_output_dir):
+        app.logger.info("webassets directory /static/gen not found. Creating it now.")
         os.mkdir(assets_output_dir)
 
     ## Register Blueprints
     # Main
     from main import main
     app.register_blueprint(main)
+    app.logger.info('Main blueprint registered.')
     
     # BLOG
     from blog import blog
     app.register_blueprint(blog, url_prefix = '/blog')
-    
+    app.logger.info('Blog blueprint registered')
+
     from blog.models import Entry
     db.register([Entry])
+    app.logger.info('Blog blueprint models registered with database.')
     
     '''
     # BOOKMARKS
@@ -116,5 +122,6 @@ def generate_app(config):
     @app.before_request
     def before_request():
         g.db = db
-
+    
+    app.logger.info('Application configured.')
     return app
