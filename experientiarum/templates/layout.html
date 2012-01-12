@@ -1,18 +1,30 @@
-<!DOCTYPE html>
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6" lang="en"><![endif]-->
+<!--[if IE 7]> <html class="no-js ie7" lang="en"><![endif]-->
+<!--[if IE 8]> <html class="no-js ie8 lang="en"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" lang="en"> <!--<![endif]-->    
 <head>
 	<meta charset="utf-8">
 	
 	<title>{{ title }}</title>
 	<meta name="description" content="{{ meta_description }}">
 	<meta name="author" content="{{ meta_author }}">
+    
+    <!-- Force latest IE and Chrome rendering engine. Remove if using .htaccess -->
+    <meta http-equiv="X-UA_Compatible" content="IE=edge,chrome=1">
 
-	{# set up once assets work
+    <!-- Mobile viewport optimized -->
+    <meta name="viewport" content="width=device-width; initial-scale=1.0">
+
 	{% assets filters="cssmin", output="gen/packed.css", "css/style.css", "css/text.css", "css/site.css" %}
       <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}"/>
 	{% endassets %}
+
+    {#
+    <!-- All script at the bottom except for modernizr which enables HTML5 elements & feature detecting -->
+    <script src="/static/js/libs/modernizr-1.7.min.js"></script>
     #}
 
-    <meta http-equiv="X-UA_Compatible" content="IE-edge">
 </head>
 
 <!--[if lt IE 7 ]> <body class="ie6"> <![endif]-->
@@ -58,5 +70,18 @@
 		</footer>
 	
 	</div>
+    
+    <!-- Javascript at the bottom for fast page loading -->
 
+    <!-- Grab Google CDN's jQuer, with a protocol relative URL; fall back to local if necessary -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
+    <script>window.jQuery || document.write("<script src='/static/js/libs/jquery-1.6.min.js'>/x3c/script>")</script>
+
+    {% assets filters="jsmin", output="gen/packed.js", "js/plugins.js", "js/script.js" %}
+        <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+
+    {#
+    <!-- Google Analytics should go here; Change UA-XXXXX-X to be siteID -->
+    #}
 </body>
