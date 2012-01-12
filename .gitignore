@@ -3,7 +3,7 @@
 .pydevproject
 *.pyc
 secret.py
-
+*__pycache__*
 
 # Uncomment when you get logging set up
 log/*.log

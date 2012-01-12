@@ -28,11 +28,6 @@ Configuration
 - and functionalize parts in:
   > experientiarum.generate_app()
 
-Logging
--------
-- Develop a logger capability to record to a flat file various messages pertaining to useful 
-information and/or errors. Configurable.
-
 
 Fabfile
 -------
