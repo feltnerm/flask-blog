@@ -15,17 +15,14 @@ __maintainer__ = "Mark Feltner"
 __email__ = "feltner.mj@gmail.com"
 __status__ = "Development"
 
-    @todo: dev/prod configs
     @todo: explicitly define which apps are on/off
-    @todo: logging
-    @todo: email
 '''
 
 import logging
 import os
 
-from logging import Formatter
-from logging.handlers import SMTPHandler, FileHandler
+from logging import Formatter, FileHandler
+from logging.handlers import SMTPHandler
 
 from flask import Flask, g, render_template
 from flaskext.mongokit import MongoKit
@@ -53,7 +50,7 @@ def generate_app(config):
     file_handler.setFormatter(Formatter(
         '%(asctime)s %(levelname)s: %(message)s '
         '[in %(pathname)s:%(lineno)d]'
-        )))
+        ))
     app.logger.addHandler(file_handler)
 
     # Email
