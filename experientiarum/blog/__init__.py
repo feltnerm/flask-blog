@@ -14,26 +14,10 @@ from flask import Blueprint, render_template, abort, request, redirect, \
     url_for, current_app, flash, g
 from jinja2 import TemplateNotFound
 
-from forms import EditEntryForm, NewEntryForm
-
+from forms import EntryForm
+from experientiarum.helpers import slugify
 
 blog = Blueprint('blog', __name__, template_folder='templates')
-
-
-_punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
-
-def slugify(text, delim=u'-'):
-    """Generates an slightly worse ASCII-only slug.
-    
-    @todo: make sure slug is unique"""
-    
-    result = []
-    for word in _punct_re.split(text.lower()):
-        word = normalize('NFKD', word).encode('ascii', 'ignore')
-        if word:
-            result.append(word)
-    return unicode(delim.join(result))
-
 
 ## VIEWS ##
 @blog.route('/')
@@ -59,7 +43,7 @@ def edit_entry(slug):
     @todo: form validation
     '''
 
-    form = EditEntryForm(request.form)
+    form = EntryForm(request.form)
     entry = g.db.Entry.one({'slug':slug})
     
     if request.method == 'PUT':
@@ -100,7 +84,7 @@ def new_entry():
     @todo: form validation
     '''
     
-    form = NewEntryForm(request.form)
+    form = EntryForm(request.form)
     
     if request.method == 'POST':
         entry = g.db.Entry()

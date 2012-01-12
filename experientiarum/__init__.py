@@ -5,6 +5,8 @@
     
     ~ a place where I can leave my experiences
 
+    @todo: explicitly define which apps are on/off
+'''
 
 __author__ = "Mark Feltner"
 __copyright__ = "Copyright 2012, Mark Feltner"
@@ -15,13 +17,11 @@ __maintainer__ = "Mark Feltner"
 __email__ = "feltner.mj@gmail.com"
 __status__ = "Development"
 
-    @todo: explicitly define which apps are on/off
-'''
 
 import logging
 import os
 
-from logging import Formatter, FileHandler
+from logging import Formatter, FileHandler, StreamHandler
 from logging.handlers import SMTPHandler
 
 from flask import Flask, g, render_template
@@ -41,18 +41,24 @@ def generate_app(config):
     
     ## Define the application object
     app = Flask(__name__, static_folder = 'static', template_folder = 'templates')
-    app.logger.info('Application object created')
     app.config.from_object(config)
-    app.logger.info('%s config loaded from object' % config)
     
     ## Error Handling 
     # Logging
+    '''
+    stream_handler = StreamHandler()
+    stream_handler.setLevel(logging.INFO)
+    stream_handler.setFormatter(Formatter(
+        '%(asctime)s %(levelname)s: %(message)s '
+        '[in %(pathname)s:%(lineno)d]'))
+    app.logger.addHander(stream_handler)
+    '''
+    
     file_handler = FileHandler('log/experientarium.log')
     file_handler.setLevel(logging.WARNING)
     file_handler.setFormatter(Formatter(
         '%(asctime)s %(levelname)s: %(message)s '
-        '[in %(pathname)s:%(lineno)d]'
-        ))
+        '[in %(pathname)s:%(lineno)d]'))
     app.logger.addHandler(file_handler)
 
     # Email
@@ -74,6 +80,9 @@ def generate_app(config):
     '''))
     app.logger.addHandler(mail_handler)
     """ 
+    
+    app.logger.info('%s config loaded from object' % config)
+    
     
     ## Add MongoDB extension
     db = MongoKit(app)
