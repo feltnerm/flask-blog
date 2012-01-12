@@ -31,7 +31,7 @@ from flaskext.assets import Environment
 
 def generate_app(config):
     ''' Configures a variety of settings, extensions, and other bits and
-    pieces for the app to be served and.
+    pieces for the app to be served.
      
     @TODO: More parameters for configuration overload
     @TODO: Procedurize; put operations in functions

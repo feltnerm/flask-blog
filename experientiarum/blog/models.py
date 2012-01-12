@@ -27,7 +27,8 @@ class Entry(Document):
                  'edit_date' : datetime,
                  'delete_date' : datetime,
                  'deleted' : bool,
-                 
+                 'published' : bool,
+                 'tags': list 
                  }
     required_fields = ['title', 'pub_date', 'body']
     default_values = {
