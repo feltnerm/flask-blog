@@ -5,7 +5,7 @@ import os
 import datetime
 import urllib2
 
-from fabric.api import env, roles, local, sudo, run, hide
+from fabric.api import *
 from fabric import colors
 from fabric.utils import puts, warn
 
@@ -23,7 +23,7 @@ def server():
 def test():
     '''Run the test suite'''
     
-    local('env TEST=yes python tests.py', capture=False)
+    local('python tests.py', capture=False)
 
 
 ## Deployment
@@ -55,7 +55,14 @@ def pep8():
     for e in results:
         print(e)
 
+def tabnanny():
+    ''' Checks whether any of the input files have improper tabs. '''
+
+    print('Running tabnanny')
+    with hide('everything'):
+        local('python -m tabnany ./')
+
 def clear_pyc():
     ''' Clear cached .pyc files '''
-    
+    print("Removing .pyc files.")
     local("find . -iname '*.pyc' -exec rm -v {} \;", capture=False)

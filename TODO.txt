@@ -2,6 +2,10 @@ TODO
 ====
 __in order of *priority*__
 
+CHECK OUT https://github.com/laoqiu/pypress
+specifically helpers.py and markdown support
+
+
 General
 -------
 Set up a persistent database
