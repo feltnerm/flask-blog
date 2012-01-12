@@ -7,5 +7,9 @@ def show(obj):
     '''Show the dump of the properties of the object.'''
     pprint(vars(obj))
     
-from experientiarum import *
+import experientiarum
+from experientiarum.config import DevConfig
+
+
+app = experientiarum.generate_app(DevConfig)
 

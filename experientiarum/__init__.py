@@ -24,7 +24,7 @@ import os
 from logging import Formatter, FileHandler, StreamHandler
 from logging.handlers import SMTPHandler
 
-from logbook import logger
+from logbook import log
 
 from flask import Flask, g, render_template
 from flaskext.mongokit import MongoKit
@@ -47,7 +47,7 @@ def generate_app(config):
     
     ## Error Handling 
     # Logging
-    log = logger(app.config['LOGGER_NAME'])
+    #logger = log(app.config['LOGGER_NAME'])
     
     """
     
