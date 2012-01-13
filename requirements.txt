@@ -6,6 +6,7 @@ Flask-MongoKit==0.3
 Flask-Testing==0.3
 Flask-WTF==0.5.2
 Jinja2==2.6
+Logbook=0.3
 Markdown==2.1.0
 WTForms==0.6.3
 Werkzeug==0.8.2
