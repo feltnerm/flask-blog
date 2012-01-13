@@ -63,7 +63,7 @@ def edit_entry(slug):
 def delete_entry(slug):
     ''' Delete an existing entry. '''
     
-    #form = DeleteEntryForm(request.form)
+    form = EntryForm(request.form)
     entry = g.db.Entry.one({'slug':slug})
     
     if request.method == 'DELETE':
@@ -100,6 +100,10 @@ def new_entry():
     return render_template('blog/new.html', form=form)
 
 '''
+@blog.route('/archives')
+@blog.route('/archives/<year>')
+@blog.route('/archives/<year>/<month>')
+@blog.route('/archives/<year>/<month>/<day>')
 @blog.route('/archives/<year>/<month>/<day>/<slug>')
 def archive(year = None, month = None, day = None, slug = None):
     dt = datetime.strptime('%s%s%s' % (year,month,day), '%Y%m%d')

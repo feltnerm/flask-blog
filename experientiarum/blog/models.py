@@ -19,7 +19,6 @@ class Entry(Document):
     __collection__ = 'blog_entries'
     
     structure = {
-                 'id': int,
                  'title': unicode,
                  'slug' : unicode,
                  'body' : unicode,
@@ -30,7 +29,7 @@ class Entry(Document):
                  'published' : bool,
                  'tags': list 
                  }
-    required_fields = ['title', 'pub_date', 'body']
+    required_fields = ['title']
     default_values = {
                       'pub_date': datetime.utcnow(),
                       'deleted' : False
@@ -38,7 +37,6 @@ class Entry(Document):
     indexes = [
                {'fields': 'slug',},
                {'fields': 'deleted'},
-               {'fields': 'id'},
                {'fields': 'pub_date'}
                ]
     use_dot_notation = True

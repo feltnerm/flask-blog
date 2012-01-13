@@ -21,8 +21,6 @@ def main(argv=None):
     ''' Main function in which we run the Flask application 
     which also invokes the blueprints of all other active
     applications. 
-    
-    @todo: dev/prod command line arguments and config importing
     '''
     
     run_settings = process_args(argv)
@@ -37,9 +35,8 @@ def main(argv=None):
     else:
         app.generate_app('experientiarum.config.DevConfig')
         
-    app.logger.info('Experientiarum App Status -- RUNNING')
     app.run()
-    app.logger.info('Experientiarum App Status -- STOPPED')
+    
     return 0
 
 if __name__ == '__main__':

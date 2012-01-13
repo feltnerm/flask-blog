@@ -12,13 +12,14 @@ class Config():
     '''
     
     ADMINS = ['feltner.mj@gmail.com']
+    LOGGER_NAME = 'experientarium log'
     SITE_NAME = 'experientiarum'
     SECRET_KEY = super_secret_key
     #INDEX_TEMPLATE = ''
 
 class DevConfig(Config):
     
-    SITE_NAME = 'experientiarum - development'
+    SITE_NAME = Config.SITE_NAME + '- development'
     TESTING = True
     DEBUG = True
     MONGODB_DATABASE = 'dev'
@@ -27,7 +28,7 @@ class DevConfig(Config):
     
 class TestConfig(Config):
     
-    SITE_NAME = 'experientiarum - testing'
+    SITE_NAME = Config.SITE_NAME + '- testing'
     TESTING = True
     MONGODB_DATABASE = 'test'
     MONGODB_HOST = 'localhost'

@@ -20,6 +20,7 @@ _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 _pre_re = re.compile(r'<pre (?=l=[\'"]?\w+[\'"]?).*?>(?P<code>[\w\W]+?)</pre>')
 _lang_re = re.compile(r'l=[\'"]?(?P<lang>\w+)[\'"]?')
 
+''' Turns markdown into unicode HTML. '''
 md = functools.partial(markdown.markdown,
                              safe_mode='remove',
                              output_format="html")
@@ -32,12 +33,6 @@ def slugify(text, delim=u'-'):
         if word:
             result.append(word)
     return unicode(delim.join(result))
-
-markdown = functools.partial(markdown.markdown,
-                             safe_mode='remove',
-                             output_format="html")
-
-
 
 def domain(url):
     """

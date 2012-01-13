@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 {% from "_formhelpers.html" import render_field %}
-{% block body %}
-<form method="post" action="new">
+<form method="put" action="/blog/{{ entry.slug }}/new">
   <dl>
     {{ render_field(form.title) }}
+    {{ render_field(form.slug) }}
     {{ render_field(form.body) }}
+    {{ render_field(form.tags) }}
   </dl>
   <p><input type=submit value=Edit>
 </form>
-{% endblock %}
