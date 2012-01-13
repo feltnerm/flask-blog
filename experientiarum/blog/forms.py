@@ -5,7 +5,7 @@ from flaskext.wtf import Form, TextField, TextAreaField, BooleanField, \
 
 from experientiarum.extensions import db
 from experientiarum.helpers import slugify
-
+from experientiarum.blog.models import Entry
 
 class EntryForm(Form):
     
@@ -15,7 +15,7 @@ class EntryForm(Form):
     
     slug = TextField("Slug")
     
-    body = TextField("Body")
+    body = TextAreaField("Body")
     
     tags = TextField("Tags", 
                      validators = [required(message="Tags required")]
@@ -27,6 +27,22 @@ class EntryForm(Form):
         self.entry = kwargs.get('obj', None)
         super(EntryForm, self).__init__(*args, **kwargs)
     
+    def validate_slug(self, field):
+        slug = slugify(field.data)
+        if field.data:
+            slug = slugify(field.data)
+        else:
+            slug = slugify(self.title.data)
+
+        entries = db.Entries.one({'slug':slug})
+        if self.entries:
+            entries = entries.find({'object_id': { '$ne' : self.entry.object_id} })
+        if entries.count():
+            if field.data:
+                error = "This slug is taken"
+            else:
+                error = "Slug is required."
+            raise ValidationError, error
     '''            
     def validate_slug(self, field):
         if len(field.data) > 50:

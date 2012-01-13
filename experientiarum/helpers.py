@@ -21,7 +21,7 @@ _pre_re = re.compile(r'<pre (?=l=[\'"]?\w+[\'"]?).*?>(?P<code>[\w\W]+?)</pre>')
 _lang_re = re.compile(r'l=[\'"]?(?P<lang>\w+)[\'"]?')
 
 ''' Turns markdown into unicode HTML. '''
-md = functools.partial(markdown.markdown,
+markdown = functools.partial(markdown.markdown,
                              safe_mode='remove',
                              output_format="html")
 

@@ -10,6 +10,8 @@ def show(obj):
 import experientiarum
 from experientiarum.config import DevConfig
 
+from experientiarum import helpers
+from experientiarum.extensions import * 
 
 app = experientiarum.generate_app(DevConfig)
 
