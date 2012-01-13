@@ -2,15 +2,24 @@ TODO
 ====
 __in order of *priority*__
 
-CHECK OUT https://github.com/laoqiu/pypress
-specifically helpers.py and markdown support
+Inspiration:
+[Flask-Boilerplate](https://github.com/swaroopch/flask-boilerplate)
+[PyPress](https://github.com/laoqiu/pypress). Specifically: helpers.py and markdown support
 
+Error Handling
+--------------
+- Exception catching
+- 403, 404, etc...configure error pages/conditions
 
-Database
--------
-- Set up a persistent database for testing and development purposes.
-- Create / teardown test database
-- Backup/dump database
+Logging
+---------
+- Set up logbook
+
+Forms
+-----
+- Form autofill (edit.html)
+- Validation
+-- Ensure unique slug title is generated or forced
 
 Templates
 ---------
@@ -28,11 +37,11 @@ Templates
 - CSS/Style
 - Javascript/Ajax
 
-Forms
------
-- Form autofill (edit.html)
-- Validation
--- Ensure unique slug title is generated or forced
+Database
+-------
+- Set up a persistent database for testing and development purposes.
+- Create / teardown test database
+- Backup/dump database
 
 Views
 -----
@@ -44,18 +53,9 @@ Configuration
 -------------
 - Compartmentalize generate_app()
 
-Logging
--------
-- Set up logbook
-
 Email
 ------
 - Email on new entry?
-
-Error Handling
---------------
-- Exception catching
-- 403, 404, etc...configure error pages/conditions
 
 Fabfile
 -------
