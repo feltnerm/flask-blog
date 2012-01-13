@@ -14,9 +14,10 @@ Error Handling
 * 403, 404, etc...configure error pages/conditions
 
 Logging
----------
+-------
 
-* Set up logbook
+* Log to console
+
 
 Forms
 -----
@@ -35,8 +36,8 @@ layout.html (Pieces that are on ALL pages)
 |
 ----> base.html (Pieces specific to the layout of a certain blueprint)
       |
-      ---------> new.html (An agnostic piece)
-                 edit.html
+      ---------> new.html (An agnostic template piece)
+                 _posts.html (a template macro
                  ...
 </pre>
 * Form autofill (edit.html)
@@ -47,7 +48,6 @@ layout.html (Pieces that are on ALL pages)
 Database
 -------
 * Set up a persistent database for testing and development purposes.
-* Create / teardown test database
 * Backup/dump database
 
 Views

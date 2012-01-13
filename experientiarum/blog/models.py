@@ -27,7 +27,7 @@ class Entry(Document):
                  'delete_date' : datetime,
                  'deleted' : bool,
                  'published' : bool,
-                 'tags': list 
+                 'tags': unicode
                  }
     required_fields = ['title']
     default_values = {

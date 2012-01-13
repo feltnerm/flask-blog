@@ -1,7 +1,9 @@
 {% extends "layout.html" %}
-{% block body %}
+{% block content %}
 <h1> BLOG </h1>
 {% for entry in entries %}
+    <ul>
 	<li><a href="/blog/entry/{{ entry.slug }}">{{ entry.title }}</a></li>
+    </ul>
 {% endfor %}
 {% endblock %}

@@ -26,7 +26,7 @@ blog = Blueprint('blog', __name__, template_folder='templates')
 def show_entries():
     ''' Show all entries. '''
     
-    entries = db.Entry.find({"deleted":False})
+    entries = db.Entry.find({'deleted':False})
     return render_template('blog/entries.html', entries = entries)
 
 @blog.route('/entry/<slug>')
@@ -38,21 +38,24 @@ def show_entry(slug):
         return render_template('blog/entry.html', entry = entry)
     abort(404)
 
-@blog.route('/entry/<slug>/edit', methods=['GET', 'PUT'])
+@blog.route('/entry/<slug>/edit', methods=['GET', 'POST'])
 def edit_entry(slug):
     ''' Edit an existing entry. 
     
     @todo: form validation
     '''
 
-    form = EntryForm()
     entry = db.Entry.one({'slug':slug})
-    
+    form = EntryForm(title = entry.title,
+                     slug = entry.slug,
+                     body = entry.body,
+                     tags = entry.tags)
     if form.validate_on_submit():
         entry.title = request.form['title']
-        entry.slug = slugify(entry.title)
+        entry.slug = request.form['slug']
         entry.body = request.form['body']
-        entry.tags = request.form['tags']
+        for tag in request.form['tags'].split(', '):
+            entry.tags.append(tag)
         entry.edit_date = datetime.utcnow()
         
         entry.save()
@@ -62,7 +65,7 @@ def edit_entry(slug):
     return render_template('blog/edit.html', entry=entry, form=form)
 
 
-@blog.route('/entry/<slug>/delete', methods=['GET', 'DELETE'])
+@blog.route('/entry/<slug>/delete', methods=['GET', 'POST'])
 def delete_entry(slug):
     ''' Delete an existing entry. '''
     
@@ -92,15 +95,14 @@ def new_entry():
     if form.validate_on_submit():
         entry = db.Entry()
         entry.title = request.form['title']
-        entry.slug = slugify(entry.title)
+        entry.slug = request.form['slug']
         entry.body = request.form['body']
         entry.tags = request.form['tags']
-        entry.pub_date = datetime.utcnow()
         
         entry.save()
         
         flash('Entry created.')
-        return redirect(url_for('show_entries'))
+        return redirect(url_for('blog.show_entries'))
     return render_template('blog/new.html', form=form)
 
 '''

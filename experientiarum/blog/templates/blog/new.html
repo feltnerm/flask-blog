@@ -1,11 +1,14 @@
 {% extends "layout.html" %}
+{% block content %}
 {% from "_formhelpers.html" import render_field %}
-<form method="put" action="/blog/{{ entry.slug }}/new">
+<form method="POST" action="/blog/new">
+    {{ form.hidden_tag() }}
   <dl>
     {{ render_field(form.title) }}
     {{ render_field(form.slug) }}
     {{ render_field(form.body) }}
     {{ render_field(form.tags) }}
   </dl>
-  <p><input type=submit value=Edit>
+  {{ form.submit(class="button") }}
 </form>
+{% endblock %}

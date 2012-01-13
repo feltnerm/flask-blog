@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from flaskext.wtf import Form, TextField, TextAreaField, BooleanField, \
-    SubmitField, ValidationError, required, email, url, optional
+    BooleanField, SubmitField, ValidationError, required, email, url, optional
 
 from experientiarum.extensions import db
 from experientiarum.helpers import slugify
@@ -21,8 +21,10 @@ class EntryForm(Form):
                      validators = [required(message="Tags required")]
                      )
     
-    submit = SubmitField("Save")
+    delete = BooleanField("Delete")
     
+    submit = SubmitField("Save")
+    '''
     def __init__(self, *args, **kwargs):
         self.entry = kwargs.get('obj', None)
         super(EntryForm, self).__init__(*args, **kwargs)
@@ -34,8 +36,8 @@ class EntryForm(Form):
         else:
             slug = slugify(self.title.data)
 
-        entries = db.Entries.one({'slug':slug})
-        if self.entries:
+        entries = db.Entry.find({'slug':slug})
+        if self.entry:
             entries = entries.find({'object_id': { '$ne' : self.entry.object_id} })
         if entries.count():
             if field.data:
@@ -43,6 +45,7 @@ class EntryForm(Form):
             else:
                 error = "Slug is required."
             raise ValidationError, error
+    '''
     '''            
     def validate_slug(self, field):
         if len(field.data) > 50:

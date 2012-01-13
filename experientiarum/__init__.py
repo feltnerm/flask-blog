@@ -21,7 +21,7 @@ __status__ = "Development"
 import logging
 import os
 
-from logging import Formatter
+from logging import Formatter, StreamHandler
 from logging.handlers import RotatingFileHandler
 
 from experientiarum import helpers
@@ -107,7 +107,7 @@ def configure_logging(app):
     formatter = logging.Formatter(
             '%(asctime)s %(levelname)s: %(message)s'
             '[in %(pathname)s:%(lineno)d]')
-
+    
     debug_handler = RotatingFileHandler('log/debug.log',
                                         maxBytes = 100000,
                                         backupCount = 10)
@@ -147,11 +147,12 @@ def generate_app(config):
     app = Flask(__name__, static_folder = 'static', template_folder = 'templates')
     app.config.from_object(config)
     
+    configure_blueprints(app)
     configure_extensions(app)
     configure_logging(app)
     #configure_before_handlers(app)
     configure_template_filters(app)
     
-    configure_blueprints(app)
+    
 
     return app
