@@ -34,8 +34,9 @@ def main(argv=None):
         app = generate_app('experientiarum.config.ProdConfig')
     else:
         app.generate_app('experientiarum.config.DevConfig')
-        
-    app.run()
+    
+    if app.debug:
+        app.run('0.0.0.0')
     
     return 0
 

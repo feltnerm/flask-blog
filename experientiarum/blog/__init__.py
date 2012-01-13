@@ -13,6 +13,7 @@ from unicodedata import normalize
 
 from experientiarum.extensions import db
 from experientiarum.helpers import slugify
+from experientiarum.permissions import auth
 from forms import EntryForm
 from flask import Blueprint, render_template, abort, request, redirect, \
     url_for, current_app, flash, g
@@ -39,6 +40,7 @@ def show_entry(slug):
     abort(404)
 
 @blog.route('/entry/<slug>/edit', methods=['GET', 'POST'])
+@auth.require(401)
 def edit_entry(slug):
     ''' Edit an existing entry. 
     
@@ -69,6 +71,7 @@ def edit_entry(slug):
 
 
 @blog.route('/entry/<slug>/delete', methods=['GET', 'POST'])
+@auth.require(401)
 def delete_entry(slug):
     ''' Delete an existing entry. '''
     
@@ -87,6 +90,7 @@ def delete_entry(slug):
 
 
 @blog.route('/new', methods=['GET', 'POST'])
+@auth.require(401)
 def new_entry():
     ''' Add a entry. 
     

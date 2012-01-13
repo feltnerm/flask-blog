@@ -6,12 +6,22 @@ import functools
 
 from datetime import datetime
 
+from werkzeug import generate_password_hash, check_password_hash
+
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import HtmlFormatter
 
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
+
+def generate_password(password):
+    ''' Generates a hashed password based on the sha1 algorithm. '''
+    return generate_password_hash(password)
+
+def check_password(pwhash, password):
+    ''' Returns True if password matches the hash, False otherwise '''
+    return check_password_hash(pwhash, password)
 
 def truncate_html_words(html, num=50):
     """

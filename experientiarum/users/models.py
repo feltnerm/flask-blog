@@ -24,11 +24,10 @@ class User(Document):
     
     structure = {
                  'username': unicode,
-                 'password_hash': unicode,
-                 'email': unicode,
+                 'pwhash': unicode,
                  'role': int,
                  }
-    required_fields = ['username','password','role']
+    required_fields = ['username','pwhash','role']
     default_values = {'role':MEMBER}
     use_dot_notation = True
     
