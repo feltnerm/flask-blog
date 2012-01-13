@@ -1,0 +1,118 @@
+/** 
+ * 
+ * site.css
+ *
+ * the site style
+ *
+ * CSS Syntax: (cos I'm a newb at css)
+ *  Selector    | Example   | Description
+ *  .class        .intro      all elements with class="intro"
+ *  #id           #intro      the element with id="intro"
+ *  element       p           selets all p elements
+ *
+ * COLORS 
+ * http://kuler.adobe.com/#themeID/333571
+ *
+ * Off-White (Base Color): #E8DED2
+ * Blue: #005693
+ * Yellow: #E99B2C
+ * Brown: #190F0D
+ * Red: #AB2A17
+ */
+/**
+ * Global Styles
+ *
+ */
+/** MAIN LAYOUT */
+#container {
+  width: 750px;
+  margin: 0 auto;
+}
+#header {
+  background-color: #005693;
+  border-bottom: 1px solid #000000;
+}
+#header #logo {
+  background-color: #005693;
+  float: left;
+  width: 150px;
+}
+#header #nav {
+  float: left;
+  width: 600px;
+  background-color: #190f0d;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#header #nav li {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+#header #nav a:link {
+  color: #000000;
+}
+#header #nav a:visited {
+  color: #000000;
+}
+#header #nav a:hover {
+  color: #005693;
+}
+#header #nav a:active {
+  color: #e99b2c;
+}
+#main {
+  float: right;
+}
+#main #sidebar {
+  float: left;
+  width: 150px;
+  background-color: #ab2a17;
+}
+#main #sidebar a:link {
+  color: #000000;
+}
+#main #sidebar a:visited {
+  color: #000000;
+}
+#main #sidebar a:hover {
+  color: #005693;
+}
+#main #sidebar a:active {
+  color: #e99b2c;
+}
+#main #sidebar ul {
+  list-style: none;
+}
+#main #content {
+  float: right;
+  width: 600px;
+  background-color: #e8ded2;
+}
+#main #content h1,
+#main #content h2,
+#main #content h3,
+#main #content h4,
+#main #content h5,
+#main #content h6,
+#main #content p {
+  color: #000000;
+}
+#main #content a:link {
+  color: #005693;
+}
+#main #content a:visited {
+  color: #ab2a17;
+}
+#main #content a:hover {
+  color: #005693;
+}
+#main #content a:active {
+  color: #e99b2c;
+}
+#footer {
+  clear: both;
+  background-color: #005693;
+}
+/** BLOG **/

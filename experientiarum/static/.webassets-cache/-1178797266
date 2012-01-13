@@ -1,0 +1,55 @@
+/** 
+ * 
+ * site.css
+ *
+ * the site style
+ */
+/* COLORS */
+/* Contains header, nav, main, content, and footer */
+#container {
+  width: 750px;
+  margin: 0 auto;
+}
+/* Header */
+header {
+  background-color: #005693;
+}
+header.logo {
+  background-color: #005693;
+  float: left;
+  width: 250px;
+}
+header.nav {
+  float: right;
+  width: 500px;
+  background-color: #190f0d;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+header.nav li {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+/* Main content */
+#content {
+  float: right;
+  width: 500px;
+  background-color: #e8ded2;
+}
+/* Sidebar */
+#sidebar {
+  float: left;
+  width: 250px;
+  background-color: #ab2a17;
+}
+/* Footer */
+#footer {
+  clear: both;
+}
+footer {
+  background-color: #005693;
+}
+/* Flashed messages */
+/* Flashes */

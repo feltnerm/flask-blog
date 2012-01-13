@@ -1,4 +1,10 @@
-{% extends "layout.html" %}
-{% block body %}
-
+{% extends "blog/base.html" %}
+{% block content %}
+<div class="blog-entry">
+    <a href="/blog/entry/{{ entry.slug }}"><h1 class="blog-entry-title">{{ entry.title }}</h1></a>
+    <p class="blog-entry-pubdate">Published on: </p>
+    <div class="blog-entry-body">
+        {{ entry.body|code_highlight|gistcode|safe }}
+    </div>
+</div>
 {% endblock %}

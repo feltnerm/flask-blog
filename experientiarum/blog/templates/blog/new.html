@@ -1,5 +1,6 @@
-{% extends "layout.html" %}
+{% extends "blog/base.html" %}
 {% block content %}
+<div id="blog-new-entry" class="blog-form">
 {% from "_formhelpers.html" import render_field %}
 <form method="POST" action="/blog/new">
     {{ form.hidden_tag() }}
@@ -11,4 +12,5 @@
   </dl>
   {{ form.submit(class="button") }}
 </form>
+</div>
 {% endblock %}

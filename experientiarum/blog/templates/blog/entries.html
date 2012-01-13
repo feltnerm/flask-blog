@@ -1,9 +1,15 @@
-{% extends "layout.html" %}
+{% extends "blog/base.html" %}
 {% block content %}
-<h1> BLOG </h1>
+<div class="blog-entries">
 {% for entry in entries %}
-    <ul>
-	<li><a href="/blog/entry/{{ entry.slug }}">{{ entry.title }}</a></li>
-    </ul>
+    <div class="blog-entry">
+	    <a href="/blog/entry/{{ entry.slug }}"><h1>{{ entry.title }}</h1></a>
+	    <p class="blog-entry-pubdate">Published on: </p>
+	    <div class="blog-entry-body">
+	       <!--  short version  {{ entry.body|code_highlight|gistcode|safe }} -->
+	       <p>Lorem ipsum dolor sit amet</p>
+	    </div>
+    </div>
 {% endfor %}
+</div>
 {% endblock %}

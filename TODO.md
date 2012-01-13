@@ -43,6 +43,10 @@ layout.html (Pieces that are on ALL pages)
 * Form autofill (edit.html)
 * Keep creating and testing
 * CSS/Style
+    ** main style
+    ** blog style
+        *** sidebar
+        *** post
 * Javascript/Ajax
 
 Database

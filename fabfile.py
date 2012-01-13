@@ -39,6 +39,10 @@ def unpack():
 
 
 ## Utils
+def lessc():
+    ''' compiles .less -> .css with lessc '''
+    local('lessc experientiarum/static/css/*.less experientiarum/static/css/*.css')
+
 def pychecker():
     ''' Checks code with pychecker '''
     local('pychecker .')

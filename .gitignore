@@ -12,6 +12,7 @@ pip-log.txt
 .tox
 
 secret.py
+experientiarum/static/.webassets-cache/*
 
 # Uncomment when you get logging set up
 log/*.log

@@ -1,0 +1,34 @@
+/** 
+ * 
+ * site.css
+ *
+ * the site style
+ */
+/* COLORS */
+/* Contains header, nav, main, content, and footer */
+.container {
+  background-color: #005693;
+}
+/* Header */
+.header {
+  background-color: #e99b2c;
+}
+/* Header -> logo */
+/* Header -> nav */
+.nav {
+  background-color: #190f0d;
+}
+/* Main content */
+.content {
+  background-color: #e8ded2;
+}
+/* Flashed messages */
+/* Flashes */
+/* Sidebar */
+.sidebar {
+  background-color: #ab2a17;
+}
+/* Footer */
+footer {
+  background-color: #005693;
+}

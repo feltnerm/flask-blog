@@ -8,3 +8,9 @@
   {% endif %}
   </dd>
 {% endmacro %}
+
+{% macro render_tips(field) %}
+{% if field.description %}
+<span class="tips">{{ field.description }}</span>
+{% endif %}
+{% endmacro %}

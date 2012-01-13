@@ -26,9 +26,10 @@ from logging.handlers import RotatingFileHandler
 
 from experientiarum import helpers
 from experientiarum.extensions import db
-from flask import Flask, g, request, flash, redirect, jsonify, url_for, render_template
+from flask import Flask, g, request, flash, redirect, jsonify, url_for, \
+    render_template, Markup
 from flaskext.assets import Environment
-
+from flaskext.lesscss import lesscss
 
 def configure_blueprints(app):
     ''' Register blueprints. '''
@@ -100,6 +101,9 @@ def configure_extensions(app):
     assets_output_dir = os.path.join(FLASK_APP_DIR, 'static', 'gen')
     if not os.path.exists(assets_output_dir):
         os.mkdir(assets_output_dir)
+    
+    if app.debug:
+        lesscss(app)
 
 def configure_logging(app):
     ''' Set up a debug and error log in log/ '''
@@ -134,6 +138,11 @@ def configure_template_filters(app):
     @app.template_filter()
     def gistcode(html):
         return helpers.gistcode(html)
+    
+    @app.template_filter()
+    def markdown(text):
+        ''' Should convert all non-code text from markdown to HTML '''
+        return Markup(helpers.markdown(text) or '')
 
 def generate_app(config):
     ''' Configures a variety of settings, extensions, and other bits and

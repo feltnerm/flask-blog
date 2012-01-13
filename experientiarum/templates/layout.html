@@ -36,20 +36,28 @@
 
 	<div id="container" class="container">
 	
-		<header class="header">
-			{%block header %}
+		<header id="header" class="header">
+			<div id="logo" class="logo">
+			 <h1>LOGO</h1>
+			 <h2>Mark Feltner</h2>
+			</div>
 			
-			{% endblock %}
+			<div id="nav" class="nav">
+          <ul>
+              <li><a href="/blog">blog</a></li>
+              <li><a href="#">bookmarks</a></li>
+              <li><a href="#">pastebin</a></li>
+              <li><a href="#">readlaters</a></li>
+              <li><a href="#">tood</a></li>
+              <li><a href="#">about</a></li>
+          </ul>
+        </div>
 		</header>
-		
-		<div id="nav" class="nav">
-		  <ul>
-		      <li><a href="/blog">blog</a></li>
-		  </ul>
-		</div>
-		
+				
 		<div id="main" class="main">
-			<div class="flash_messages">
+		  <div id="content" class="content">
+           
+            <div class="flash_messages">
 				{% for message in get_flashed_messages() %}
 				<div class="flash">
 					{{ message }}
@@ -60,9 +68,15 @@
 			{% block content %}
 			
 			{% endblock %}
+		  </div>
+		  <div id="sidebar" class="sidebar">
+          {% block sidebar %}
+          
+          {% endblock %}
+          </div>
 		</div>
 		
-		<footer class="footer">
+		<footer id="footer" class="footer">
 		
 			{% block footer %}
 			

@@ -2,7 +2,6 @@
 
 from datetime import datetime
 
-from flask import current_app
 from flaskext.mongokit import Document
 
 ## MODELS ##
@@ -27,7 +26,7 @@ class Entry(Document):
                  'delete_date' : datetime,
                  'deleted' : bool,
                  'published' : bool,
-                 'tags': unicode
+                 'tags': [unicode]
                  }
     required_fields = ['title']
     default_values = {

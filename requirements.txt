@@ -6,12 +6,13 @@ Flask-MongoKit==0.3
 Flask-Testing==0.3
 Flask-WTF==0.5.2
 Jinja2==2.6
-Logbook==0.3
 Markdown==2.1.0
 Pygments==1.4
 WTForms==0.6.3
 Werkzeug==0.8.2
 anyjson==0.3.1
+cssmin==0.1.4
+git+https://github.com/sjl/flask-lesscss.git@87744a2ed5a0e9e312f627e9ab1b59066062e61e#egg=flask_lesscss-dev
 ipython==0.12
 mongokit==0.7.2
 pep8==0.6.1
