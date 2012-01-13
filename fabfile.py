@@ -39,6 +39,11 @@ def unpack():
 
 
 ## Utils
+def pychecker():
+    ''' Checks code with pychecker '''
+    local('pychecker .')
+
+
 def pep8():
     ''' Flags any violations of the python style guide '''
     
