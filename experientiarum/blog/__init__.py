@@ -63,7 +63,7 @@ def edit_entry(slug):
         entry.save()
         
         flash('Entry edited.')
-        return redirect(url_for('show_entries'))
+        return redirect(url_for('blog.show_entries'))
     return render_template('blog/edit.html', entry=entry, form=form)
 
 
