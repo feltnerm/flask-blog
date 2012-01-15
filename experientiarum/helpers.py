@@ -25,6 +25,14 @@ markdown = functools.partial(markdown.markdown,
                              safe_mode='remove',
                              output_format="html")
 
+def format_date(date):
+    ''' @todo: convert mongodb datetime objects to a human readable thing '''
+    return date.strftime('%A %B %d, %Y')
+
+def format_datetime(datetime):
+    ''' @todo: convert mongodb datetime objects to a human readable thing. '''
+    return datetime.strftime('%I:%M.%S%p %A %B %d, %Y')
+
 def slugify(text, delim=u'-'):
     """Generates an ASCII-only slug. From http://flask.pocoo.org/snippets/5/"""
     result = []

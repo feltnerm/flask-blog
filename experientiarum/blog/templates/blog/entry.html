@@ -1,10 +1,23 @@
 {% extends "blog/base.html" %}
 {% block content %}
 <div class="blog-entry">
-    <a href="/blog/entry/{{ entry.slug }}"><h1 class="blog-entry-title">{{ entry.title }}</h1></a>
-    <p class="blog-entry-pubdate">Published on: </p>
-    <div class="blog-entry-body">
-        {{ entry.body|code_highlight|gistcode|safe }}
+        <h2 class="entry-title>{{ entry.title }}</p>
+        <div class="entry-byline>
+        <!-- By: <a href="feltner.mj@gmail.com></a.> -->
+        </div>
+        {% if entry.tags %}<div class="entry-tags">
+        {% for tag in entry.tags %}
+            <a href="#">{{ tag }}</a>
+        {% endfor %}
+        {% endif %}
+        <div class="entry-body">
+            {{ entry.body|code_highlight|gistcode|safe }}
+        </div>
+        </div>
+        <div class="entry-meta">
+            <p class="blog-entry-pubdate">Published on: </p>
+            <!-- Published date and/or last edit date -->
+            <!-- Add edit, delete IF permissed to do so -->
+        </div>
     </div>
-</div>
 {% endblock %}

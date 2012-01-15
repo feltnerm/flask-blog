@@ -3,13 +3,32 @@
 <div class="blog-entries">
 {% for entry in entries %}
     <div class="blog-entry">
-	    <a href="/blog/entry/{{ entry.slug }}"><h1>{{ entry.title }}</h1></a>
-	    <p class="blog-entry-pubdate">Published on: </p>
-	    <div class="blog-entry-body">
-	       <!--  short version  {{ entry.body|code_highlight|gistcode|safe }} -->
-	       <p>Lorem ipsum dolor sit amet</p>
-	    </div>
+        <h2 class="entry-title">{{ entry.title }} </h2>
+        
+        <div class= "entry-byline">
+            <!-- By Me -->
+         </div>
+         
+         <div class="entry-tags">
+         {% if entry.tags %}
+         {% for tag in entry.tags %}
+            <a href="#">{{ tag }}</a>
+         {% endfor %}
+         {% endif %}
+         </div>
+         
+         <div class="entry-body">
+            {{ entry.body|code_highlight|gistcode|safe }}
+         </div>
+         
+         <div class="entry-meta">
+            <p>Published: {{ entry.pub_date|format_datetime }}</p>
+            {% if entry.edit_date %}
+            <p>Edited: {{ entry.edit_date|format_datetime }}</p>
+            {% endif %}
+         </div>
     </div>
 {% endfor %}
 </div>
 {% endblock %}
+

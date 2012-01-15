@@ -136,6 +136,14 @@ def configure_template_filters(app):
         return helpers.code_highlight(html)
     
     @app.template_filter()
+    def format_date(date):
+        return helpers.format_date(date)
+    
+    @app.template_filter()
+    def format_datetime(datetime):
+        return helpers.format_datetime(datetime)
+    
+    @app.template_filter()
     def gistcode(html):
         return helpers.gistcode(html)
     
