@@ -31,6 +31,7 @@ from flask import Flask, g, request, flash, redirect, jsonify, url_for, \
 from flaskext.assets import Environment
 from flaskext.lesscss import lesscss
 
+
 def configure_blueprints(app):
     ''' Register blueprints. '''
     
