@@ -11,7 +11,7 @@
         {% endfor %}
         {% endif %}
         <div class="entry-body">
-            {{ entry.body|code_highlight|gistcode|safe }}
+            {{ entry.body|markup|safe }}
         </div>
         </div>
         <div class="entry-meta">

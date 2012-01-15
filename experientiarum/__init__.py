@@ -144,6 +144,10 @@ def configure_template_filters(app):
         return helpers.format_datetime(datetime)
     
     @app.template_filter()
+    def truncate_html(html, num=25):
+        return helpers.truncate_html_words(html, num)
+    
+    @app.template_filter()
     def markup(text):
         return Markup(helpers.markup(text) or '')
 

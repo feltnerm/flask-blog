@@ -55,7 +55,8 @@ def edit_entry(slug):
         entry.slug = request.form['slug']
         entry.body = request.form['body']
         tags = list()
-        for tag in request.form['tags'].split(', '):
+        for tag in request.form['tags'].split(','):
+            tag.strip(' ')
             tags.append(tag)
         entry.tags = tags
         entry.edit_date = datetime.utcnow()
@@ -100,7 +101,8 @@ def new_entry():
         entry.slug = request.form['slug']
         entry.body = request.form['body']
         tags = list()
-        for tag in request.form['tags'].split(', '):
+        for tag in request.form['tags'].split(','):
+            tag.strip(' ')
             tags.append(tag)
         entry.tags = tags
         

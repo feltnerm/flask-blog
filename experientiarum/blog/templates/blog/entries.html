@@ -18,7 +18,7 @@
          </div>
          
          <div class="entry-body">
-            {{ entry.body|markup }}
+            {{ entry.body|markup|truncate_html|safe }}
          </div>
          
          <div class="entry-meta">
