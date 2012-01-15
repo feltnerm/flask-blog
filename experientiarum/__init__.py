@@ -144,13 +144,8 @@ def configure_template_filters(app):
         return helpers.format_datetime(datetime)
     
     @app.template_filter()
-    def gistcode(html):
-        return helpers.gistcode(html)
-    
-    @app.template_filter()
-    def markdown(text):
-        ''' Should convert all non-code text from markdown to HTML '''
-        return Markup(helpers.markdown(text) or '')
+    def markup(text):
+        return Markup(helpers.markup(text) or '')
 
 def generate_app(config):
     ''' Configures a variety of settings, extensions, and other bits and
