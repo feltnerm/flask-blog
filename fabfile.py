@@ -37,6 +37,11 @@ def unpack():
     
     pass
 
+def update():
+    run('git pull origin master')
+    
+def install_deps():
+    run('pip install -q -r requirements.txt')
 
 ## Utils
 def lessc():
