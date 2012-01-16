@@ -75,7 +75,6 @@ def truncate_html_words(html, num=50):
         out += '</%s>' % tag
     # Return string
     return out
-    
 
 def markup(text):
     ''' Converts a text (with markup + code) to HTML 
@@ -88,7 +87,6 @@ def markup(text):
     '''
     return markdown(text, ['codehilite'])
     
-
 def format_date(date):
     ''' @todo: convert mongodb datetime objects to a human readable thing '''
     return date.strftime('%A %B %d, %Y')
@@ -97,15 +95,23 @@ def format_datetime(datetime):
     ''' @todo: convert mongodb datetime objects to a human readable thing. '''
     return datetime.strftime('%I:%M.%S%p %A %B %d, %Y')
 
-def timesince(dt, default="just now"):
+def timesince(dt, past_="ago", 
+    future_="from now", 
+    default="just now"):
     """
-    Returns string representing "time since" e.g.
-    3 days ago, 5 hours ago etc.
+    Returns string representing "time since"
+    or "time until" e.g.
+    3 days ago, 5 hours from now etc.
     """
 
     now = datetime.utcnow()
-    diff = now - dt
-    
+    if now > dt:
+        diff = now - dt
+        dt_is_past = True
+    else:
+        diff = dt - now
+        dt_is_past = False
+
     periods = (
         (diff.days / 365, "year", "years"),
         (diff.days / 30, "month", "months"),
@@ -117,8 +123,11 @@ def timesince(dt, default="just now"):
     )
 
     for period, singular, plural in periods:
+        
         if period:
-            return "%d %s ago" % (period, singular if period == 1 else plural)
+            return "%d %s %s" % (period, \
+                singular if period == 1 else plural, \
+                past_ if dt_is_past else future_)
 
     return default
 
