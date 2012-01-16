@@ -22,9 +22,9 @@
          </div>
          
          <div class="entry-meta">
-            <p>Published: {{ entry.pub_date|format_datetime }}</p>
+            <p>Published: {{ entry.pub_date|timesince }}</p>
             {% if entry.edit_date %}
-            <p>Edited: {{ entry.edit_date|format_datetime }}</p>
+            <p>Edited: {{ entry.edit_date|timesince }}</p>
             {% endif %}
          </div>
     </div>

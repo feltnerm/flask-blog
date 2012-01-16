@@ -149,6 +149,10 @@ def configure_template_filters(app):
         return helpers.truncate_html_words(html, num)
     
     @app.template_filter()
+    def timesince(dt, default="just now"):
+        return helpers.time_since(dt, default)
+    
+    @app.template_filter()
     def markup(text):
         return Markup(helpers.markup(text) or '')
 
@@ -170,6 +174,4 @@ def generate_app(config):
     #configure_before_handlers(app)
     configure_template_filters(app)
     
-    
-
     return app
