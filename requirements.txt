@@ -4,6 +4,7 @@ Flask-Assets==0.6.2
 Flask-DebugToolbar==0.6
 Flask-Markdown==0.3
 Flask-MongoKit==0.3
+Flask-Principal==0.2
 Flask-Testing==0.3
 Flask-WTF==0.5.2
 Jinja2==2.6

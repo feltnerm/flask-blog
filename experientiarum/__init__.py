@@ -30,6 +30,7 @@ from flask import Flask, g, request, flash, redirect, jsonify, url_for, \
     render_template, Markup
 from flaskext.assets import Environment
 from flaskext.lesscss import lesscss
+from flaskext.principal import Principal
 
 
 def configure_blueprints(app):
@@ -98,6 +99,7 @@ def configure_extensions(app):
     FLASK_APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
     db.init_app(app)
+    principals = Principal(app)
     asset = Environment(app)
     assets_output_dir = os.path.join(FLASK_APP_DIR, 'static', 'gen')
     if not os.path.exists(assets_output_dir):
