@@ -37,9 +37,3 @@ class Entry(Document):
                {'fields': 'pub_date'}
                ]
     use_dot_notation = True
-    
-    def __str__(self):
-        pass
-    
-    def __repr__(self):
-        pass

@@ -4,9 +4,9 @@ from datetime import datetime
 
 from flaskext.mongokit import Document
 from flaskext.principal import RoleNeed, UserNeed, Permission
-from experientiarum.permissions import admin
 
 from experientiarum.extensions import db
+from experientiarum.permissions import admin
 
 
 class User(Document):
@@ -24,19 +24,11 @@ class User(Document):
     
     structure = {
                  'username': unicode,
-                 'password': unicode,
+                 'password_hash': unicode,
                  'email': unicode,
                  'role': int,
                  }
     required_fields = ['username','password','role']
     default_values = {'role':MEMBER}
     use_dot_notation = True
-    
-    
-    def get_password(self):
-        pass
-    
-    def set_password(self):
-        pass
-    
     

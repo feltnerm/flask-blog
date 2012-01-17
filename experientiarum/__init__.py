@@ -59,7 +59,6 @@ def configure_blueprints(app):
     from blog.models import Entry
     db.register([Entry])
     
-    
     '''
     # BOOKMARKS
     from bookmarks import bookmarks

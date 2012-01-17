@@ -5,7 +5,6 @@ from flaskext.wtf import Form, TextField, TextAreaField, BooleanField, \
 
 from experientiarum.extensions import db
 from experientiarum.helpers import slugify
-from experientiarum.blog.models import Entry
 
 class EntryForm(Form):
     
@@ -24,38 +23,16 @@ class EntryForm(Form):
     delete = BooleanField("Delete")
     
     submit = SubmitField("Save")
-    '''
-    def __init__(self, *args, **kwargs):
-        self.entry = kwargs.get('obj', None)
-        super(EntryForm, self).__init__(*args, **kwargs)
     
-    def validate_slug(self, field):
-        slug = slugify(field.data)
+    def validate_slug(self):
+        ''' Ensure that the slug provided in the form has not already been
+        taken. '''
+        
         if field.data:
             slug = slugify(field.data)
         else:
-            slug = slugify(self.title.data)
-
-        entries = db.Entry.find({'slug':slug})
-        if self.entry:
-            entries = entries.find({'object_id': { '$ne' : self.entry.object_id} })
+            slug = slugify(title)
+            
+        entries = db.Entry.find({"slug":slug})
         if entries.count():
-            if field.data:
-                error = "This slug is taken"
-            else:
-                error = "Slug is required."
-            raise ValidationError, error
-    '''
-    '''            
-    def validate_slug(self, field):
-        if len(field.data) > 50:
-            raise ValidationError, "Slug must be less than 50 characters"
-        slug = slugify(field.data) if field.data else slugify(self.title.data)[:50]
-        entries = db.Entry.find({'slug':slug})
-        posts = Entry.query.filter_by(slug=slug)
-        if self.post:
-            entries = posts.filter(db.not_(Post.id==self.post.id))
-        if entries.count():
-            error = "This slug is taken" if field.data else "Slug is required"
-            raise ValidationError, error
-    '''
+            raise ValidationError, "This slug is taken."
