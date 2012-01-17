@@ -32,6 +32,11 @@ from flaskext.assets import Environment
 from flaskext.lesscss import lesscss
 from flaskext.principal import Principal
 
+def configure_before_handlers(app):
+    
+    @app.before_request
+    def authenticate():
+        g.user = getattr(g.identity, 'user', None)
 
 def configure_blueprints(app):
     ''' Register blueprints. '''
@@ -39,6 +44,13 @@ def configure_blueprints(app):
     # Main
     from main import main
     app.register_blueprint(main)
+    
+    # Users
+    from users import users
+    app.register_blueprint(users)
+    
+    from users.models import User
+    db.register([User])
         
     # BLOG
     from blog import blog
@@ -46,6 +58,7 @@ def configure_blueprints(app):
 
     from blog.models import Entry
     db.register([Entry])
+    
     
     '''
     # BOOKMARKS
@@ -106,8 +119,19 @@ def configure_extensions(app):
         os.mkdir(assets_output_dir)
     
     if app.debug:
-        lesscss(app)
-
+        pass
+        #lesscss(app)
+        
+def configure_identity(app):
+    
+    principal = Principal(app)
+    
+    @identity_loaded.connect_via(app)
+    def on_identity_loaded(sender, identity):
+        #g.user = 
+        pass
+    
+    
 def configure_logging(app):
     ''' Set up a debug and error log in log/ '''
 
@@ -151,8 +175,8 @@ def configure_template_filters(app):
         return helpers.truncate_html_words(html, num)
     
     @app.template_filter()
-    def timesince(dt, default="just now"):
-        return helpers.time_since(dt, default)
+    def timesince(dt):
+        return helpers.timesince(dt)
     
     @app.template_filter()
     def markup(text):
@@ -173,7 +197,8 @@ def generate_app(config):
     configure_blueprints(app)
     configure_extensions(app)
     configure_logging(app)
-    #configure_before_handlers(app)
+    #configure_identity(app)
+    configure_before_handlers(app)
     configure_template_filters(app)
     
     return app

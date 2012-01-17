@@ -8,8 +8,6 @@ from flaskext.mongokit import Document
 class Entry(Document):
     ''' A single blog entry. 
     
-    @todo: drafts (status = draft OR published)
-    @todo: markdown support
     @todo: easy embed media (videos, images)
     @todo: add tagging
     @todo: add comments (disqus)
@@ -39,3 +37,9 @@ class Entry(Document):
                {'fields': 'pub_date'}
                ]
     use_dot_notation = True
+    
+    def __str__(self):
+        pass
+    
+    def __repr__(self):
+        pass
