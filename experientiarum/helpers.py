@@ -1,12 +1,9 @@
 #!/usr/bin/env python
 
 import re
-from markdown import markdown
-import functools
 
 from datetime import datetime
-
-from werkzeug import generate_password_hash, check_password_hash
+from markdown import markdown
 
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
@@ -15,13 +12,68 @@ from pygments.formatters import HtmlFormatter
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
-def generate_password(password):
-    ''' Generates a hashed password based on the sha1 algorithm. '''
-    return generate_password_hash(password)
 
-def check_password(pwhash, password):
-    ''' Returns True if password matches the hash, False otherwise '''
-    return check_password_hash(pwhash, password)
+def format_date(date):
+    ''' @todo: convert mongodb datetime objects to a human readable thing '''
+    return date.strftime('%A %B %d, %Y')
+
+def format_datetime(datetime):
+    ''' @todo: convert mongodb datetime objects to a human readable thing. '''
+    return datetime.strftime('%I:%M.%S%p %A %B %d, %Y')
+
+def markup(text):
+    ''' Converts a text (with markup + code) to HTML 
+    to create a syntax-highlighted code block, indent the block by 4 spaces 
+    and declare the language of the block at the first line, prefixed by 
+    ::: (3 colons).
+    EX:
+        :::python
+        import this
+    '''
+    return markdown(text, ['codehilite'])
+
+def slugify(text, delim=u'-'):
+    """Generates an ASCII-only slug. From http://flask.pocoo.org/snippets/5/"""
+    result = []
+    for word in _punct_re.split(text.lower()):
+        #word = word.encode('translit/long')
+        if word:
+            result.append(word)
+    return unicode(delim.join(result))
+
+def timesince(dt, past_="ago", future_="from now", default="just now"):
+    """
+    Returns string representing "time since"
+    or "time until" e.g.
+    3 days ago, 5 hours from now etc.
+    """
+
+    now = datetime.utcnow()
+    if now > dt:
+        diff = now - dt
+        dt_is_past = True
+    else:
+        diff = dt - now
+        dt_is_past = False
+
+    periods = (
+        (diff.days / 365, "year", "years"),
+        (diff.days / 30, "month", "months"),
+        (diff.days / 7, "week", "weeks"),
+        (diff.days, "day", "days"),
+        (diff.seconds / 3600, "hour", "hours"),
+        (diff.seconds / 60, "minute", "minutes"),
+        (diff.seconds, "second", "seconds"),
+    )
+
+    for period, singular, plural in periods:
+        
+        if period:
+            return "%d %s %s" % (period, \
+                singular if period == 1 else plural, \
+                past_ if dt_is_past else future_)
+
+    return default
 
 def truncate_html_words(html, num=50):
     """
@@ -29,7 +81,8 @@ def truncate_html_words(html, num=50):
     Truncates html to a certain number of words (not counting tags and comments).
     Closes opened tags if they were correctly closed in the given html.
     
-    @fix: extra </p> tag?
+    @todo: clean this ugly piece of shite
+    @todo: extra </p> tag?
     """
     length = int(num)
     if length <= 0:
@@ -85,68 +138,3 @@ def truncate_html_words(html, num=50):
         out += '</%s>' % tag
     # Return string
     return out
-
-def markup(text):
-    ''' Converts a text (with markup + code) to HTML 
-    to create a syntax-highlighted code block, indent the block by 4 spaces 
-    and declare the language of the block at the first line, prefixed by 
-    ::: (3 colons).
-    EX:
-        :::python
-        import this
-    '''
-    return markdown(text, ['codehilite'])
-    
-def format_date(date):
-    ''' @todo: convert mongodb datetime objects to a human readable thing '''
-    return date.strftime('%A %B %d, %Y')
-
-def format_datetime(datetime):
-    ''' @todo: convert mongodb datetime objects to a human readable thing. '''
-    return datetime.strftime('%I:%M.%S%p %A %B %d, %Y')
-
-def timesince(dt, past_="ago", 
-    future_="from now", 
-    default="just now"):
-    """
-    Returns string representing "time since"
-    or "time until" e.g.
-    3 days ago, 5 hours from now etc.
-    """
-
-    now = datetime.utcnow()
-    if now > dt:
-        diff = now - dt
-        dt_is_past = True
-    else:
-        diff = dt - now
-        dt_is_past = False
-
-    periods = (
-        (diff.days / 365, "year", "years"),
-        (diff.days / 30, "month", "months"),
-        (diff.days / 7, "week", "weeks"),
-        (diff.days, "day", "days"),
-        (diff.seconds / 3600, "hour", "hours"),
-        (diff.seconds / 60, "minute", "minutes"),
-        (diff.seconds, "second", "seconds"),
-    )
-
-    for period, singular, plural in periods:
-        
-        if period:
-            return "%d %s %s" % (period, \
-                singular if period == 1 else plural, \
-                past_ if dt_is_past else future_)
-
-    return default
-
-def slugify(text, delim=u'-'):
-    """Generates an ASCII-only slug. From http://flask.pocoo.org/snippets/5/"""
-    result = []
-    for word in _punct_re.split(text.lower()):
-        #word = word.encode('translit/long')
-        if word:
-            result.append(word)
-    return unicode(delim.join(result))
-    

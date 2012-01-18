@@ -1,13 +1,14 @@
 #!/usr/bin/env python
-import platform
 
-import os
 import datetime
+import os
+import platform
 import urllib2
 
-from fabric.api import *
 from fabric import colors
+from fabric.api import *
 from fabric.utils import puts, warn
+
 
 ## Run things
 def console():
@@ -16,7 +17,7 @@ def console():
     local('ipython -i play.py', capture=False)
 
 def server():
-    'Run the dev server'''
+    ''' Run the development server'''
     
     local('python runserver.py --server-type d', capture=False)
 
@@ -25,33 +26,35 @@ def test():
     
     local('python tests.py', capture=False)
 
-
 ## Deployment
 def pack():
-    ''' Pack up code '''
-    
+    ''' @todo: Pack up code '''    
     pass    
 
 def unpack():
-    ''' Unpack code '''
-    
+    ''' @todo: Unpack code '''
     pass
 
 def update():
+    ''' Update local copy from master remote git repo. '''
+    
     run('git pull origin master')
     
 def install_deps():
+    ''' Install python dependencies. '''
+    
     run('pip install -q -r requirements.txt')
 
 ## Utils
 def lessc():
     ''' compiles .less -> .css with lessc '''
+    
     local('lessc experientiarum/static/css/*.less experientiarum/static/css/*.css')
 
 def pychecker():
     ''' Checks code with pychecker '''
+    
     local('pychecker .')
-
 
 def pep8():
     ''' Flags any violations of the python style guide '''
@@ -78,5 +81,6 @@ def tabnanny():
 
 def clear_pyc():
     ''' Clear cached .pyc files '''
+    
     print("Removing .pyc files.")
     local("find . -iname '*.pyc' -exec rm -v {} \;", capture=False)

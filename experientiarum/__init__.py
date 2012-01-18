@@ -4,8 +4,6 @@
     experientiarum
     
     ~ a place where I can leave my experiences
-
-    @todo: explicitly define which apps are on/off
 '''
 
 __author__ = "Mark Feltner"
@@ -17,22 +15,24 @@ __maintainer__ = "Mark Feltner"
 __email__ = "feltner.mj@gmail.com"
 __status__ = "Development"
 
-
-import logging
 import os
 
+import logging
 from logging import Formatter, StreamHandler
 from logging.handlers import RotatingFileHandler
 
-from experientiarum import helpers
-from experientiarum.extensions import db
-from flask import Flask, g, request, flash, redirect, jsonify, url_for, \
-    render_template, Markup
+from flask import Flask, g, request, flash, redirect, url_for, Markup,\
+    render_template
+    
 from flaskext.assets import Environment
-from flaskext.lesscss import lesscss
 from flaskext.principal import Principal
 
+from experientiarum import helpers
+from experientiarum.extensions import db
+
+
 def configure_before_handlers(app):
+    ''' @todo: wtf is this? '''
     
     @app.before_request
     def authenticate():
@@ -111,23 +111,22 @@ def configure_extensions(app):
     FLASK_APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
     db.init_app(app)
-    principals = Principal(app)
     asset = Environment(app)
     assets_output_dir = os.path.join(FLASK_APP_DIR, 'static', 'gen')
     if not os.path.exists(assets_output_dir):
         os.mkdir(assets_output_dir)
-    
-    if app.debug:
-        pass
-        #lesscss(app)
         
 def configure_identity(app):
+    ''' Configure middleware. '''
     
     principal = Principal(app)
     
     @identity_loaded.connect_via(app)
     def on_identity_loaded(sender, identity):
-        #g.user = 
+        # Get user identity from database
+        # user = db.User.find()
+        # for role in user.roles:
+        #    identity.provides.add(RoleNeed(role.name))
         pass
     
     
@@ -170,23 +169,20 @@ def configure_template_filters(app):
         return helpers.format_datetime(datetime)
     
     @app.template_filter()
-    def truncate_html(html, num=25):
-        return helpers.truncate_html_words(html, num)
+    def markup(text):
+        return Markup(helpers.markup(text) or '')
     
     @app.template_filter()
     def timesince(dt):
         return helpers.timesince(dt)
-    
+
     @app.template_filter()
-    def markup(text):
-        return Markup(helpers.markup(text) or '')
+    def truncate_html(html, num=25):
+        return helpers.truncate_html_words(html, num)    
 
 def generate_app(config):
     ''' Configures a variety of settings, extensions, and other bits and
     pieces for the app to be served.
-     
-    @TODO: More parameters for configuration overload
-    @TODO: Procedurize; put operations in functions
     '''    
      
     ## Define the application object

@@ -1,14 +1,9 @@
-import re
-
-from datetime import datetime
-from unicodedata import normalize
-
-from experientiarum.extensions import db
-from experientiarum.helpers import generate_password, check_password
 from flask import Blueprint, render_template, abort, request, redirect, \
     url_for, current_app, flash, session, g
 
 from flaskext.principal import identity_changed, Identity
+
+from experientiarum.extensions import db
 
 from forms import UserForm
 

@@ -9,15 +9,16 @@
 import re
 
 from datetime import datetime
-from unicodedata import normalize
+
+from jinja2 import TemplateNotFound
+from flask import Blueprint, render_template, abort, request, redirect, \
+    url_for, current_app, flash, g
 
 from experientiarum.extensions import db
 from experientiarum.helpers import slugify
 from experientiarum.permissions import auth
+
 from forms import EntryForm
-from flask import Blueprint, render_template, abort, request, redirect, \
-    url_for, current_app, flash, g
-from jinja2 import TemplateNotFound
 
 
 blog = Blueprint('blog', __name__, template_folder='templates')

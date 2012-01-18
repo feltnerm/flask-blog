@@ -6,11 +6,12 @@ import argparse
 from experientiarum import generate_app
 
 def process_args(argv):
+    ''' Process command line arguments. '''
     
     if not argv:
         argv = sys.argv[1:]
 
-    ap = argparse.ArgumentParser(description='Run experientiarum server')
+    ap = argparse.ArgumentParser(description='Runs server')
     ap.add_argument('-s','--server-type', default='dev')
     args = ap.parse_args(argv)
     
@@ -18,10 +19,7 @@ def process_args(argv):
     
 
 def main(argv=None):
-    ''' Main function in which we run the Flask application 
-    which also invokes the blueprints of all other active
-    applications. 
-    '''
+    ''' Main function to run the server '''
     
     run_settings = process_args(argv)
     if run_settings.server_type.startswith('d'):
@@ -37,6 +35,8 @@ def main(argv=None):
     
     if app.debug:
         app.run('0.0.0.0')
+    else:
+        app.run()
     
     return 0
 
