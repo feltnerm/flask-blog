@@ -46,7 +46,7 @@ class User(Document):
                  'date_joined': datetime,
                  'last_login': datetime
                  }
-    required_fields = ['username','pwhash']
+    required_fields = ['username','password']
     default_values = {'date_joined': datetime.utcnow(), 
                       'role':MEMBER}
     use_dot_notation = True
