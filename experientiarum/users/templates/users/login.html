@@ -1,13 +1,11 @@
 {% extends "blog/base.html" %}
 {% block content %}
 {% from "_formhelpers.html" import render_field %}
-<form method="POST" action="/blog/new">
+<form method="POST" action="/login">
     {{ form.hidden_tag() }}
   <dl>
-    {{ render_field(form.title) }}
-    {{ render_field(form.slug) }}
-    {{ render_field(form.body) }}
-    {{ render_field(form.tags) }}
+    {{ render_field(form.username) }}
+    {{ render_field(form.password) }}
   </dl>
   {{ form.submit(class="button") }}
 </form>

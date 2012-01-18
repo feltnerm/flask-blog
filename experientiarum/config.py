@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from secret import super_secret_key, prod_mongo_user, \
-    prod_mongo_pass
+    prod_mongo_pass, admin_user, admin_pass
 
 class Config():
     '''
@@ -12,6 +12,8 @@ class Config():
     '''
     
     ADMINS = ['feltner.mj@gmail.com']
+    ADMIN_USER = admin_user
+    ADMIN_PASS = admin_pass
     LOGGER_NAME = 'experientarium log'
     SITE_NAME = 'experientiarum'
     SECRET_KEY = super_secret_key

@@ -48,7 +48,10 @@
     <!-- Delete everything in this .container and get started on your own site! -->
 
     <div class="container">
+    
+        <!-- HEADER -->
         <header id="header" class="twelve columns">
+
             <div id="logo" class="four columns">
                 <h1>LOGO</h1>
                 <h2>Mark Feltner</h2>
@@ -60,43 +63,45 @@
                     <li><a href="#">bookmarks</a></li>
                     <li><a href="#">pastebin</a></li>
                     <li><a href="#">readlaters</a></li>
-                    <li><a href="#">tood</a></li>
+                    <li><a href="#">todo</a></li>
                     <li><a href="#">about</a></li>
                 </ul>
             </div>
-        </header>
+            
+        </header> <!-- /header -->
 
+        <!-- MAIN -->
         <div id="main" class="twelve columns">
-          <div id="content" class="eight columns">
-
-            <div id="flash_messages" class="">
-                {% for message in get_flashed_messages() %}
-                <div id="flash" class="">
-                    {{ message }}
-                </div>
-                {% endfor %}
-            </div>
-
-            {% block content %}
-
-            {% endblock %}
-         </div>
         
-        <div id="sidebar" class="four columns">
-            {% block sidebar %}
+            <div id="sidebar" class="four columns">
+                {% block sidebar %}
 
-            {% endblock %}
-        </div>
-        </div>
+                {% endblock %}
+            </div>
+        
+            <div id="content" class="eight columns">
+
+                <div id="flash_messages" class="">
+                    {% for message in get_flashed_messages() %}
+                    <div id="flash" class="">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+
+                {% block content %}
+
+                {% endblock %}
+            
+            </div> <!-- /content -->
+        
+        </div> <!-- /main -->
+        
         <footer id="footer" class="twelve columns">
-
-            {% block footer %}
-
-            {% endblock %}
-
+            <p>Copyright 2012, {{ config['SITE_NAME'] }}</p>
         </footer>
 
-    </div><!-- container -->
+    </div><!-- /container -->
 
     <!-- JS
     ================================================== -->
