@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from flaskext.wtf import Form, TextField, TextAreaField, SubmitField, \
-    ValidationError, required, optional
+    BooleanField, ValidationError, required, optional
 
 from experientiarum.extensions import db
 from experientiarum.helpers import slugify

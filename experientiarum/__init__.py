@@ -32,11 +32,7 @@ from experientiarum.extensions import db
 
 
 def configure_before_handlers(app):
-    ''' @todo: wtf is this? '''
-    
-    @app.before_request
-    def authenticate():
-        g.user = getattr(g.identity, 'user', None)
+    pass
 
 def configure_blueprints(app):
     ''' Register blueprints. '''
