@@ -17,18 +17,17 @@ def login():
     form = UserForm()
 
     if form.validate_on_submit():
-        if request.form['username'] == current_app.config['ADMIN_USER'] and request.form['password'] == current_app.config['ADMIN_PASS']:
-            session.permanent = form.remember.data
+        session.permanent = form.remember.data
 
-            identity_changed.send(current_app._get_current_object(),
-                                identity=Identity(request.form['username']))
-            
-            flash('Welcome back, %s' % request.form['username'], 'success')
-    
-            return redirect(url_for('main.index'))
+        identity_changed.send(current_app._get_current_object(),
+                            identity=Identity(request.form['username']))
         
-        else:
-            flash('Sorry, invalid login', 'error')
+        flash('Welcome back, %s' % request.form['username'], 'success')
+
+        return redirect(url_for('main.index'))
+        
+    else:
+        flash('Sorry, invalid login', 'error')
 
     return render_template('users/login.html', form=form)
 
