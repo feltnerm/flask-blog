@@ -14,11 +14,35 @@ from experientiarum.permissions import moderator, admin
 
 def get_by_date(year=None, month=None, day=None):
 
-    dt = datetime(year, month, day)
-    return db.Entry.find({'pub_date':dt})
+    entries = db.Entry.find()
+    
+    matches = []
+    for entry in entries:
+    
+        if entry.pub_date.year == year:
+            matches.append(entry)
+        if entry.pub_date.month == month:
+            matches.append(entry)
+        if entry.pub_date.day == day:
+            matches.append(day)
+    if matches:        
+        return matches
+    else:
+        abort(404)
 
 def get_by_slug(slug):
     return db.Entry.find_one_or_404({"slug":slug})
+
+def get_by_tags(tags):
+    
+    matches = []
+    if tags:
+        for tag in tags:
+            matches.append([x for x in db.Entry.find({'tags'})._get_tags() if tag in x])
+        return matches
+    else:
+        abort(404)
+        
 
 ## MODELS ##
 class Entry(Document):
@@ -44,6 +68,7 @@ class Entry(Document):
                  }
     required_fields = ['title']
     default_values = {
+                      
                       'pub_date': datetime.utcnow(),
                       'deleted' : False
                       }
@@ -74,26 +99,11 @@ class Entry(Document):
     
     def _set_tags(self, tags):
         
-        self.tags = tags
-        
-        if self.id:
-            # ensure existing tag references
-            # are removed
-            pass
+        _tags = []
+        for tag in set(self.tags):
             
-        for tag in set(self.taglist):
-            # set tags
-            
-            # slug = slugify(taglist)
-            # tag = db.Tag.find_one({"slug":slug})
-            # if tag is None:
-            #    # create a new tag
-            #    tag = db.Tag()
-            #    tag.slug = slug
-            #
-            # tag.posts.append(self)
-            # tag.save()
-            pass
+             _tags.append(slugify(tag))
+        self.find_and_modify({'_id':self._id}, {'$set':{'tags':_tags}})
     
     @property
     def taglist(self):
@@ -105,8 +115,7 @@ class Entry(Document):
         return [t for t in tags if t]
     
     def _url(self, external=False):
-        #return url_for('blog.entry', external=external)
-        pass
+        return url_for('blog.entry', slug=self.slug, _external=external)
     
     @cached_property
     def url(self):

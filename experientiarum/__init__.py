@@ -119,10 +119,12 @@ def configure_identity(app):
     
     @identity_loaded.connect_via(app)
     def on_identity_loaded(sender, identity):
-        # Get user identity from database
-        # user = db.User.find()
-        # for role in user.roles:
-        #    identity.provides.add(RoleNeed(role.name))
+        #Get user identity from database
+        user = from_identity
+        users = db.User.find()
+        for 
+        for role in user.roles:
+            identity.provides.add(RoleNeed(role.name))
         pass
     
     

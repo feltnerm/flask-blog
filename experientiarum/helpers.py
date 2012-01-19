@@ -5,6 +5,9 @@ import re
 from datetime import datetime
 from markdown import markdown
 
+from flask import url_for
+from werkzeug.routing import BuildError
+
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import HtmlFormatter
@@ -138,3 +141,12 @@ def truncate_html_words(html, num=50):
         out += '</%s>' % tag
     # Return string
     return out
+
+def permalink(function):
+    def inner(*args, **kwargs):
+        endpoint, values = function(*args, **kwargs)
+        try:
+            return url_for(endpoint, **values)
+        except BuildError:
+            return
+    return inner

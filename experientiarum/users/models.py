@@ -20,6 +20,10 @@ def authenticate(login, password):
     
     return user, authenticated
 
+def get_by_identity(identity):
+    
+    users = 
+
 def get_by_username(username):
     return db.User.find_one_or_404({"username":username})
 

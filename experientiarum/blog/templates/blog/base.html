@@ -2,15 +2,13 @@
 {% block sidebar %}
 <h1>BLOG</h1>
 <ul id="blog-sidebar-nav" class="">
-    <li><a href="#">Archives</a></li>
+    <li><a href="blog/archive">Archives</a></li>
     <!--  Generate archives HTML -->
-    <li><a href="#">Tags</a></li>
+    <li><a href="blog/tags">Tags</a></li>
     <li><a href="#">Stats</a></li>
 </ul>
 <ul id="blog-sidebar-meta" class="">
-    <li><a href="#">Admin</a></li>
-    <!--  Add code here that will let me (admin)
-          add a new post and do some meta things
-          like login and logout -->
+    <li><a href="/login">login</a></li>
+     <li><a href="/logout">logout</a></li>
 </ul>
 {% endblock %}

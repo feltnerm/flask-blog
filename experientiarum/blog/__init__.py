@@ -16,16 +16,17 @@ from flask import Blueprint, render_template, abort, request, redirect, \
 
 from experientiarum.extensions import db
 from experientiarum.helpers import slugify
-from experientiarum.permissions import auth
+from experientiarum.permissions import admin
 
 from forms import EntryForm
+from models import get_by_date, get_by_slug, get_by_tags
 
 
 blog = Blueprint('blog', __name__, template_folder='templates')
 
 ## VIEWS ##
 @blog.route('/')
-def blog():
+def entries():
     ''' Show all entries. '''
     
     entries = db.Entry.find({'deleted':False})
@@ -33,22 +34,20 @@ def blog():
 
 @blog.route('/entry/<slug>')
 def entry(slug):
-    ''' Show a specific entry based on its entry_id. '''
+    ''' This should be each entrie's permalink and is optimistically unique'''
     
-    entry = db.Entry.one({'slug':slug, 'deleted':False})
-    if entry:
-        return render_template('blog/entry.html', entry = entry)
-    abort(404)
+    entry = get_by_slug(slug)
+    return render_template('blog/entry.html', entry = entry)
 
 @blog.route('/entry/<slug>/edit', methods=['GET', 'POST'])
-@auth.require(401)
+@admin.require(401)
 def edit_entry(slug):
     ''' Edit an existing entry. 
     
     @todo: form validation
     '''
 
-    entry = db.Entry.one({'slug':slug})
+    entry = get_by_slug(slug)
     form = EntryForm(title = entry.title,
                      slug = entry.slug,
                      body = entry.body,
@@ -67,12 +66,12 @@ def edit_entry(slug):
         entry.save()
         
         flash('Entry edited.')
-        return redirect(url_for('blog.blog'))
+        return redirect(url_for('blog.entries'))
     return render_template('blog/edit.html', entry=entry, form=form)
 
 
 @blog.route('/entry/<slug>/delete', methods=['GET', 'POST'])
-@auth.require(401)
+@admin.require(401)
 def delete_entry(slug):
     ''' Delete an existing entry. '''
     
@@ -86,12 +85,12 @@ def delete_entry(slug):
         entry.save()
         
         flash('Entry deleted.')
-        return redirect(url_for('blog.blog'))
+        return redirect(url_for('blog.entries'))
     return render_template('blog/delete.html', entry=entry, form=form)
 
 
 @blog.route('/new', methods=['GET', 'POST'])
-@auth.require(401)
+@admin.require(401)
 def new_entry():
     ''' Add a entry. 
     
@@ -114,14 +113,23 @@ def new_entry():
         entry.save()
         
         flash('Entry created.')
-        return redirect(url_for('blog.blog'))
+        return redirect(url_for('blog.entries'))
     return render_template('blog/new.html', form=form)
 
-
-@blog.route('/archive')
 @blog.route('/archive/<year>')
 @blog.route('/archive/<year>/<month>')
 @blog.route('/archive/<year>/<month>/<day>')
 @blog.route('/archive/<year>/<month>/<day>/<slug>')
 def archive(year = None, month = None, day = None, slug = None):
-    pass
+    
+    if slug:
+        entry = get_by_slug(slug)
+        return render_template('blog/entry.html', entry=entry)
+    
+    entries = get_by_date(year, month, day)
+    return render_template('blog/entries.htmml', entries=entries)
+
+@blog.route('/tags/<tags>')
+def tags(tags = None):
+    entries = get_by_tags(tags)
+    return render_template('blog/entries.html', entries=entries)
