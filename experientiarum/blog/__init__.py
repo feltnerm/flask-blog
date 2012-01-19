@@ -25,14 +25,14 @@ blog = Blueprint('blog', __name__, template_folder='templates')
 
 ## VIEWS ##
 @blog.route('/')
-def show_entries():
+def blog():
     ''' Show all entries. '''
     
     entries = db.Entry.find({'deleted':False})
     return render_template('blog/entries.html', entries = entries)
 
 @blog.route('/entry/<slug>')
-def show_entry(slug):
+def entry(slug):
     ''' Show a specific entry based on its entry_id. '''
     
     entry = db.Entry.one({'slug':slug, 'deleted':False})
@@ -67,7 +67,7 @@ def edit_entry(slug):
         entry.save()
         
         flash('Entry edited.')
-        return redirect(url_for('blog.show_entries'))
+        return redirect(url_for('blog.blog'))
     return render_template('blog/edit.html', entry=entry, form=form)
 
 
@@ -86,7 +86,7 @@ def delete_entry(slug):
         entry.save()
         
         flash('Entry deleted.')
-        return redirect(url_for('blog.show_entries'))
+        return redirect(url_for('blog.blog'))
     return render_template('blog/delete.html', entry=entry, form=form)
 
 
@@ -114,19 +114,14 @@ def new_entry():
         entry.save()
         
         flash('Entry created.')
-        return redirect(url_for('blog.show_entries'))
+        return redirect(url_for('blog.blog'))
     return render_template('blog/new.html', form=form)
 
-'''
-@blog.route('/archives')
-@blog.route('/archives/<year>')
-@blog.route('/archives/<year>/<month>')
-@blog.route('/archives/<year>/<month>/<day>')
-@blog.route('/archives/<year>/<month>/<day>/<slug>')
+
+@blog.route('/archive')
+@blog.route('/archive/<year>')
+@blog.route('/archive/<year>/<month>')
+@blog.route('/archive/<year>/<month>/<day>')
+@blog.route('/archive/<year>/<month>/<day>/<slug>')
 def archive(year = None, month = None, day = None, slug = None):
-    dt = datetime.strptime('%s%s%s' % (year,month,day), '%Y%m%d')
-    result = g.db.Entry.find({'deleted':False})
-    
-    for entry in result:
-'''
-        
+    pass

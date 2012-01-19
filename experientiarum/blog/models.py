@@ -12,6 +12,11 @@ from experientiarum.extensions import db
 from experientiarum.helpers import markdown, slugify
 from experientiarum.permissions import moderator, admin
 
+def get_by_date(year=None, month=None, day=None):
+
+    dt = datetime(year, month, day)
+    return db.Entry.find({'pub_date':dt})
+
 def get_by_slug(slug):
     return db.Entry.find_one_or_404({"slug":slug})
 
@@ -27,7 +32,6 @@ class Entry(Document):
     __collection__ = 'entries'
     
     structure = {
-                 'uid': int,
                  'title': unicode,
                  'slug' : unicode,
                  'body' : unicode,
