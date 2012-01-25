@@ -17,14 +17,15 @@ def login():
     form = UserForm()
 
     if form.validate_on_submit():
-        session.permanent = form.remember.data
-
-        identity_changed.send(current_app._get_current_object(),
-                            identity=Identity(request.form['username']))
+        if authenticate(request.form['username'], request.form['password']):
+            session.permanent = form.remember.data
         
-        flash('Welcome back, %s' % request.form['username'], 'success')
-
-        return redirect(url_for('main.index'))
+            identity_changed.send(current_app._get_current_object(),
+                                identity=Identity(request.form['username']))
+            
+            flash('Welcome back, %s' % request.form['username'], 'success')
+        
+            return redirect(url_for('main.index'))
         
     else:
         flash('Sorry, invalid login', 'error')

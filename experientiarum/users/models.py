@@ -18,11 +18,11 @@ def authenticate(login, password):
     else:
         authenticated = False
     
-    return user, authenticated
+    return authenticated
 
 def get_by_identity(identity):
     
-    users = 
+    return db.User.find_one({"usernane":identity.username}) 
 
 def get_by_username(username):
     return db.User.find_one_or_404({"username":username})

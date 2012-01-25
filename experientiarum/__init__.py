@@ -25,14 +25,17 @@ from flask import Flask, g, request, flash, redirect, url_for, Markup,\
     render_template
     
 from flaskext.assets import Environment
-from flaskext.principal import Principal
+from flaskext.principal import Principal, identity_loaded
 
 from experientiarum import helpers
 from experientiarum.extensions import db
 
-
 def configure_before_handlers(app):
-    pass
+
+    @app.before_request
+    def authenticate():
+        g.user = getattr(g.identity, 'user', None)
+
 
 def configure_blueprints(app):
     ''' Register blueprints. '''
@@ -120,12 +123,12 @@ def configure_identity(app):
     @identity_loaded.connect_via(app)
     def on_identity_loaded(sender, identity):
         #Get user identity from database
-        user = from_identity
-        users = db.User.find()
-        for 
-        for role in user.roles:
-            identity.provides.add(RoleNeed(role.name))
-        pass
+        user = db.User.find_one({"username":identity.name})
+        if user:
+            identity.provides.update(user.provides)
+        
+        identity.user = user
+        g.user = user
     
     
 def configure_logging(app):
@@ -190,7 +193,7 @@ def generate_app(config):
     configure_blueprints(app)
     configure_extensions(app)
     configure_logging(app)
-    #configure_identity(app)
+    configure_identity(app)
     configure_before_handlers(app)
     configure_template_filters(app)
     
