@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from flaskext.wtf import Form, TextField, SubmitField, PasswordField, \
-    BooleanField, ValidationError, required, optional
+    BooleanField, ValidationError, required, optional, equal_to
 
 from experientiarum.extensions import db
 
@@ -32,6 +32,8 @@ class RegisterForm(Form):
                               )
     
     password2 = PasswordField("Password2",
-                              validators = [required(message="Passwords must match")]
+                              validators = [equal_to("password1", message="Passwords must match")]
                               )
+    
+    submit = SubmitField("Register")
     

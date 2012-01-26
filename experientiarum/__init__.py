@@ -124,10 +124,6 @@ def configure_identity(app):
     def on_identity_loaded(sender, identity):
         #Get user identity from database
         user = db.User.find_one({"username":identity.name})
-        if user:
-            identity.provides.update(user.provides)
-        
-        identity.user = user
         g.user = user
     
     

@@ -1,12 +1,12 @@
 from flask import Blueprint, render_template, abort, request, redirect, \
     url_for, current_app, flash, session, g
 
-from flaskext.principal import identity_changed, Identity
+from flaskext.principal import identity_changed, Identity, AnonymousIdentity
 
 from experientiarum.extensions import db
 from models import authenticate
 
-from forms import UserForm
+from forms import UserForm, RegisterForm
 
 
 users = Blueprint('users', __name__, template_folder='templates')
@@ -37,7 +37,11 @@ def login():
 @users.route('/logout', methods = ['GET', 'POST'])
 def logout():
     
-    pass
+    flash("You are now logged out.")
+    identity_changed.send(current_app._get_current_object(),
+                          identity=AnonymousIdentity())
+    
+    return redirect(url_for('main.index'))
 
 @users.route('/register', methods = ['GET', 'POST'])
 def register():
@@ -45,4 +49,18 @@ def register():
     form = RegisterForm()
     
     if form.validate_on_submit():
+        user = db.User()
+        user.username = request.form['username']
+        user._set_password(request.form['password1'])
+        user.role = 100
+        
+        user.save()
+        
+        identity_changed.send(current_app._get_current_object(),
+                              identity=Identity(user.username))
+        
+        flash("Welcome %s" % user.username)
+        
+        return redirect(url_for('main.index'))
+    return render_template('users/register.html', form=form)
         

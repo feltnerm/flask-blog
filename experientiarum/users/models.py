@@ -65,7 +65,7 @@ class User(Document):
         return self.password
     
     def _set_password(self, password):
-        self.password = generate_password_hash(password)
+        self.password = unicode(generate_password_hash(password))
         
     def check_password(self, password):
         if not self.password:
