@@ -4,6 +4,7 @@ from flask import Blueprint, render_template, abort, request, redirect, \
 from flaskext.principal import identity_changed, Identity
 
 from experientiarum.extensions import db
+from models import authenticate
 
 from forms import UserForm
 
@@ -37,3 +38,11 @@ def login():
 def logout():
     
     pass
+
+@users.route('/register', methods = ['GET', 'POST'])
+def register():
+    
+    form = RegisterForm()
+    
+    if form.validate_on_submit():
+        

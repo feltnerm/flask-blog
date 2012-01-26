@@ -18,3 +18,20 @@ class UserForm(Form):
     remember = BooleanField("Remember?")
     
     submit = SubmitField("Submit")
+
+class RegisterForm(Form):
+    
+    username = TextField("Username",
+                         validators = [required(message="username required")],
+                         )
+    
+    email = TextField("email")
+    
+    password1 = PasswordField("Password",
+                              validators = [required(message="Password required")]
+                              )
+    
+    password2 = PasswordField("Password2",
+                              validators = [required(message="Passwords must match")]
+                              )
+    
