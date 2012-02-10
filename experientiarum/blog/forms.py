@@ -24,15 +24,17 @@ class EntryForm(Form):
     
     submit = SubmitField("Save")
     
-    def validate_slug(self):
+    def validate_slug(self, field):
         ''' Ensure that the slug provided in the form has not already been
         taken. '''
         
         if field.data:
             slug = slugify(field.data)
         else:
-            slug = slugify(title)
+            slug = slugify(self.title.data)
             
         entries = db.Entry.find({"slug":slug})
         if entries.count():
             raise ValidationError, "This slug is taken."
+        else:
+            field.data = slug

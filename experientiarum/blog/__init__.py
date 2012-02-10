@@ -36,7 +36,7 @@ def entries():
 
 @blog.route('/entry/<slug>')
 def entry(slug):
-    ''' This should be each entrie's permalink and is optimistically unique'''
+    ''' This should be each entry's permalink and is optimistically unique'''
     
     entry = get_by_slug(slug)
     return render_template('blog/entry.html', entry = entry)
@@ -55,14 +55,10 @@ def edit_entry(slug):
                      body = entry.body,
                      tags = entry.tags)
     if form.validate_on_submit():
-        entry.title = request.form['title']
-        entry.slug = request.form['slug']
-        entry.body = request.form['body']
-        tags = list()
-        for tag in request.form['tags'].split(','):
-            tag.strip(' ')
-            tags.append(tag)
-        entry.tags = tags
+        entry.title = form.title.data
+        entry.slug = form.slug.data
+        entry.body = form.body.data
+        entry.tags = form.tags.data
         entry.edit_date = datetime.utcnow()
         
         entry.save()
@@ -81,7 +77,7 @@ def delete_entry(slug):
     entry = db.Entry.one({'slug':slug})
     
     if form.validate_on_submit():
-        entry.deleted = request.form['deleted']
+        entry.deleted = form.deleted.data
         entry.delete_date = datetime.utcnow()
         
         entry.save()
@@ -103,14 +99,10 @@ def new_entry():
     
     if form.validate_on_submit():
         entry = db.Entry()
-        entry.title = request.form['title']
-        entry.slug = request.form['slug']
-        entry.body = request.form['body']
-        tags = list()
-        for tag in request.form['tags'].split(','):
-            tag.strip(' ')
-            tags.append(tag)
-        entry.tags = tags
+        entry.title = form.title.data
+        entry.slug = form.slug.data
+        entry.body = form.body.data
+        entry.tags = form.tags.data
         
         entry.save()
         
