@@ -34,7 +34,7 @@ class EntryForm(Form):
             slug = slugify(self.title.data)
             
         entries = db.Entry.find({"slug":slug})
-        if entries.count():
+        if entries.count(): 
             raise ValidationError, "This slug is taken."
         else:
             field.data = slug

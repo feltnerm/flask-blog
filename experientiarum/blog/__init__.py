@@ -54,7 +54,7 @@ def edit_entry(slug):
                      slug = entry.slug,
                      body = entry.body,
                      tags = entry.tags)
-    if form.validate_on_submit():
+    if form.is_submitted():
         entry.title = form.title.data
         entry.slug = form.slug.data
         entry.body = form.body.data
