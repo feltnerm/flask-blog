@@ -98,6 +98,9 @@
         </div> <!-- /main -->
         
         <footer id="footer" class="twelve columns">
+            {% if current_user %}
+                <p>current user: {{ current_user }}</p>
+            {% endif %}
             <p>Copyright 2012, {{ config['SITE_NAME'] }}</p>
         </footer>
 

@@ -7,6 +7,7 @@ from flaskext.login import login_user, confirm_login, login_required, \
         logout_user
 
 from experientiarum.extensions import db
+from experientiarum.helpers import to_oid
 
 from forms import LoginForm, RegisterForm
 from models import get_by_username
@@ -32,7 +33,6 @@ def login():
             login_user(user, remember=form.remember.data)
             user.last_login = datetime.utcnow()
             user.save()
-            flash('Welcome back, %s' % user.username, 'success')
             return redirect(request.args.get("next") or url_for('main.index'))
         else:
             flash('Sorry, invalid login', 'error')

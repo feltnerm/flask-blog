@@ -34,11 +34,11 @@ from experientiarum.extensions import db
 def configure_blueprints(app):
     ''' Register blueprints. '''
     
-    # Main
+    # MAIN
     from main import main
     app.register_blueprint(main)
     
-    # Users
+    # USERS
     from users import users
     app.register_blueprint(users)
     
@@ -108,19 +108,19 @@ def configure_extensions(app):
     assets_output_dir = os.path.join(FLASK_APP_DIR, 'static', 'gen')
     if not os.path.exists(assets_output_dir):
         os.mkdir(assets_output_dir)
-        
+
 def configure_identity(app):
     ''' Configure middleware. '''
    
     login_manager = LoginManager()
     login_manager.login_view = 'users.login'
     login_manager.login_message = u'Please log in to access this page.'
-    login_manager.refresh_view = 'users.reauth'
-    login_manager.needs_refresh_message = u'To protect your account, please reauthenticate to access this page.'
+    #login_manager.refresh_view = 'users.reauth'
+    #login_manager.needs_refresh_message = u'To protect your account, please reauthenticate to access this page.'
 
     @login_manager.user_loader
     def load_user(userid):
-        return db.User.get_from_id(userid)
+        return db.User.get_from_id(helpers.to_oid(userid))
 
     login_manager.setup_app(app)
 

@@ -8,6 +8,8 @@ from markdown import markdown
 from flask import url_for
 from werkzeug.routing import BuildError
 
+from pymongo.objectid import ObjectId
+
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import HtmlFormatter
@@ -43,6 +45,9 @@ def slugify(text, delim=u'-'):
         if word:
             result.append(word)
     return unicode(delim.join(result))
+
+def to_oid(sid):
+    return ObjectId(sid)
 
 def timesince(dt, past_="ago", future_="from now", default="just now"):
     """
