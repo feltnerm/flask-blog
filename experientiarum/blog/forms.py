@@ -24,6 +24,9 @@ class EntryForm(Form):
     
     submit = SubmitField("Save")
     
+
+class NewEntryForm(EntryForm):
+
     def validate_slug(self, field):
         ''' Ensure that the slug provided in the form has not already been
         taken. '''
@@ -38,3 +41,4 @@ class EntryForm(Form):
             raise ValidationError, "This slug is taken."
         else:
             field.data = slug
+

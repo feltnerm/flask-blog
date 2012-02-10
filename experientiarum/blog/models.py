@@ -77,32 +77,6 @@ class Entry(Document):
                ]
     use_dot_notation = True
     
-    def _get_title(self):
-        return self.title
-    
-    def _set_title(self, title):
-        self.title = title.lower().strip()
-        if self.slug is None:
-            self.slug = slugif(title)
-            
-    def _get_slug(self):
-        return self.slug
-    
-    def _set_slug(self, slug):
-        if slug:
-            self.slug = slugify(slug)
-            
-    def _get_tags(self):
-        return self.tags
-    
-    def _set_tags(self, tags):
-        
-        _tags = []
-        for tag in set(self.tags):
-            
-             _tags.append(slugify(tag))
-        self.find_and_modify({'_id':self._id}, {'$set':{'tags':_tags}})
-    
     @property
     def taglist(self):
         ''' Return a list of tags. '''

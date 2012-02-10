@@ -19,7 +19,7 @@ from flaskext.login import login_required
 from experientiarum.extensions import db
 from experientiarum.helpers import slugify
 
-from forms import EntryForm
+from forms import EntryForm, NewEntryForm
 from models import get_by_date, get_by_slug, get_by_tags
 
 
@@ -94,7 +94,7 @@ def new_entry():
     @todo: form validation
     '''
     
-    form = EntryForm()
+    form = NewEntryForm()
     
     if form.validate_on_submit():
         entry = db.Entry()

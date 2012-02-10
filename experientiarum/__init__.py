@@ -21,8 +21,7 @@ import logging
 from logging import Formatter, StreamHandler
 from logging.handlers import RotatingFileHandler
 
-from flask import Flask, g, request, flash, redirect, url_for, Markup,\
-    render_template
+from flask import Flask, request, flash,  Markup, render_template
     
 from flaskext.assets import Environment
 from flaskext.login import LoginManager
