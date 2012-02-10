@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import Blueprint, render_template, abort, request, redirect, \
     url_for, current_app, flash, session, g
 
@@ -25,13 +27,12 @@ def login():
 
     if form.validate_on_submit():
         user = get_by_username(form.username.data)
-        
-        if user.check_password(form.password.data):
-            current_app.logger.info(form.password.data)
-            current_app.logger.info(form.remember.data)
-            current_app.logger.info(user.get_id())
+       
+        if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember.data)
-            flash('Welcome back, %s' % form.username.data, 'success')
+            user.last_login = datetime.utcnow()
+            user.save()
+            flash('Welcome back, %s' % user.username, 'success')
             return redirect(request.args.get("next") or url_for('main.index'))
         else:
             flash('Sorry, invalid login', 'error')
@@ -63,7 +64,7 @@ def register():
     if form.validate_on_submit():
         user = db.User()
         user.username = form.username.data
-        user._set_password(form.password.data)
+        user._set_password(form.password1.data)
         user.save()
         login_user(user) 
         flash("Welcome %s" % user.username)
