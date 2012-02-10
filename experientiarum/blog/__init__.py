@@ -14,6 +14,8 @@ from jinja2 import TemplateNotFound
 from flask import Blueprint, render_template, abort, request, redirect, \
     url_for, current_app, flash, g
 
+from flaskext.login import login_required
+
 from experientiarum.extensions import db
 from experientiarum.helpers import slugify
 from experientiarum.permissions import admin
@@ -40,7 +42,7 @@ def entry(slug):
     return render_template('blog/entry.html', entry = entry)
 
 @blog.route('/entry/<slug>/edit', methods=['GET', 'POST'])
-@admin.require(401)
+@login_required
 def edit_entry(slug):
     ''' Edit an existing entry. 
     
@@ -71,7 +73,7 @@ def edit_entry(slug):
 
 
 @blog.route('/entry/<slug>/delete', methods=['GET', 'POST'])
-@admin.require(401)
+@login_required
 def delete_entry(slug):
     ''' Delete an existing entry. '''
     
@@ -90,7 +92,7 @@ def delete_entry(slug):
 
 
 @blog.route('/new', methods=['GET', 'POST'])
-@admin.require(401)
+@login_required
 def new_entry():
     ''' Add a entry. 
     

@@ -1,47 +1,59 @@
 from flask import Blueprint, render_template, abort, request, redirect, \
     url_for, current_app, flash, session, g
 
-from flaskext.principal import identity_changed, Identity, AnonymousIdentity
+from flaskext.login import login_user, confirm_login, login_required, \
+        logout_user
 
 from experientiarum.extensions import db
-from models import authenticate
 
-from forms import UserForm, RegisterForm
-
+from forms import LoginForm, RegisterForm
+from models import get_by_username
 
 users = Blueprint('users', __name__, template_folder='templates')
 
+@users.route('/test')
+@login_required
+def test():
+
+    flash('You are logged in!')
+    return render_template('index.html')
 
 @users.route('/login', methods = ['GET', 'POST'])
 def login():
 
-    form = UserForm()
+    form = LoginForm()
 
     if form.validate_on_submit():
-        if authenticate(request.form['username'], request.form['password']):
-            session.permanent = form.remember.data
+        user = get_by_username(form.username.data)
         
-            identity_changed.send(current_app._get_current_object(),
-                                identity=Identity(request.form['username']))
-            
-            flash('Welcome back, %s' % request.form['username'], 'success')
-        
-            return redirect(url_for('main.index'))
-        
-    else:
-        flash('Sorry, invalid login', 'error')
-
+        if user.check_password(form.password.data):
+            current_app.logger.info(form.password.data)
+            current_app.logger.info(form.remember.data)
+            current_app.logger.info(user.get_id())
+            login_user(user, remember=form.remember.data)
+            flash('Welcome back, %s' % form.username.data, 'success')
+            return redirect(request.args.get("next") or url_for('main.index'))
+        else:
+            flash('Sorry, invalid login', 'error')
     return render_template('users/login.html', form=form)
 
 
 @users.route('/logout', methods = ['GET', 'POST'])
+@login_required
 def logout():
-    
-    flash("You are now logged out.")
-    identity_changed.send(current_app._get_current_object(),
-                          identity=AnonymousIdentity())
-    
+   
+    logout_user()
+    flash("You are now logged out.")    
     return redirect(url_for('main.index'))
+
+@users.route('/reauth', methods = ['GET', 'POST'])
+def reauth():
+
+    if request.method == 'POST':
+        confirm_login()
+        flash(u'Reauthenticated')
+        return redirect(request.args.get('next') or url_for('main.index'))
+    return render_template('reauth.html')
 
 @users.route('/register', methods = ['GET', 'POST'])
 def register():
@@ -50,17 +62,12 @@ def register():
     
     if form.validate_on_submit():
         user = db.User()
-        user.username = request.form['username']
-        user._set_password(request.form['password1'])
-        user.role = 100
-        
+        user.username = form.username.data
+        user._set_password(form.password.data)
         user.save()
-        
-        identity_changed.send(current_app._get_current_object(),
-                              identity=Identity(user.username))
-        
+        login_user(user) 
         flash("Welcome %s" % user.username)
-        
+       
         return redirect(url_for('main.index'))
     return render_template('users/register.html', form=form)
         

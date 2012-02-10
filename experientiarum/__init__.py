@@ -25,16 +25,10 @@ from flask import Flask, g, request, flash, redirect, url_for, Markup,\
     render_template
     
 from flaskext.assets import Environment
-from flaskext.principal import Principal, identity_loaded
+from flaskext.login import LoginManager
 
 from experientiarum import helpers
 from experientiarum.extensions import db
-
-def configure_before_handlers(app):
-
-    @app.before_request
-    def authenticate():
-        g.user = getattr(g.identity, 'user', None)
 
 
 def configure_blueprints(app):
@@ -117,16 +111,19 @@ def configure_extensions(app):
         
 def configure_identity(app):
     ''' Configure middleware. '''
-    
-    principal = Principal(app)
-    
-    @identity_loaded.connect_via(app)
-    def on_identity_loaded(sender, identity):
-        #Get user identity from database
-        user = db.User.find_one({"username":identity.name})
-        g.user = user
-    
-    
+   
+    login_manager = LoginManager()
+    login_manager.login_view = 'users.login'
+    login_manager.login_message = u'Please log in to access this page.'
+    login_manager.refresh_view = 'users.reauth'
+    login_manager.needs_refresh_message = u'To protect your account, please reauthenticate to access this page.'
+
+    @login_manager.user_loader
+    def load_user(userid):
+        return db.User.get_from_id(userid)
+
+    login_manager.setup_app(app)
+
 def configure_logging(app):
     ''' Set up a debug and error log in log/ '''
 
@@ -134,13 +131,14 @@ def configure_logging(app):
             '%(asctime)s %(levelname)s: %(message)s'
             '[in %(pathname)s:%(lineno)d]')
     
-    debug_handler = RotatingFileHandler('log/debug.log',
-                                        maxBytes = 100000,
-                                        backupCount = 10)
+    if app.debug:
+        debug_handler = RotatingFileHandler('log/debug.log',
+                                            maxBytes = 100000,
+                                            backupCount = 10)
 
-    debug_handler.setLevel(logging.DEBUG)
-    debug_handler.setFormatter(formatter)
-    app.logger.addHandler(debug_handler)
+        debug_handler.setLevel(logging.DEBUG)
+        debug_handler.setFormatter(formatter)
+        app.logger.addHandler(debug_handler)
 
     error_handler = RotatingFileHandler('log/error.log',
                                         maxBytes = 100000,
@@ -190,7 +188,6 @@ def generate_app(config):
     configure_extensions(app)
     configure_logging(app)
     configure_identity(app)
-    configure_before_handlers(app)
     configure_template_filters(app)
     
     return app

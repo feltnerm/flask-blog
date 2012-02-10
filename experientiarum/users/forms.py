@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
 from flaskext.wtf import Form, TextField, SubmitField, PasswordField, \
-    BooleanField, ValidationError, required, optional, equal_to
+    BooleanField, required, equal_to
 
 from experientiarum.extensions import db
 
-class UserForm(Form):
+class LoginForm(Form):
     
     username = TextField("Username",
                          validators = [required(message="Username required")]
