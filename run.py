@@ -4,6 +4,7 @@ import sys
 import argparse
 
 from experientiarum import generate_app
+from experientiarum.extensions import log
 
 def process_args(argv):
     ''' Process command line arguments. '''
@@ -32,11 +33,14 @@ def main(argv=None):
         app = generate_app('experientiarum.config.ProdConfig')
     else:
         app.generate_app('experientiarum.config.DevConfig')
+
+    print 'Running Flask application with %s config' % run_settings.server_type
     
-    if app.debug:
-        app.run('0.0.0.0')
-    else:
-        app.run()
+    with log.applicationbound():
+        if app.debug:
+            app.run('0.0.0.0')
+        else:
+            app.run()
     
     return 0
 

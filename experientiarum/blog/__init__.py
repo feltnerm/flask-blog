@@ -18,7 +18,6 @@ from flaskext.login import login_required
 
 from experientiarum.extensions import db
 from experientiarum.helpers import slugify
-from experientiarum.permissions import admin
 
 from forms import EntryForm
 from models import get_by_date, get_by_slug, get_by_tags

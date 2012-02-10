@@ -28,7 +28,7 @@ from flaskext.assets import Environment
 from flaskext.login import LoginManager
 
 from experientiarum import helpers
-from experientiarum.extensions import db
+from experientiarum.extensions import db, log
 
 
 def configure_blueprints(app):
@@ -147,7 +147,11 @@ def configure_logging(app):
     error_handler.setLevel(logging.ERROR)
     error_handler.setFormatter(formatter)
     app.logger.addHandler(error_handler)
-            
+    
+    info_handler = StreamHandler(logging.INFO)
+    info_handler.setFormatter(formatter)
+    app.logger.addHandler(info_handler)
+
 def configure_template_filters(app):
     ''' Make filters to be used in templates. '''
 
@@ -189,5 +193,4 @@ def generate_app(config):
     configure_extensions(app)
     configure_identity(app)
     configure_template_filters(app)
-    
     return app
