@@ -21,7 +21,7 @@
 
     <!-- CSS
   ================================================== -->
-    {% assets filters="cssmin", output="gen/packed.css", "css/base.css", "css/skeleton.css", "css/layout.css", "css/code.css" %}
+    {% assets filters="cssmin", output="gen/packed.css", "css/site.css", "css/base.css", "css/skeleton.css", "css/layout.css", "css/code.css" %}
       <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}"/>
     {% endassets %}
 
@@ -50,58 +50,60 @@
     <div class="container">
     
         <!-- HEADER -->
-        <header id="header" class="twelve columns">
+        <div class="four columns sidebar">
 
             <div id="logo" class="four columns">
                 <h1>LOGO</h1>
                 <h2>Mark Feltner</h2>
             </div>
 
-            <div id="nav" class="eight columns">
+             
+            <nav id="nav" class="four columns sidebar">
                 <ul>
-                    <li><a href="/blog">blog</a></li>
-                    <li><a href="#">bookmarks</a></li>
-                    <li><a href="#">pastebin</a></li>
-                    <li><a href="#">readlaters</a></li>
-                    <li><a href="#">todo</a></li>
-                    <li><a href="#">about</a></li>
+                    {% block sidebar %}
+                    {% endblock %}
                 </ul>
-            </div>
+            </nav>
             
-        </header> <!-- /header -->
+        </div> <!-- /header -->
 
         <!-- MAIN -->
-        <div id="main" class="twelve columns">
-        
-            <div id="sidebar" class="four columns">
-                {% block sidebar %}
-
-                {% endblock %}
-            </div>
-        
-            <div id="content" class="eight columns">
-
-                <div id="flash_messages" class="">
-                    {% for message in get_flashed_messages() %}
-                    <div id="flash" class="">
-                        {{ message }}
-                    </div>
-                    {% endfor %}
-                </div>
-
-                {% block content %}
-
-                {% endblock %}
+        <nav id="nav" class="twelve columns">
+            <ul class="tabs">
+                <li><a href="/blog">blog</a></li>
+                <li><a href="#">bookmarks</a></li>
+                <li><a href="#">pastebin</a></li>
+                <li><a href="#">readlaters</a></li>
+                <li><a href="#">todo</a></li>
+                <li><a href="#">about</a></li>
+            </ul>
+        </nav>
             
-            </div> <!-- /content -->
+        <div id="content" class="twelve columns">
+
+            <div id="flash_messages" class="">
+                {% for message in get_flashed_messages() %}
+                <div id="flash" class="">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+
+            {% block content %}
+
+            {% endblock %}
         
-        </div> <!-- /main -->
+        </div> <!-- /content -->
         
-        <footer id="footer" class="twelve columns">
+        <!-- /main -->
+        
+        <footer id="footer" class="sixteen columns">
+        <p><small>
             {% if current_user %}
-                <p>current user: {{ current_user }}</p>
+                current user: {{ current_user }}
             {% endif %}
-            <p>Copyright 2012, {{ config['SITE_NAME'] }}</p>
+            Copyright 2012, {{ config['SITE_NAME'] }}
+        </small></p>
         </footer>
 
     </div><!-- /container -->
