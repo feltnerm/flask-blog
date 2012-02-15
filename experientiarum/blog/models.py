@@ -35,7 +35,7 @@ def get_by_tags(tags):
     
     matches = []
     if tags:
-        for tag in tags:
+        for tag in tags.split(','):
             matches.append([x for x in db.Entry.find({'tags'})._get_tags() if tag in x])
         return matches
     else:
