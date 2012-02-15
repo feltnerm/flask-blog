@@ -27,13 +27,20 @@ def test():
     local('python tests.py', capture=False)
 
 ## Deployment
+PROJECT_DIRECTORY = os.path.abspath('../')
+PROJECT_NAME = os.path.basename(PROJECT_DIRECTORY)
+
+
+
 def pack():
     ''' @todo: Pack up code '''    
-    pass    
+    local('cd %s' % PROJECT_DIRECTORY)
+    local('tar -cf %s.tar %s' % (PROJECT_NAME, PROJECT_NAME)
+    local('gzip %s.tar' % PROJECT_NAME) 
 
 def unpack():
     ''' @todo: Unpack code '''
-    pass
+   pass 
 
 def update():
     ''' Update local copy from master remote git repo. '''
