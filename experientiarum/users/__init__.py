@@ -44,7 +44,7 @@ def login():
 def logout():
    
     logout_user()
-    flash("You are now logged out.")    
+    flash(u"You are now logged out.")    
     return redirect(url_for('main.index'))
 
 @users.route('/reauth', methods = ['GET', 'POST'])
@@ -67,7 +67,7 @@ def register():
         user._set_password(form.password1.data)
         user.save()
         login_user(user) 
-        flash("Welcome %s" % user.username)
+        flash(u"Welcome %s" % user.username)
        
         return redirect(url_for('main.index'))
     return render_template('users/register.html', form=form)
