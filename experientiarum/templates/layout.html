@@ -99,8 +99,8 @@
         
         <footer id="footer" class="sixteen columns">
         <p><small>
-            {% if current_user %}
-                current user: {{ current_user }}
+            {% if not current_user.is_anonymous() %}
+                current user: {{ current_user.username }}
             {% endif %}
             Copyright 2012, {{ config['SITE_NAME'] }}
         </small></p>
