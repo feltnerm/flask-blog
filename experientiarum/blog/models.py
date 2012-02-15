@@ -76,15 +76,14 @@ class Entry(Document):
                {'fields': 'pub_date'}
                ]
     use_dot_notation = True
-    
+
     @property
     def taglist(self):
         ''' Return a list of tags. '''
         if not self.tags:
             return []
         
-        tags = [t.strip() for t in self.tags.split(",")]
-        return [t for t in tags if t]
+        return [t.strip() for t in self.tags.split(",")]
     
     def _url(self, external=False):
         return url_for('blog.entry', slug=self.slug, _external=external)

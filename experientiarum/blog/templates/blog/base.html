@@ -1,14 +1,30 @@
 {% extends "layout.html" %}
 {% block sidebar %}
-<h1>BLOG</h1>
+<h2>Blog</h2>
 <ul id="blog-sidebar-nav" class="">
-    <li><a href="blog/archive">Archives</a></li>
+    <li><a href="archive">Archives</a></li>
     <!--  Generate archives HTML -->
-    <li><a href="blog/tags">Tags</a></li>
+    <li><a href="tags">Tags</a></li>
     <li><a href="#">Stats</a></li>
 </ul>
+<!-- ADMIN BAR
+-------------->
+{% if current_user.is_authenticated() %}
+<h3>Admin</h3>
+<ul id="blog-sidebar-admin" class="">
+    <li><a href="new">New</a></li>
+</ul>    
+{% endif %}
+<!-- end ADMIN BAR -->
+
+<!-- META BAR
+-------------->
 <ul id="blog-sidebar-meta" class="">
-    <li><a href="/login">login</a></li>
-     <li><a href="/logout">logout</a></li>
+    {% if current_user.is_authenticated() %}
+        <li><a href="/logout">logout</a></li>
+    {% else %}
+        <li><a href="/login">login</a></li>
+    {% endif %}
 </ul>
+<!-- end META BAR -->
 {% endblock %}

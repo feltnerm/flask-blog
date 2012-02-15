@@ -33,14 +33,14 @@ def entries():
     entries = db.Entry.find({'deleted':False})
     return render_template('blog/entries.html', entries = entries)
 
-@blog.route('/entry/<slug>')
+@blog.route('/<slug>')
 def entry(slug):
     ''' This should be each entry's permalink and is optimistically unique'''
     
     entry = get_by_slug(slug)
     return render_template('blog/entry.html', entry = entry)
 
-@blog.route('/entry/<slug>/edit', methods=['GET', 'POST'])
+@blog.route('/<slug>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_entry(slug):
     ''' Edit an existing entry. 
@@ -68,13 +68,13 @@ def edit_entry(slug):
     return render_template('blog/edit.html', entry=entry, form=form)
 
 
-@blog.route('/entry/<slug>/delete', methods=['GET', 'POST'])
+@blog.route('/<slug>/delete', methods=['GET', 'POST'])
 @login_required
 def delete_entry(slug):
     ''' Delete an existing entry. '''
     
     form = EntryForm()
-    entry = db.Entry.one({'slug':slug})
+    entry = get_by_slug(slug)
     
     if form.validate_on_submit():
         entry.deleted = form.deleted.data

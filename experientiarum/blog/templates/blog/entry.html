@@ -1,30 +1,53 @@
 {% extends "blog/base.html" %}
 {% block content %}
-<div class="blog-entry">
+<div id="{{ entry._id }}" class="blog-entry">
     <h2 class="entry-title"><a href="{{ entry.url }}">{{ entry.title }}</a></h2>
-    
+
+    <!-- ENTRY ADMIN 
+    ------------------>
     {% if not current_user.is_anonymous() %}
     <div class="entry-admin">
-        <a href="{{ entry.slug }}/edit">edit</a>
+        <a href="{{ entry.url }}/edit">edit</a>
+        <a href="{{ entry.url }}/delete">delete</a>
     </div>
     {% endif %}
-    
+    <!-- end ENTRY ADMIN -->
+
+    <!-- ENTRY BYLINE 
+    ------------------>
     <div class="entry-byline">
         <!-- By: <a href="feltner.mj@gmail.com></a.> -->
-        </div>
-        {% if entry.tags %}<div class="entry-tags">
-        {% for tag in entry.tags.split(',') %}
-            <a href="#">{{ tag }},</a>
-        {% endfor %}
-        {% endif %}
-        <div class="entry-body">
-            {{ entry.body|markup|safe }}
-        </div>
-        </div>
-        <div class="entry-meta">
-            <p class="blog-entry-pubdate">Published on: </p>
-            <!-- Published date and/or last edit date -->
-            <!-- Add edit, delete IF permissed to do so -->
-        </div>
     </div>
+    <!-- end ENTRY BYLINE -->
+
+    <!-- ENTRY TAGS 
+    ------------------>
+    <div class="entry-tags">
+    {% if entry.tags %}
+        {% for tag in entry.taglist %}
+            <a href="#">{{ tag }}</a>
+        {% endfor %}
+    {% else %}
+        <p>No tags</p>
+    {% endif %}
+    </div>    
+    <!-- end ENTRY TAGS -->
+
+    <!-- ENTRY BODY
+    ------------------> 
+    <div class="entry-body">
+        {{ entry.body|markup|safe }}
+    </div>
+    <!-- end ENTRY BODY -->
+
+    <!-- ENTRY META
+    ------------------>
+    <div class="entry-meta">
+        <p class="blog-entry-pubdate">Published on: </p>
+        <!-- Published date and/or last edit date -->
+        <!-- Add edit, delete IF permissed to do so -->
+    </div>
+    <!-- end ENTRY META -->
+
+</div>
 {% endblock %}

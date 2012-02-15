@@ -22,8 +22,16 @@
 
 /* Documentation Styles
  * ================================================================= */
-    div.container {
-        padding-top: 40px: }
+    .container {
+        padding-top: 40px }
+
+    #nav ul { border-bottom: 1px solid #ccc; padding-bottom: 5px}
+    #nav ul:last-child { border-bottom: none; padding-bottom: 0}
+
+    footer { margin-top: 10px; border-top: 1px solid #ccc;}
+    footer ul li { list-style: none; margin-top: 5px; border-right: 1px solid #ccc; display: inline; margin-right: 40px;} 
+    footer ul li:last-child { border-right: 0; margin-right: 0;}
+    footer ul { margin: 0 auto; }
 /**
  * Global Styles
  *

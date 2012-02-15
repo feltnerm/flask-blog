@@ -1,7 +1,7 @@
 {% extends "blog/base.html" %}
 {% block content %}
 {% from "_formhelpers.html" import render_field %}
-<p>Delete {{ entry.title }} ?</p>
+<p>Delete {{ entry.title }}?</p>
 <form method="POST" action>
     {{ form.hidden_tag() }}
     <dl>

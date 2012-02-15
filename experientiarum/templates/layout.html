@@ -21,7 +21,7 @@
 
     <!-- CSS
   ================================================== -->
-    {% assets filters="cssmin", output="gen/packed.css", "css/site.css", "css/base.css", "css/skeleton.css", "css/layout.css", "css/code.css" %}
+    {% assets filters="cssmin", output="gen/packed.css", "css/base.css", "css/skeleton.css", "css/layout.css", "css/site.css", "css/code.css" %}
       <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}"/>
     {% endassets %}
 
@@ -53,8 +53,7 @@
         <div class="four columns sidebar">
 
             <div id="logo" class="four columns">
-                <h1>LOGO</h1>
-                <h2>Mark Feltner</h2>
+                <h1>Mark Feltner</h1>
             </div>
 
              
@@ -72,9 +71,10 @@
             <ul class="tabs">
                 <li><a href="/blog">blog</a></li>
                 <li><a href="#">bookmarks</a></li>
-                <li><a href="#">pastebin</a></li>
-                <li><a href="#">readlaters</a></li>
+                <li><a href="#">pastes</a></li>
+                <li><a href="#">reads</a></li>
                 <li><a href="#">todo</a></li>
+                <li><a href="#">experiments</a></li>
                 <li><a href="#">about</a></li>
             </ul>
         </nav>
