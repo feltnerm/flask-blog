@@ -19,11 +19,18 @@
  * Brown: #190F0D
  * Red: #AB2A17
  */
+
+/* Documentation Styles
+ * ================================================================= */
+    div.container {
+        padding-top: 40px: }
 /**
  * Global Styles
  *
  */
+
 /** MAIN LAYOUT */
+/**
 #container {
   width: 750px;
   margin: 0 auto;
@@ -117,4 +124,6 @@
   clear: both;
   background-color: #005693;
 }
+**/
+
 /** BLOG **/

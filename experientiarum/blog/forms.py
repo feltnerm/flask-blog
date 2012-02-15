@@ -24,6 +24,15 @@ class EntryForm(Form):
     
     submit = SubmitField("Save")
     
+    def validate_tags(self, field):
+        ''' Normalize our tags. '''
+        if field.data:
+            taglist = [tag.strip() for tag in field.data.split(',')]
+            tags = ','.join([tag for tag in taglist])
+            field.data = tags
+        else:
+            raise ValidationError, 'Invalid tags. WTF?'
+    
 
 class NewEntryForm(EntryForm):
 

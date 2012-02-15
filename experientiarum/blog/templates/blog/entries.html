@@ -3,7 +3,9 @@
 <div class="blog-entries">
 {% for entry in entries %}
     <div class="blog-entry">
-        <h2 class="entry-title">{{ entry.title }} </h2>
+        <h2 class="entry-title">
+            <a href="{{ entry.url }}">{{ entry.title }}</a>
+        </h2>
         
         <div class= "entry-byline">
             <!-- By Me -->
@@ -11,8 +13,8 @@
          
          <div class="entry-tags">
          {% if entry.tags %}
-         {% for tag in entry.tags %}
-            <a href="#">{{ tag }}</a>
+         {% for tag in entry.tags.split(',') %}
+            <a href="#">{{ tag }},</a>
          {% endfor %}
          {% endif %}
          </div>
