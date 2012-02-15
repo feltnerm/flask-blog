@@ -27,7 +27,7 @@ from flaskext.assets import Environment
 from flaskext.login import LoginManager
 
 from experientiarum import helpers
-from experientiarum.extensions import db, log
+from experientiarum.extensions import db
 
 
 def configure_blueprints(app):
