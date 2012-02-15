@@ -28,8 +28,8 @@ def get_by_date(year=None, month=None, day=None):
     else:
         abort(404)
 
-def get_by_slug(slug):
-    return db.Entry.find_one_or_404({"slug":slug})
+def get_by_slug(slug, deleted=False):
+    return db.Entry.find_one_or_404({"slug":slug, "deleted": deleted})
 
 def get_by_tags(tags):
     

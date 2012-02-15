@@ -54,8 +54,9 @@ def edit_entry(slug):
                      body = entry.body,
                      tags = entry.tags)
     if form.is_submitted():
+        if form.title.data != entry.title:
+            entry.slug = slugify(form.title.data)
         entry.title = form.title.data
-        entry.slug = form.slug.data
         entry.body = form.body.data
         entry.tags = form.tags.data
         entry.edit_date = datetime.utcnow()
