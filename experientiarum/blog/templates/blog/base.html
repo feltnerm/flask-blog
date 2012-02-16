@@ -1,18 +1,22 @@
 {% extends "layout.html" %}
+<!-- SIDEBAR
+===========================-->
 {% block sidebar %}
 <h2>Blog</h2>
+<!-- SIDEBAR NAVIGATION -->
 <ul id="blog-sidebar-nav" class="">
-    <li><a href="archive">Archives</a></li>
+    <li><a href="/blog/archive">archives</a></li>
     <!--  Generate archives HTML -->
-    <li><a href="tags">Tags</a></li>
-    <li><a href="#">Stats</a></li>
+    <li><a href="/blog/tags">tags</a></li>
 </ul>
+
 <!-- ADMIN BAR
 -------------->
 {% if current_user.is_authenticated() %}
-<h3>Admin</h3>
+<h4>Admin</h4>
 <ul id="blog-sidebar-admin" class="">
-    <li><a href="new">New</a></li>
+    <li><a href="/blog/new">new</a></li>
+    <li><a href="/blog/stats/">stats</a></li>
 </ul>    
 {% endif %}
 <!-- end ADMIN BAR -->

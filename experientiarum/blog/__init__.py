@@ -33,14 +33,14 @@ def entries():
     entries = db.Entry.find({'deleted':False})
     return render_template('blog/entries.html', entries = entries)
 
-@blog.route('/<slug>')
+@blog.route('/e/<slug>')
 def entry(slug):
     ''' This should be each entry's permalink and is optimistically unique'''
     
     entry = get_by_slug(slug)
     return render_template('blog/entry.html', entry = entry)
 
-@blog.route('/<slug>/edit', methods=['GET', 'POST'])
+@blog.route('/e/<slug>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_entry(slug):
     ''' Edit an existing entry. 
@@ -68,7 +68,7 @@ def edit_entry(slug):
     return render_template('blog/edit.html', entry=entry, form=form)
 
 
-@blog.route('/<slug>/delete', methods=['GET', 'POST'])
+@blog.route('/e/<slug>/delete', methods=['GET', 'POST'])
 @login_required
 def delete_entry(slug):
     ''' Delete an existing entry. '''
@@ -110,6 +110,7 @@ def new_entry():
         return redirect(url_for('blog.entries'))
     return render_template('blog/new.html', form=form)
 
+@blog.route('/archive')
 @blog.route('/archive/<year>')
 @blog.route('/archive/<year>/<month>')
 @blog.route('/archive/<year>/<month>/<day>')
@@ -121,7 +122,7 @@ def archive(year = None, month = None, day = None, slug = None):
         return render_template('blog/entry.html', entry=entry)
     
     entries = get_by_date(year, month, day)
-    return render_template('blog/entries.htmml', entries=entries)
+    return render_template('blog/entries.html', entries=entries)
 
 @blog.route('/tags/<tags>')
 def tags(tags = None):

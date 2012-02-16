@@ -1,36 +1,48 @@
 {% extends "blog/base.html" %}
 {% block content %}
+<!-- BLOG ENTRIES
+=================-->
 <div class="blog-entries">
-{% for entry in entries %}
+    {% for entry in entries %}
+    <!-- BLOG ENTRY -->
     <div class="blog-entry">
-        <h2 class="entry-title">
+        <h4 class="entry-title">
             <a href="{{ entry.url }}">{{ entry.title }}</a>
-        </h2>
+        </h4>
         
         <div class= "entry-byline">
             <!-- By Me -->
-         </div>
-         
-         <div class="entry-tags">
-         {% if entry.tags %}
-         {% for tag in entry.tags.split(',') %}
-            <a href="#">{{ tag }},</a>
-         {% endfor %}
-         {% endif %}
-         </div>
-         
-         <div class="entry-body">
+        </div>
+
+        <!-- ENTRY TAGS -->
+        <div class="entry-tags">
+        {% if entry.tags %}
+            {% for tag in entry.tags.split(',') %}
+                <a href="#">{{ tag }},</a>
+            {% endfor %}
+        {% endif %}
+        </div>
+        <!-- end NETRY TAGS -->
+
+
+        <!-- ENTRY BODY -->
+        <div class="entry-body">
             {{ entry.body|markup|truncate_html|safe }}
-         </div>
-         
-         <div class="entry-meta">
+        </div>
+        <!-- end ENTRY BODY -->
+
+        <!-- ENTRY META -->
+        <div class="entry-meta">
             <p>Published: {{ entry.pub_date|timesince }}</p>
             {% if entry.edit_date %}
             <p>Edited: {{ entry.edit_date|timesince }}</p>
             {% endif %}
-         </div>
+        </div>
+        <!-- end ENTRY META -->
+
     </div>
 {% endfor %}
 </div>
+<!-- end BLOG ENTRIES -->
 {% endblock %}
 
