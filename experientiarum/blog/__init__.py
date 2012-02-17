@@ -27,6 +27,7 @@ blog = Blueprint('blog', __name__, template_folder='templates')
 
 ## VIEWS ##
 @blog.route('/')
+@blog.route('/e')
 def entries():
     ''' Show all entries. '''
     
@@ -73,11 +74,11 @@ def edit_entry(slug):
 def delete_entry(slug):
     ''' Delete an existing entry. '''
     
-    form = EntryForm()
     entry = get_by_slug(slug)
+    form = EntryForm(delete = entry.deleted)
     
     if form.validate_on_submit():
-        entry.deleted = form.deleted.data
+        entry.deleted = form.delete.data
         entry.delete_date = datetime.utcnow()
         
         entry.save()
