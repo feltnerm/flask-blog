@@ -35,7 +35,7 @@
 <!-- modernizr
 ============== -->
     <!-- All script at the bottom except for modernizr which enables HTML5 elements & feature detecting -->
-    <script src="/static/js/libs/modernizr-2.0.6.min.js"></script>
+    <script src="/static/js/libs/modernizr-2.5.2.min.js"></script>
 
 </head>
 <body>
@@ -47,39 +47,39 @@
 
     <!-- Delete everything in this .container and get started on your own site! -->
 
-    <div class="container">
-    
-        <!-- HEADER -->
+    <!-- Container
+    ================================================== -->
+    <div class="container"
+
+        <!-- Header -->
         <div class="four columns sidebar">
 
             <div id="logo" class="four columns">
                 <h1>Mark Feltner</h1>
             </div>
 
-             
-            <nav id="nav" class="four columns sidebar">
+            <!-- Navigation Left -->
+            <nav id="nav_left" class="four columns sidebar">
                 <ul>
-                    {% block sidebar %}
-                    {% endblock %}
+                    <li><a href="/blog">blog</a></li>
+                    <li><a href="#">bookmarks</a></li>
+                    <li><a href="#">pastes</a></li>
+                    <li><a href="#">reads</a></li>
+                    <li><a href="#">todo</a></li>
+                    <li><a href="#">experiments</a></li>
+                    <li><a href="#">about</a></li>
+                    <hr>
+                    <div id="sidebar-nav">
+                        {% block sidebar %}
+                        {% endblock %}
+                    </div>
                 </ul>
-            </nav>
+            </nav><!-- /navigation left -->
             
-        </div> <!-- /header -->
+        </div><!-- /header -->
 
-        <!-- MAIN -->
-        <nav id="nav" class="twelve columns">
-            <ul class="tabs">
-                <li><a href="/blog">blog</a></li>
-                <li><a href="#">bookmarks</a></li>
-                <li><a href="#">pastes</a></li>
-                <li><a href="#">reads</a></li>
-                <li><a href="#">todo</a></li>
-                <li><a href="#">experiments</a></li>
-                <li><a href="#">about</a></li>
-            </ul>
-        </nav>
-            
-        <div id="content" class="twelve columns">
+        <!-- Main -->
+        <div id="main" class="twelve columns">
 
             <div id="flash_messages" class="">
                 {% for message in get_flashed_messages() %}
@@ -89,14 +89,16 @@
                 {% endfor %}
             </div>
 
+            <!-- content -->
+            <div id="content" class="twelve columns clearfix">
             {% block content %}
 
             {% endblock %}
+            </div> <!-- /content -->
         
-        </div> <!-- /content -->
+        </div> <!-- /main -->
         
-        <!-- /main -->
-        
+        <!-- Footer -->
         <footer id="footer" class="sixteen columns">
         <p><small>
             {% if not current_user.is_anonymous() %}
@@ -104,7 +106,7 @@
             {% endif %}
             Copyright 2012, {{ config['SITE_NAME'] }}
         </small></p>
-        </footer>
+        </footer> <!-- /footer -->
 
     </div><!-- /container -->
 
@@ -115,7 +117,7 @@
       <script src="javascripts/tabs.js"></script>
       -->
     <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script>window.jQuery || document.write("<script src='/static/js/libs/jquery-1.7.1.min.js'>/x3c/script>")</script>
 
     {% assets filters="jsmin", output="gen/packed.js", "js/plugins.js", "js/script.js", "js/tabs.js" %}

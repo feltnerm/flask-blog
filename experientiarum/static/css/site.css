@@ -22,16 +22,18 @@
 
 /* Documentation Styles
  * ================================================================= */
-    .container {
-        padding-top: 40px }
-
-    #nav ul { border-bottom: 1px solid #ccc; padding-bottom: 5px}
-    #nav ul:last-child { border-bottom: none; padding-bottom: 0}
+    .container {padding-top: 40px }
+    hr { margin:20px; ; width: 90%; height: 1px; noshade; }
 
     footer { margin-top: 10px; border-top: 1px solid #ccc;}
     footer ul li { list-style: none; margin-top: 5px; border-right: 1px solid #ccc; display: inline; margin-right: 40px;} 
     footer ul li:last-child { border-right: 0; margin-right: 0;}
     footer ul { margin: 0 auto; }
+
+    .meta-date { font-style: italic; }
+    .blog-form #body{ min-height: 275px; min-width: 450px;}  
+    .blog-form #title, #slug, #tags { min-width: 450px; } 
+    .blog-entry { margin-bottom: 5px; padding-bottom: 20px; border-bottom: 0 solid #ccc; } 
 /**
  * Global Styles
  *

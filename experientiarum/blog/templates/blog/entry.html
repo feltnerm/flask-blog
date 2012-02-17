@@ -1,53 +1,48 @@
 {% extends "blog/base.html" %}
 {% block content %}
-<div id="{{ entry._id }}" class="blog-entry">
-    <h2 class="entry-title"><a href="{{ entry.url }}">{{ entry.title }}</a></h2>
-
-    <!-- ENTRY ADMIN 
-    ------------------>
-    {% if not current_user.is_anonymous() %}
-    <div class="entry-admin">
-        <a href="{{ entry.url }}/edit">edit</a>
-        <a href="{{ entry.url }}/delete">delete</a>
+<!-- BLOG ENTRY -->
+<div class="eight columns alpha blog-entry">
+    <!-- Title -->
+    <div class="blog-entry-title">
+        <a href="{{ entry.url }}"><h2>{{ entry.title }}</h2></a>
     </div>
-    {% endif %}
-    <!-- end ENTRY ADMIN -->
-
-    <!-- ENTRY BYLINE 
-    ------------------>
-    <div class="entry-byline">
-        <!-- By: <a href="feltner.mj@gmail.com></a.> -->
+    
+    <div class= "entry-byline">
+        <!-- By Me -->
     </div>
-    <!-- end ENTRY BYLINE -->
 
-    <!-- ENTRY TAGS 
-    ------------------>
-    <div class="entry-tags">
+    <!-- Entry Tags -->
+    <div class="blog-entry-tags">
     {% if entry.tags %}
-        {% for tag in entry.taglist %}
-            <a href="#">{{ tag }}</a>
+        {% for tag in entry.tags.split(',') %}
+        <a href="#"><small>{{ tag }},</small></a>
         {% endfor %}
-    {% else %}
-        <p>No tags</p>
     {% endif %}
-    </div>    
-    <!-- end ENTRY TAGS -->
+    </div>
 
-    <!-- ENTRY BODY
-    ------------------> 
-    <div class="entry-body">
+
+    <!-- Entry Body -->
+    <div class="">
         {{ entry.body|markup|safe }}
     </div>
-    <!-- end ENTRY BODY -->
-
-    <!-- ENTRY META
-    ------------------>
-    <div class="entry-meta">
-        <p class="blog-entry-pubdate">Published on: </p>
-        <!-- Published date and/or last edit date -->
-        <!-- Add edit, delete IF permissed to do so -->
-    </div>
-    <!-- end ENTRY META -->
+    <!-- /ENTRY BODY -->
 
 </div>
+<!-- Entry meta -->
+<div class="four columns omega entry-meta">
+    <ul>
+        <li class="meta-date">{{ entry.pub_date|format_date }}</li>
+        {% if entry.edit_date %}
+        <li><small>revised: {{ entry.edit_date|format_date }}</small></li>
+        {% endif %}
+
+        {% if not current_user.is_anonymous() %}
+            <hr>
+            <li><a href="{{ entry.url }}/edit">edit</a></li>
+            <li><a href="{{ entry.url }}/delete">delete</a></li>
+        {% endif %}
+        <!-- end ENTRY ADMIN -->
+    </ul>
+</div><!-- /entrymeta -->
+
 {% endblock %}

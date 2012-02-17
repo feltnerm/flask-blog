@@ -2,33 +2,14 @@
 <!-- SIDEBAR
 ===========================-->
 {% block sidebar %}
-<h2>Blog</h2>
 <!-- SIDEBAR NAVIGATION -->
-<ul id="blog-sidebar-nav" class="">
-    <li><a href="/blog/archive">archives</a></li>
-    <!--  Generate archives HTML -->
-    <li><a href="/blog/tags">tags</a></li>
-</ul>
-
-<!-- ADMIN BAR
--------------->
+<li><a href="/blog/archive">archive</a></li>
+<li><a href="/blog/tags">tags</a></li>
 {% if current_user.is_authenticated() %}
-<h4>Admin</h4>
-<ul id="blog-sidebar-admin" class="">
-    <li><a href="/blog/new">new</a></li>
-    <li><a href="/blog/stats/">stats</a></li>
-</ul>    
+<hr>
+<!-- Admin -->
+    <li><a href="/blog/new">new post</a></li>
+    <li><a href="/blog/stats">statistics</a></li>
+    <li><a href="/logout">logout</a></li>
 {% endif %}
-<!-- end ADMIN BAR -->
-
-<!-- META BAR
--------------->
-<ul id="blog-sidebar-meta" class="">
-    {% if current_user.is_authenticated() %}
-        <li><a href="/logout">logout</a></li>
-    {% else %}
-        <li><a href="/login">login</a></li>
-    {% endif %}
-</ul>
-<!-- end META BAR -->
 {% endblock %}

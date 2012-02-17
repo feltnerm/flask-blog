@@ -5,6 +5,7 @@ import argparse
 
 from experientiarum import generate_app
 
+
 def process_args(argv):
     ''' Process command line arguments. '''
     
@@ -30,6 +31,7 @@ def main(argv=None):
     
     elif run_settings.server_type.startswith('p'):
         app = generate_app('experientiarum.config.ProdConfig')
+
     else:
         app.generate_app('experientiarum.config.DevConfig')
 

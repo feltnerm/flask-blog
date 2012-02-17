@@ -20,7 +20,7 @@ _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
 def format_date(date):
     ''' @todo: convert mongodb datetime objects to a human readable thing '''
-    return date.strftime('%A %B %d, %Y')
+    return date.strftime('%b %d, %Y')
 
 def format_datetime(datetime):
     ''' @todo: convert mongodb datetime objects to a human readable thing. '''
@@ -140,10 +140,15 @@ def truncate_html_words(html, num=50):
     if words <= length:
         # Don't try to close tags if we don't need to truncate
         return html
+    #if url:
+    #    # we use markdown url syntax here to please the markdown parser
+    #    out = html[:ellipsis_pos] + "[ ...](%s)" % url
+    #else:
     out = html[:ellipsis_pos] + ' ...'
     # Close any tags still open
     for tag in open_tags:
-        out += '</%s>' % tag
+        pass
+        #out += '</%s>' % tag
     # Return string
     return out
 
