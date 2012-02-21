@@ -4,42 +4,47 @@
 =================-->
 {% for entry in entries %}
 <!-- BLOG ENTRY -->
-<div class="eight columns alpha blog-entry">
-    <!-- Title -->
-    <div class="blog-entry-title">
-        <a href="{{ entry.url }}"><h3>{{ entry.title }}</h3></a>
-    </div>
-    
-    <div class= "blog-entry-byline">
-        <!-- By Me -->
-    </div>
-
-    <!-- Entry Tags -->
-    <div class="blog-entry-tags">
-    {% if entry.tags %}
-        {% for tag in entry.tags.split(',') %}
-        <a href="#"><small>{{ tag }},</small></a>
-        {% endfor %}
-    {% endif %}
-    </div>
-
-
-    <!-- Entry Body -->
-    <div class="blog-entry-body">
-        {{ entry.body|markup|truncate_html|safe }}
-    </div>
-    <!-- /ENTRY BODY -->
-
-</div>
-<!-- Entry meta -->
-<div class="four columns omega entry-meta">
-    <ul>
-        <li class="meta-date">{{ entry.pub_date|format_date }}</li>
-        {% if entry.edit_date %}
-        <li><small>revised: {{ entry.edit_date|format_date }}</small></li>
+<div class="row">
+    <div class="twelve columns alpha blog-entry">
+        <!-- Title -->
+        <div class="title">
+            <h3><a href="{{ entry.url }}">{{ entry.title }}</a></h3>
+        </div>
+        
+        <!-- Entry Tags -->
+        <div class="tags">
+        {% if entry.tags %}
+            {% for tag in entry.tags.split(',') %}
+            <a href="#"><small>{{ tag }},</small></a>
+            {% endfor %}
         {% endif %}
-    </ul>
-</div><!-- /entrymeta -->
+        </div>
+
+
+        <!-- Entry Body -->
+        <div class="entry-body">
+            {{ entry.body|markup|truncate_html|safe }}
+        </div>
+        <!-- /ENTRY BODY -->
+
+    </div>
+    <!-- Entry meta -->
+    <div class="three columns omega entry-meta">
+        <ul>
+            <li class="meta-date">{{ entry.pub_date|format_date }}</li>
+            {% if entry.edit_date %}
+            <li><small>revised: {{ entry.edit_date|format_date }}</small></li>
+            {% endif %}
+
+            {% if not current_user.is_anonymous() %}
+                <hr>
+                <li><a href="{{ entry.url }}/edit">edit</a></li>
+                <li><a href="{{ entry.url }}/delete">delete</a></li>
+            {% endif %}
+        <!-- end ENTRY ADMIN -->
+        </ul>
+    </div><!-- /entrymeta -->
+</div>
 {% endfor %}
 <!-- end BLOG ENTRIES -->
 {% endblock %}

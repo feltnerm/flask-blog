@@ -1,10 +1,11 @@
 {% extends "blog/base.html" %}
 {% block content %}
 <!-- BLOG ENTRY -->
-<div class="eight columns alpha blog-entry">
+<div class="row">
+<div class="twelve columns alpha blog-entry">
     <!-- Title -->
-    <div class="blog-entry-title">
-        <a href="{{ entry.url }}"><h2>{{ entry.title }}</h2></a>
+    <div class="title">
+        <a href="{{ entry.url }}"><h3>{{ entry.title }}</h3></a>
     </div>
     
     <div class= "entry-byline">
@@ -12,7 +13,7 @@
     </div>
 
     <!-- Entry Tags -->
-    <div class="blog-entry-tags">
+    <div class="tags">
     {% if entry.tags %}
         {% for tag in entry.tags.split(',') %}
         <a href="#"><small>{{ tag }},</small></a>
@@ -22,14 +23,14 @@
 
 
     <!-- Entry Body -->
-    <div class="">
+    <div class="entry-body">
         {{ entry.body|markup|safe }}
     </div>
     <!-- /ENTRY BODY -->
 
 </div>
 <!-- Entry meta -->
-<div class="four columns omega entry-meta">
+<div class="three columns omega entry-meta">
     <ul>
         <li class="meta-date">{{ entry.pub_date|format_date }}</li>
         {% if entry.edit_date %}
@@ -44,5 +45,6 @@
         <!-- end ENTRY ADMIN -->
     </ul>
 </div><!-- /entrymeta -->
+</div>
 
 {% endblock %}

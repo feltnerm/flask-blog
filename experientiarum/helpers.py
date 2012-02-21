@@ -26,7 +26,7 @@ def format_datetime(datetime):
     ''' @todo: convert mongodb datetime objects to a human readable thing. '''
     return datetime.strftime('%I:%M.%S%p %A %B %d, %Y')
 
-def markup(text):
+def markup(text, linenumbers=False):
     ''' Converts a text (with markup + code) to HTML 
     to create a syntax-highlighted code block, indent the block by 4 spaces 
     and declare the language of the block at the first line, prefixed by 
@@ -35,7 +35,7 @@ def markup(text):
         :::python
         import this
     '''
-    return markdown(text, ['codehilite'])
+    return markdown(text, ['codehilite(force_linenos=%s)' % linenumbers])
 
 def slugify(text, delim=u'-'):
     """Generates an ASCII-only slug. From http://flask.pocoo.org/snippets/5/"""

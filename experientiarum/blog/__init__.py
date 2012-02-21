@@ -31,8 +31,8 @@ blog = Blueprint('blog', __name__, template_folder='templates')
 def entries():
     ''' Show all entries. '''
     
-    entries = db.entries.find({'deleted':False}).sort('pub_date',-1)
-
+    entries = db.Entry.find({'deleted':False}).sort('pub_date',-1)
+    #entries = db.Entry.find({'deleted':False})
     return render_template('blog/entries.html', entries = entries)
 
 @blog.route('/e/<slug>')
