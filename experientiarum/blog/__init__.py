@@ -19,7 +19,7 @@ from flaskext.login import login_required
 from experientiarum.extensions import db
 from experientiarum.helpers import slugify
 
-from forms import EntryForm, NewEntryForm
+from forms import EntryForm, NewEntryForm, DeleteEntryForm
 from models import get_by_date, get_by_slug, get_by_tags
 
 
@@ -75,8 +75,8 @@ def edit_entry(slug):
 def delete_entry(slug):
     ''' Delete an existing entry. '''
     
-    entry = get_by_slug(slug)
-    form = EntryForm(delete = entry.deleted)
+    entry = db.Entry.find_one({"slug":slug}) 
+    form = DeleteEntryForm(delete = entry.deleted)
     
     if form.validate_on_submit():
         entry.deleted = form.delete.data

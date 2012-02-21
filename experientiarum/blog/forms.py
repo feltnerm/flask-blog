@@ -33,6 +33,11 @@ class EntryForm(Form):
         else:
             raise ValidationError, 'Invalid tags. WTF?'
     
+class DeleteEntryForm(Form):
+
+    delete = BooleanField("Delete")
+
+    submit = SubmitField("Save")
 
 class NewEntryForm(EntryForm):
 

@@ -1,39 +1,81 @@
-/** 
- * 
- * site.css
+/**
+ * site.less
  *
  * the site style
  *
- * CSS Syntax: (cos I'm a newb at css)
- *  Selector    | Example   | Description
- *  .class        .intro      all elements with class="intro"
- *  #id           #intro      the element with id="intro"
- *  element       p           selets all p elements
- *
  */
-/* Documentation Styles
- * ================================================================= */
-   
-    #navigation-header { }
-    
-    #logo { }
-    
-    #navbar li { display: inline; list-style-type: none; padding-right: 20px; }
-    
-    .container {padding-top: 40px }
+/** Basic Types
+ ============ */
+hr {
+  margin: 20px;
+  border-top: 1px solid #ccc;
+}
+footer {
+  margin-top: 10px;
+  border-top: 1px solid #ccc;
+}
+/** Basic Elements
+ =============== */
+.date {
+  font-style: italic;
+}
+/** Layout Elements
+ ================ */
+.container {
+  padding-top: 20px;
+}
+#navigation-top {
+  padding-bottom: 5px;
+}
+#navigation-top #navbar li {
+  padding: 5px;
+  margin: 5px;
+  font-size: 10px;
+  display: inline;
+  list-style-type: none;
+  padding-right: 20px;
+}
+#main {
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
+}
+.blog-form textarea, .blog-form input {
+  min-width: 450px;
+}
+.blog-form #body {
+  min-height: 250px;
+}
+.blog-entry {
+  margin-bottom: 5px;
+  padding-bottom: 20px;
+  border-right: 1px solid #ccc;
+}
+.blog-entry h1,
+.blog-entry h2,
+.blog-entry h3,
+.blog-entry h4 {
+  color: #111111;
+  font-weight: 400;
+}
+.blog-entry h1 {
+  font-size: 36px;
+}
+.blog-entry h2 {
+  font-size: 24px;
+  /* small bottom margin because this text is supposed to
+         * be below a post title. */
 
-    hr { margin:20px; ; width: 90%; height: 1px; noshade; }
-
-    footer { margin-top: 10px; border-top: 1px solid #ccc;}
-
-    .codehilite { }
-    
-    .blog-form #body{ min-height: 275px; min-width: 450px;}  
-    .blog-form #title, #slug, #tags { min-width: 450px; } 
-    
-    .blog-entry { margin-bottom: 5px; padding-bottom: 20px; border-bottom: 0 solid #ccc; } 
-    .blog-entry .title { }
-    .blog-entry .tags { }
-    .blog-entry .entry-body { }
-
-    .meta-date { font-style: italic; }
+  margin: 24px 0 6px;
+}
+.blog-entry h3 {
+  font-size: 21px;
+}
+.blog-entry h4 {
+  font-size: 18px;
+}
+.blog-entry h5 {
+  font-size: 14px;
+}
+.blog-entry a:hover {
+  text-decoration: none;
+}

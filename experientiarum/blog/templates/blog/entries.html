@@ -8,7 +8,7 @@
     <div class="twelve columns alpha blog-entry">
         <!-- Title -->
         <div class="title">
-            <h3><a href="{{ entry.url }}">{{ entry.title }}</a></h3>
+            <a href="{{ entry.url }}"><h1>{{ entry.title }}</h1></a>
         </div>
         
         <!-- Entry Tags -->
@@ -31,7 +31,7 @@
     <!-- Entry meta -->
     <div class="three columns omega entry-meta">
         <ul>
-            <li class="meta-date">{{ entry.pub_date|format_date }}</li>
+            <li class="date">{{ entry.pub_date|format_date }}</li>
             {% if entry.edit_date %}
             <li><small>revised: {{ entry.edit_date|format_date }}</small></li>
             {% endif %}

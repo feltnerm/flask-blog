@@ -1,0 +1,41 @@
+/** 
+ * 
+ * site.css
+ *
+ * the site style
+ *
+ * CSS Syntax: (cos I'm a newb at css)
+ *  Selector    | Example   | Description
+ *  .class        .intro      all elements with class="intro"
+ *  #id           #intro      the element with id="intro"
+ *  element       p           selets all p elements
+ *
+ */
+/* Documentation Styles
+ * ================================================================= */
+   
+    #navigation-header { }
+    
+    #logo { }
+    
+    #navbar li { display: inline; list-style-type: none; padding-right: 20px; }
+    
+    .container {padding-top: 40px }
+
+    hr { margin:20px; ; width: 90%; height: 1px; noshade; }
+
+    footer { margin-top: 10px; border-top: 1px solid #ccc;}
+
+    .codehilite { }
+    
+    .blog-form #body{ min-height: 275px; min-width: 450px;}  
+    .blog-form #title, #slug, #tags { min-width: 450px; } 
+    
+    .blog-entry { margin-bottom: 5px; padding-bottom: 20px; border-bottom: 0 solid #ccc; } 
+
+    .blog-entry .title { }
+    .blog-entry .tags { }
+    .blog-entry .entry-body { }
+    .blog-entry .entry-body {
+
+    .meta-date { font-style: italic; }
