@@ -10,10 +10,11 @@
 footer {
     margin-top: 10px; 
     border-top: 1px solid #ccc;
+    p { text-align: center; }
 }
 
 // Logo
-#logo {  }
+#logo  a, h1 { text-decoration: none; }
 
 // Navbar top
 #navbar {
@@ -21,6 +22,7 @@ footer {
     .tabs { margin: 0; }
 }
 
+// Adminbar -- only displayed if your are logged in as admin
 #adminbar {
     li { 
         display: inline;
@@ -31,9 +33,12 @@ footer {
         a:hover { color: @navbarLinkColorHover; } 
     }
 }
+
+
 // Main content
 #main-content {
     padding-top: 25px;
+
 }
 
 // LAYOUT ELEMENTS
@@ -47,8 +52,23 @@ footer {
 
 .blog-entry {
     margin-bottom: 5px; 
-    padding-bottom: 20px; 
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 20px;
+    .blog-entry-title { 
+        margin-bottom: 3px;
+        a { color: @base03; text-decoration: none; }
+        a:hover { color: @base02; text-decoration: none; background: @base3  }
+        a:visited { color: @base02; }
+    }
+}
 
-    .title { }
-        h1 { } 
+.blog-entry .row {
+    border-bottom: 1px soldid @grayLight; 
+}
+
+.blog-entry-body {
+    a { color: @blue; }
+    a:visited { color: @purple; }
+    a:hover { background: @base2 }
 }

@@ -24,7 +24,6 @@ from logging.handlers import RotatingFileHandler
 from flask import Flask, request, flash,  Markup, render_template
     
 from flaskext.assets import Environment
-from flaskext.lesscss import lesscss
 from flaskext.login import LoginManager
 
 from experientiarum import helpers
@@ -109,8 +108,6 @@ def configure_extensions(app):
     if not os.path.exists(assets_output_dir):
         os.mkdir(assets_output_dir)
 
-    #if app.debug:
-    #    lesscss(app)
 
 def configure_identity(app):
     ''' Configure middleware. '''

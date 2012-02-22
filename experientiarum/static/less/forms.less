@@ -5,6 +5,44 @@
 // GENERAL STYLES
 // --------------
 
+// Set font for forms
+label,
+input,
+button,
+select,
+textarea {
+    #font > .shorthand(@baseFontSize,normal,@baseLineHeight); // Set size, weight, line-height here
+}
+input,
+button,
+select,
+textarea {
+     #font > #family .sans-serif();
+}
+
+// Inputs, Textareas, and Select
+input,
+textarea,
+select,
+.uneditable-input {
+    display: inline-block;
+    width: 210px;
+    //height: @baseLineHeight;
+    padding: 4px;
+    margin-bottom: 9px;
+    font-size: @baseFontSize;
+    line-height: @baseLineHeight;
+    color: @gray;
+    border: 1px solid #ccc;
+    .border-radius(3px);
+}
+.uneditable-textarea {
+    width: auto;
+    height: auto;
+}
+
+textarea { height: auto }
+
 // INPUT SIZES
 // -----------
 .input-mini { width: 60px; }

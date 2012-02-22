@@ -4,38 +4,14 @@
 =================-->
 {% for entry in entries %}
 <!-- BLOG ENTRY -->
-<div class="row">
-    <div class="twelve columns alpha blog-entry">
-        <!-- Title -->
-        <div class="title">
-            <a href="{{ entry.url }}"><h1><strong>{{ entry.title }}</strong></h1></a>
-        </div>
-        
-        <!-- Entry Tags -->
-        <div class="tags">
-        {% if entry.tags %}
-            {% for tag in entry.tags.split(',') %}
-            <a href="#"><small>{{ tag }},</small></a>
-            {% endfor %}
-        {% endif %}
-        </div>
-
-
-        <!-- Entry Body -->
-        <div class="entry-body">
-            {{ entry.body|markup|truncate_html|safe }}
-        </div>
-        <!-- /ENTRY BODY -->
-
+<div class="blog-entry row">
+    <div class="thirteen columns alpha blog-entry-title">
+        <h1><strong><a href="{{ entry.url }}">{{ entry.title }}</a></strong></h1>
     </div>
-    <!-- Entry meta -->
-    <div class="three columns omega entry-meta">
+
+    <div class="two columns omega blog-entry-meta">
         <ul>
             <li class="date">{{ entry.pub_date|format_date }}</li>
-            {% if entry.edit_date %}
-            <li class="revised">revised: {{ entry.edit_date|format_date }}</li>
-            {% endif %}
-
             {% if not current_user.is_anonymous() %}
                 <hr>
                 <li><a href="{{ entry.url }}/edit">edit</a></li>
@@ -43,7 +19,29 @@
             {% endif %}
         <!-- end ENTRY ADMIN -->
         </ul>
-    </div><!-- /entrymeta -->
+        
+    </div>
+
+    <div class="sixteen columns blog-entry">
+
+
+        <!-- Entry Body -->
+        <div class="blog-entry-body">
+            {{ entry.body|markup|truncate_html|safe }}
+        </div>
+        <!-- /ENTRY BODY -->
+
+    </div>
+
+    <div class="sixteen columns tags">
+        {% if entry.tags %}
+            <br><p>This entry was tagged in: 
+            {% for tag in entry.tags.split(',') %}
+            <small><a href="#">{{ tag }},</a></small>
+            {% endfor %}
+            </p>
+        {% endif %}
+    </div>
 </div>
 {% endfor %}
 <!-- end BLOG ENTRIES -->

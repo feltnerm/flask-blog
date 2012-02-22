@@ -1,50 +1,50 @@
 {% extends "blog/base.html" %}
 {% block content %}
 <!-- BLOG ENTRY -->
-<div class="row">
-<div class="twelve columns alpha blog-entry">
-    <!-- Title -->
-    <div class="title">
-        <a href="{{ entry.url }}"><h1><strong>{{ entry.title }}</strong></h1></a>
-    </div>
-    
-    <div class= "entry-byline">
-        <!-- By Me -->
+<div class="blog-entry row">
+    <div class="twelve columns alpha blog-entry-title">
+        <h1><strong><a href="{{ entry.url }}">{{ entry.title }}</a></strong></h1>
     </div>
 
-    <!-- Entry Tags -->
-    <div class="tags">
-    {% if entry.tags %}
-        {% for tag in entry.tags.split(',') %}
-        <a href="#"><small>{{ tag }},</small></a>
-        {% endfor %}
-    {% endif %}
-    </div>
+    <div class="three columns omega blog-entry-meta">
+        <ul>
+            <li class="date">written: {{ entry.pub_date|format_date }}</li>
+            {% if entry.edit_date %}
+            <li class="revised">revised: {{ entry.edit_date|format_date }}</li>
+            {% endif %}
 
-
-    <!-- Entry Body -->
-    <div class="entry-body">
-        {{ entry.body|markup|safe }}
-    </div>
-    <!-- /ENTRY BODY -->
-
-</div>
-<!-- Entry meta -->
-<div class="three columns omega entry-meta">
-    <ul>
-        <li class="date">{{ entry.pub_date|format_date }}</li>
-        {% if entry.edit_date %}
-        <li class="revised">revised: {{ entry.edit_date|format_date }}</li>
-        {% endif %}
-
-        {% if not current_user.is_anonymous() %}
-            <hr>
-            <li><a href="{{ entry.url }}/edit">edit</a></li>
-            <li><a href="{{ entry.url }}/delete">delete</a></li>
-        {% endif %}
+            {% if not current_user.is_anonymous() %}
+                <hr>
+                <li><a href="{{ entry.url }}/edit">edit</a></li>
+                <li><a href="{{ entry.url }}/delete">delete</a></li>
+            {% endif %}
         <!-- end ENTRY ADMIN -->
-    </ul>
-</div><!-- /entrymeta -->
-</div>
+        </ul>
+        
+    </div>
 
+    <div class="sixteen columns blog-entry">
+        <!-- Title -->
+        <div class="title">
+        </div> 
+
+        <!-- Entry Body -->
+        <div class="blog-entry-body">
+            {{ entry.body|markup|safe }}
+        </div>
+        <!-- /ENTRY BODY -->
+
+    </div>
+        <!-- Entry Tags -->
+    <div class="sixteen columns tags">
+        {% if entry.tags %}
+            <br><p>This entry was tagged in: 
+            {% for tag in entry.tags.split(',') %}
+            <small><a href="#">{{ tag }},</a></small>
+            {% endfor %}
+            </p>
+        {% endif %}
+    </div>
+</div>
+</div>
 {% endblock %}

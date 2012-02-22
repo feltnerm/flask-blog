@@ -100,12 +100,17 @@
         <!-- Footer
         =========== -->
         <footer id="footer" class="sixteen columns"> 
-        <small>
+        <p>
             {% if not current_user.is_anonymous() %}
-                {{ current_user.username }} logged in.
+            <small>{{ current_user.username }}</small><br>
             {% endif %}
-            Copyright 2012, {{ config['SITE_NAME'] }}
-        </small>
+            {% if config['DEBUG'] %}
+            <small>{{ config['SITE_NAME'] }}</small><br>
+            {% endif %}
+            Copyright 2012, Mark Feltner<br>
+            Content licensed under the Creative Commons attribution-noncommercial-sharealike License.<br>
+            Contact me via <a href="mailto:feltnerm@gmail.com">email</a>, <a href="http://www.twitter.com/feltnermj"> twitter</a>, or <a href="http://www.github.com/feltnerm">github</a>. (<a href="/rss">feed</a>)
+        </p>
         </footer><!-- /footer -->
     </div><!-- /container -->
 
