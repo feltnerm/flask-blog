@@ -56,7 +56,7 @@ def install_deps():
 def lessc():
     ''' compiles .less -> .css with lessc '''
     
-    local('lessc experientiarum/static/css/*.less experientiarum/static/css/*.css')
+    local('lessc experientiarum/static/css/site.less experientiarum/static/css/site.css')
 
 def pychecker():
     ''' Checks code with pychecker '''
