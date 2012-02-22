@@ -55,7 +55,7 @@ def edit_entry(slug):
                      slug = entry.slug,
                      body = entry.body,
                      tags = entry.tags)
-    if form.is_submitted():
+    if form.validate_on_submit():
         if form.title.data != entry.title:
             entry.slug = slugify(form.title.data)
         entry.title = form.title.data
