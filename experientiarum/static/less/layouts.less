@@ -1,0 +1,51 @@
+// Layouts
+// - Basic and global styles
+
+// STRUCTURAL LAYOUT
+// -----------------
+.container {
+    padding-top: 20px;
+}
+
+footer {
+    margin-top: 10px; 
+    border-top: 1px solid #ccc;
+}
+
+// Logo
+#logo { h1 {color: @green; text-style: none;} }
+
+// Navbar top
+#navbar {
+    padding-bottom: 5px;
+    .tabs { margin: 0; }
+}
+
+#adminbar {
+    li { 
+        display: inline;
+        list-style-type: none;
+        padding-right: 20px;
+        font-size: @baseFontSize - 2;
+        a { color: @navbarLinkColor; }
+        a:hover { color: @navbarLinkColorHover; } 
+    }
+}
+// Main content
+#main-content {
+    padding-top: 25px;
+}
+
+// LAYOUT ELEMENTS
+// ---------------
+
+// Blog
+.blog-form { 
+    textarea, input {min-width: 450px;} 
+    #body { min-height: 250px;}
+}
+
+.blog-entry {
+    margin-bottom: 5px; 
+    padding-bottom: 20px; 
+}

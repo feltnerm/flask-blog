@@ -34,7 +34,7 @@
     <ul>
         <li class="date">{{ entry.pub_date|format_date }}</li>
         {% if entry.edit_date %}
-        <li><small>revised: {{ entry.edit_date|format_date }}</small></li>
+        <li class="revised">revised: {{ entry.edit_date|format_date }}</li>
         {% endif %}
 
         {% if not current_user.is_anonymous() %}

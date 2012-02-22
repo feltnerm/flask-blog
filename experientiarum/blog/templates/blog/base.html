@@ -1,17 +1,14 @@
 {% extends "layout.html" %}
 <!-- SIDEBAR
 ===========================-->
-{% block navbar %}
+{% block adminbar %}
 <!-- ADMINBAR NAVIGATION -->
-<ul id="navbar" class="">
-    <li><a href="/blog/archive">archive</a></li>
-    <li><a href="/blog/tags">tags</a></li>
-    {% if current_user.is_authenticated() %}
+{% if current_user.is_authenticated() %}
+<ul id="adminbar" class="">
     <!-- Admin -->
-        <li>|</li>
-        <li><a href="/blog/new">new post</a></li>
-        <li><a href="/blog/stats">statistics</a></li>
-        <li><a href="/logout">logout</a></li>
-    {% endif %}
+    <li><a href="/blog/new">new post</a></li>
+    <li><a href="/blog/stats">statistics</a></li>
+    <li><a href="/logout">logout</a></li>
 </ul>
+{% endif %}
 {% endblock %}

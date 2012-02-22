@@ -21,7 +21,7 @@
 
     <!-- CSS
   ================================================== -->
-    {% assets filters="cssmin", output="gen/packed.css", "css/base.css", "css/skeleton.css", "css/layout.css", "css/site.css", "css/code.css" %}
+    {% assets filters="cssmin", output="gen/packed.css", "css/base.css", "css/skeleton.css", "css/layout.css", "css/site.css" %}
       <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}"/>
     {% endassets %}
 
@@ -55,10 +55,10 @@
         =================== -->
         <nav class="sixteen columns clearfix">
         <div id="logo" class="one column">
-            <a href="/"><h1> Deeeerrrrppp </h1></a>
+            <a href="/"><h1>experientiarum</h1></a>
         </div>
 
-        <div id="navigation-top" class="fifteen columns">
+        <div id="navbar" class="fifteen columns">
             <ul class="tabs">
                 <li><a href="/blog">blog</a></li>
                 <li><a href="/bookmarks">bookmarks</a></li>
@@ -68,7 +68,9 @@
                 <li><a href="/projects">projects</a></li>
                 <li><a href="/about">about</a></li>
             </ul>
-            {% block navbar %}
+        </div>
+        <div class="fifteen columns"> 
+            {% block adminbar %}
             {% endblock %}
         </div>
         </nav><!-- /navigation-header -->
@@ -90,7 +92,7 @@
         
         <!-- Main
         ========= -->
-        <div id="main" class="sixteen columns clearfix">
+        <div id="main-content" class="sixteen columns clearfix">
         {% block content %}
         {% endblock %}
         </div> <!-- /main -->

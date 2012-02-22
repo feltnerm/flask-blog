@@ -109,8 +109,8 @@ def configure_extensions(app):
     if not os.path.exists(assets_output_dir):
         os.mkdir(assets_output_dir)
 
-    if app.debug:
-        lesscss(app)
+    #if app.debug:
+    #    lesscss(app)
 
 def configure_identity(app):
     ''' Configure middleware. '''
