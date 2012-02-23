@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block adminbar %}
+{% if current_user.is_authenticated() %}
+<div class="adminbar muted">
+    <a href="/projects/edit">edit</a> | <a href="/projects/export">export</a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div id="projects" class="sixteen columns">
+    {{ body|markup|safe }}
+</div>
+{% endblock %}
