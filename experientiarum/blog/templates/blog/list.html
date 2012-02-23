@@ -1,5 +1,6 @@
 {% extends "blog/base.html" %}
 {% block content %}
+<div class="blog">
 {% for entry in entries %}
 	<div class="entry row">
 		<div class="twelve columns alpha entry-title">
@@ -44,6 +45,6 @@
 		</div>
 
 	</div>
-
 {% endfor %}
+</div>
 {% endblock %}

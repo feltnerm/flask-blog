@@ -80,6 +80,10 @@ footer p {
 .blog-form .button {
   width: auto;
 }
+.pastebin .code {
+  overflow: auto;
+  height: 500px;
+}
 p {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 12px;

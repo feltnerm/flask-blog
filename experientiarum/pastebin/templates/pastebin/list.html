@@ -1,12 +1,13 @@
 {% extends "pastebin/base.html" %}
 {% block content %}
+<div class="pastebin">
 {% for paste in pastes %}
-	<div class="paste row">
-		<div class="twelve columns alpha paste-title">
+	<div class="entry row">
+		<div class="twelve columns alpha entry-title">
 			<h1><strong><a href="{{ paste.url }}">{{ paste.title }}</a></strong></h1>
 		</div>
 
-		<div class="three columns omega paste-meta">
+		<div class="three columns omega entry-meta">
 			<ul>
 				<li class="date">{{ paste.pub_date|format_date }}</li>
 				{% if current_user.is_authenticated() %}
@@ -17,15 +18,14 @@
 			</ul>
 		</div>
 
-		<div class="sixteen columns paste-body">
-			{% if loop.length > 1 %}
-				{{ paste.explanation }}
-			{% else %}
-				{{ paste.body|markup|safe }}
-			{% endif %}
+		<div class="sixteen columns entry-body">
+			<h1>{{ paste.explanation }}</h1>
+			<div class="code">
+				<p>{{ paste.body }}</p>
+			</div>
 		</div>
 
-		<div class="sixteen columns paste-labels">
+		<div class="sixteen columns entry-labels">
 		{% if paste.labels %}
 	        <br><p><small>This paste was labeled: 
 	        {% for label in paste.labellist %}
@@ -46,4 +46,5 @@
 	</div>
 
 {% endfor %}
+</div>
 {% endblock %}
