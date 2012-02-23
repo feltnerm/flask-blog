@@ -49,30 +49,33 @@
 
     <!-- Container
     ================================================== -->
-    <div id="container" class="container">
+    <div class="container">
 
-        <!-- Top Navigation
+        <!-- Navigation Top
         =================== -->
-        <nav class="sixteen columns clearfix">
+        <nav class="sixteen columns clearfix navigation">
         <div id="logo" class="one column">
             <a href="/"><h1>experientiarum</h1></a>
         </div>
 
-        <div id="navbar" class="fifteen columns">
+        <div class="sixteen columns navtabs">
             <ul class="tabs">
                 <li><a href="/blog">blog</a></li>
                 <li><a href="/bookmarks">bookmarks</a></li>
-                <li><a href="/pastes">pastes</a></li>
+                <li><a href="/pastebin">pastes</a></li>
                 <li><a href="/reads">reads</a></li>
                 <li><a href="/todo">todo</a></li>
                 <li><a href="/projects">projects</a></li>
                 <li><a href="/about">about</a></li>
+                {% if current_user.is_authenticated() %}
+                <li><a href="/logout">logout</a></li>
+                {% endif %}
             </ul>
-        </div>
-        <div class="fifteen columns"> 
+
             {% block adminbar %}
             {% endblock %}
         </div>
+
         </nav><!-- /navigation-header -->
 
         <!-- Header
@@ -92,7 +95,7 @@
         
         <!-- Main
         ========= -->
-        <div id="main-content" class="sixteen columns clearfix">
+        <div class="sixteen columns clearfix content">
         {% block content %}
         {% endblock %}
         </div> <!-- /main -->

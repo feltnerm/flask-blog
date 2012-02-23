@@ -1,6 +1,9 @@
 .container {
   padding-top: 20px;
 }
+#logo a, h1 {
+  text-decoration: none;
+}
 footer {
   margin-top: 10px;
   border-top: 1px solid #ccc;
@@ -8,68 +11,74 @@ footer {
 footer p {
   text-align: center;
 }
-#logo a, h1 {
-  text-decoration: none;
-}
-#navbar {
+.navtabs {
   padding-bottom: 5px;
 }
-#navbar .tabs {
+.navtabs .tabs {
   margin: 0;
 }
-#adminbar li {
+.adminbar li {
   display: inline;
   list-style-type: none;
   padding-right: 20px;
   font-size: 10px;
 }
-#adminbar li a {
+.adminbar li a {
   color: #999999;
 }
-#adminbar li a:hover {
+.adminbar li a:hover {
   color: #ffffff;
 }
-#main-content {
-  padding-top: 25px;
+.content {
+  padding-top: 15px;
 }
-.blog-form textarea, .blog-form input {
-  min-width: 450px;
-}
-.blog-form #body {
-  min-height: 250px;
-}
-.blog-entry {
+.entry {
   margin-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
   padding-bottom: 20px;
 }
-.blog-entry .blog-entry-title {
+.entry .entry-title {
   margin-bottom: 3px;
 }
-.blog-entry .blog-entry-title a {
+.entry .entry-title :hover {
+  background: #fdf6e3;
+}
+.entry .entry-title a {
   color: #002b36;
   text-decoration: none;
 }
-.blog-entry .blog-entry-title a:hover {
+.entry .entry-title a:hover {
   color: #073642;
   text-decoration: none;
-  background: #fdf6e3;
 }
-.blog-entry .blog-entry-title a:visited {
+.entry .entry-title a:visited {
   color: #073642;
 }
-.blog-entry .row {
-  border-bottom: 1px soldid #999999;
+.entry .row {
+  border-bottom: 1px solid #999999;
 }
-.blog-entry-body a {
+.entry .entry-body a {
   color: #268bd2;
 }
-.blog-entry-body a:visited {
+.entry .entry-body a:visited {
   color: #7a43b6;
 }
-.blog-entry-body a:hover {
-  background: #eee8d5;
+.entry .entry-body a:hover {
+  background: #fdf6e3;
+}
+.entry .entry-body li {
+  list-style-type: square;
+}
+.blog-form input {
+  width: 450px;
+}
+.blog-form textarea {
+  width: 450px;
+  height: 250px;
+}
+.blog-form .button {
+  width: auto;
 }
 p {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;

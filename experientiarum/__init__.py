@@ -51,23 +51,25 @@ def configure_blueprints(app):
     from blog.models import Entry
     db.register([Entry])
     
-    '''
     # BOOKMARKS
-    from bookmarks import bookmarks
-    app.register_blueprint(bookmarks, url_prefix = '/bookmarks')
+    #from bookmarks import bookmarks
+    #app.register_blueprint(bookmarks, url_prefix = '/bookmarks')
     
     # PASTEBIN
     from pastebin import pastebin
     app.register_blueprint(pastebin, url_prefix = '/pastebin')
+
+    from pastebin.models import Paste
+    db.register([Paste])
     
     # READLATERS
-    from readlaters import readlaters
-    app.register_blueprint(readlaters, url_prefix = '/readlaters')
+    #from readlaters import readlaters
+    #app.register_blueprint(readlaters, url_prefix = '/readlaters')
     
     # TODO
-    from todo import todo
-    app.register_blueprint(todo, url_prefix = '/todo')
-    '''
+    #from todo import todo
+    #app.register_blueprint(todo, url_prefix = '/todo')
+
 
 def configure_errorhandlers(app):
     ''' Set up default HTTP error pages '''

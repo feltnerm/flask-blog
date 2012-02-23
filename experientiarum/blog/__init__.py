@@ -1,86 +1,82 @@
 #!/usr/bin/env python
 
 '''
-    blog
-   
-   @todo: pagination 
+    Blog
 '''
-
-import re
 
 from datetime import datetime
 
-from jinja2 import TemplateNotFound
-from flask import Blueprint, render_template, abort, request, redirect, \
-    url_for, current_app, flash, g
+from flask import Blueprint, render_template, redirect, url_for, flash
 
 from flaskext.login import login_required
 
 from experientiarum.extensions import db
 from experientiarum.helpers import slugify
 
-from forms import EntryForm, NewEntryForm, DeleteEntryForm
-from models import get_by_date, get_by_slug, get_by_tags
+from forms import EntryForm
+from models import get_by_date, get_by_labels, get_by_slug
 
 
 blog = Blueprint('blog', __name__, template_folder='templates')
 
-## VIEWS ##
 @blog.route('/')
-@blog.route('/e')
 def entries():
-    ''' Show all entries. '''
+    ''' Retrieve and render all non-deleted Entries, and sort them
+    in descending order by their pub_date.
+    '''
     
-    entries = db.Entry.find({'deleted':False}).sort('pub_date',-1)
-    #entries = db.Entry.find({'deleted':False})
-    return render_template('blog/entries.html', entries = entries)
+    entries = db.Entry.find({'deleted':False}).sort('pub_date', -1)
+    return render_template('blog/list.html', entries = entries)
 
 @blog.route('/e/<slug>')
 def entry(slug):
-    ''' This should be each entry's permalink and is optimistically unique'''
+    ''' Find the Entry with the matching slug and return and render it. '''
     
     entry = get_by_slug(slug)
-    return render_template('blog/entry.html', entry = entry)
+    entries = []
+    entries.append(entry)
+    return render_template('blog/list.html', entries = entries)
 
+#@TODO: Ensure that there are not problems dealing with the slug
 @blog.route('/e/<slug>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_entry(slug):
-    ''' Edit an existing entry. 
-    
-    @todo: form validation
-    '''
+    ''' Edit an existing entry. '''
 
     entry = get_by_slug(slug)
     form = EntryForm(title = entry.title,
                      slug = entry.slug,
                      body = entry.body,
-                     tags = entry.tags)
+                     labels = entry.labels,
+                     publish = entry.published)
     if form.validate_on_submit():
+        # If the title has changed, then change the slug
         if form.title.data != entry.title:
             entry.slug = slugify(form.title.data)
         entry.title = form.title.data
         entry.body = form.body.data
-        entry.tags = form.tags.data
+        entry.labels = form.labels.data
         entry.edit_date = datetime.utcnow()
         
         entry.save()
         
         flash('Entry edited.')
         return redirect(url_for('blog.entries'))
-    return render_template('blog/edit.html', entry=entry, form=form)
+    return render_template('blog/edit.html', entry = entry, form = form)
 
-
+#@TODO: Is this still not working?
 @blog.route('/e/<slug>/delete', methods=['GET', 'POST'])
 @login_required
 def delete_entry(slug):
     ''' Delete an existing entry. '''
     
-    entry = db.Entry.find_one({"slug":slug}) 
-    form = DeleteEntryForm(delete = entry.deleted)
+    entry = db.Entry.find_one({'slug':slug}) 
+    form = EntryForm(delete = entry.deleted)
     
     if form.validate_on_submit():
         entry.deleted = form.delete.data
-        entry.delete_date = datetime.utcnow()
+        if entry.deleted:
+            entry.delete_date = datetime.utcnow()
         
         entry.save()
         
@@ -88,30 +84,38 @@ def delete_entry(slug):
         return redirect(url_for('blog.entries'))
     return render_template('blog/delete.html', entry=entry, form=form)
 
-
+#@TODO: Make sure the slug is made properly, and make sure it is checked
+# against previous slugs the right way.
 @blog.route('/new', methods=['GET', 'POST'])
 @login_required
 def new_entry():
-    ''' Add a entry. 
+    ''' Add a entry. '''
     
-    @todo: form validation
-    '''
-    
-    form = NewEntryForm()
+    form = EntryForm(title = None,
+                     body = None,
+                     labels = None,
+                     publish = True)
     
     if form.validate_on_submit():
+
         entry = db.Entry()
         entry.title = form.title.data
-        entry.slug = form.slug.data
+        entry.slug = slugify(form.title.data)
+        # If an entry with this slug already exists, append '2' to make it
+        # unique.
+        pre_entries = db.Entry.find({'slug': form.slug.data, 'deleted': False})
+        if pre_entries.count():
+            entry.slug += '-%s' % (pre_entries.count() + 1,)
         entry.body = form.body.data
-        entry.tags = form.tags.data
+        entry.labels = form.labels.data
         
         entry.save()
         
         flash('Entry created.')
         return redirect(url_for('blog.entries'))
-    return render_template('blog/new.html', form=form)
+    return render_template('blog/new.html', form = form)
 
+#@TODO: make it all work.
 @blog.route('/archive')
 @blog.route('/archive/<year>')
 @blog.route('/archive/<year>/<month>')
@@ -126,7 +130,8 @@ def archive(year = None, month = None, day = None, slug = None):
     entries = get_by_date(year, month, day)
     return render_template('blog/entries.html', entries=entries)
 
-@blog.route('/tags/<tags>')
-def tags(tags = None):
-    entries = get_by_tags(tags)
+#@TODO: make it all work
+@blog.route('/l/<labels>')
+def tags(labels = None):
+    entries = get_by_labels(labels)
     return render_template('blog/entries.html', entries=entries)

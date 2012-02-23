@@ -1,0 +1,49 @@
+{% extends "pastebin/base.html" %}
+{% block content %}
+{% for paste in pastes %}
+	<div class="paste row">
+		<div class="twelve columns alpha paste-title">
+			<h1><strong><a href="{{ paste.url }}">{{ paste.title }}</a></strong></h1>
+		</div>
+
+		<div class="three columns omega paste-meta">
+			<ul>
+				<li class="date">{{ paste.pub_date|format_date }}</li>
+				{% if current_user.is_authenticated() %}
+					<hr>
+					<li><a href="{{ paste.url }}/edit">edit</a></li>
+					<li><a href="{{ paste.url }}/delete">delete</a></li>
+				{% endif %}
+			</ul>
+		</div>
+
+		<div class="sixteen columns paste-body">
+			{% if loop.length > 1 %}
+				{{ paste.explanation }}
+			{% else %}
+				{{ paste.body|markup|safe }}
+			{% endif %}
+		</div>
+
+		<div class="sixteen columns paste-labels">
+		{% if paste.labels %}
+	        <br><p><small>This paste was labeled: 
+	        {% for label in paste.labellist %}
+	        	{% if loop.length == 1 %}
+	        		<a href="#">{{ label }}</a>.
+		        {% else %}
+		            {% if loop.last %}
+		            	and <a href="#">{{ label }}</a>.
+		            {% else %}
+		            	<a href="#">{{ label }}</a>,
+		            {% endif %}
+		        {% endif %}
+	        {% endfor %}
+	        </small></p>
+	    {% endif %}
+		</div>
+
+	</div>
+
+{% endfor %}
+{% endblock %}
