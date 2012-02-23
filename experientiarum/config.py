@@ -3,6 +3,7 @@
 import os.path
 from secret import super_secret_key, prod_mongo_user, prod_mongo_pass
 
+
 class Config():
     '''
     Default configuration values
@@ -33,6 +34,7 @@ class DevConfig(Config):
     MONGODB_HOST = 'localhost'
     MONGODB_PORT = 27017
     
+
 class TestConfig(Config):
     
     SITE_NAME = Config.SITE_NAME + ' - testing'

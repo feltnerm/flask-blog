@@ -5,6 +5,8 @@ import re
 from datetime import datetime
 from markdown import markdown
 
+from githubmarkdown import gfm
+
 from flask import url_for
 from werkzeug.routing import BuildError
 
@@ -25,6 +27,10 @@ def format_date(date):
 def format_datetime(datetime):
     ''' @todo: convert mongodb datetime objects to a human readable thing. '''
     return datetime.strftime('%I:%M.%S%p %A %B %d, %Y')
+
+def githubmarkdown(text):
+    ''' Apparently GitHub flavored Markdown is cooler. We'll see... '''
+    return gfm(text)
 
 def markup(text, linenumbers=False):
     ''' Converts a text (with markup + code) to HTML 

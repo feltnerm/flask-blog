@@ -168,6 +168,10 @@ def configure_template_filters(app):
         return helpers.format_datetime(datetime)
     
     @app.template_filter()
+    def gfm(text):
+        return Markup(helpers.githubmarkdown(text) or '')
+
+    @app.template_filter()
     def markup(text):
         return Markup(helpers.markup(text) or '')
     

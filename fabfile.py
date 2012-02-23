@@ -34,13 +34,14 @@ PROJECT_NAME = os.path.basename(PROJECT_DIRECTORY)
 
 def pack():
     ''' @todo: Pack up code '''    
-    local('cd %s' % PROJECT_DIRECTORY)
-    local('tar -cf %s.tar %s' % (PROJECT_NAME, PROJECT_NAME)
-    local('gzip %s.tar' % PROJECT_NAME) 
+    #local('cd %s' % PROJECT_DIRECTORY)
+    #local('tar -cf %s.tar %s' % (PROJECT_NAME, PROJECT_NAME)
+    #local('gzip %s.tar' % PROJECT_NAME) 
+    pass
 
 def unpack():
     ''' @todo: Unpack code '''
-   pass 
+    pass 
 
 def update():
     ''' Update local copy from master remote git repo. '''
