@@ -11,13 +11,16 @@ Jinja2==2.6
 Logbook==0.3
 Markdown==2.1.0
 Pygments==1.4
+Sphinx==1.1.2
 WTForms==0.6.3
-Werkzeug==0.8.2
+Werkzeug==0.8.3
 anyjson==0.3.1
 blinker==1.2
 cssmin==0.1.4
+docutils==0.8.1
 flask-lesscss==0.9.1
 ipython==0.12
+lesscss==0.1.1
 mongokit==0.7.2
 pep8==0.6.1
 pycrypto==2.4.1
