@@ -132,6 +132,35 @@ def archive(year = None, month = None, day = None, slug = None):
 
 #@TODO: make it all work
 @blog.route('/l/<labels>')
-def tags(labels = None):
+def labels(labels = None):
     entries = get_by_labels(labels)
     return render_template('blog/entries.html', entries=entries)
+
+@blog.route('/deleted')
+@blog.route('/deleted/<slug>')
+@login_required
+def deleted(slug=None):
+    entries = []
+    if slug:
+        entry = db.Entry.find_one({'slug': slug, 'deleted':True})
+        entries.append(entry)
+    else:
+        entries = db.Entry.find({'deleted': True}).sort('pub_date', -1)
+
+    return render_template('/blog/list.html', entries = entries)
+
+@blog.route('/drafts')
+@blog.route('/drafs/<slug>')
+@login_required
+def drafs(slug=None):
+    entries = []
+    if slug:
+        entry = get_by_slug(slug, published=False)
+        entries.append(entry)
+    else:
+        entries = db.Entry.find({'deleted': False
+                                 , 'published': False}).sort('pub_date', -1)
+
+    return render_template('/blog/list.html', entries = entries)
+        
+        

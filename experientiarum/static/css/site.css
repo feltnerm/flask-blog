@@ -17,16 +17,13 @@ footer p {
 .navtabs .tabs {
   margin: 0;
 }
-.adminbar li {
-  display: inline;
-  list-style-type: none;
-  padding-right: 20px;
+.adminbar {
   font-size: 10px;
 }
-.adminbar li a {
+.adminbar a {
   color: #999999;
 }
-.adminbar li a:hover {
+.adminbar a:hover {
   color: #ffffff;
 }
 .content {
@@ -40,6 +37,9 @@ footer p {
 }
 .entry .entry-title {
   margin-bottom: 3px;
+}
+.entry .entry-title h1 {
+  font-size: 36px;
 }
 .entry .entry-title :hover {
   background: #fdf6e3;
@@ -72,10 +72,6 @@ footer p {
 }
 .blog-form input {
   width: 450px;
-}
-.blog-form textarea {
-  width: 450px;
-  height: 250px;
 }
 .blog-form .button {
   width: auto;

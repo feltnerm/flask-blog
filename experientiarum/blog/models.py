@@ -30,10 +30,11 @@ def get_by_date(year=None, month=None, day=None):
     else:
         abort(404)
 
-def get_by_slug(slug, deleted=False):
+def get_by_slug(slug, published = True, deleted = False):
     """ Retrieve one entry or return a 404 error. """
 
-    return db.Entry.find_one_or_404({'slug':slug, 'deleted': deleted})
+    return db.Entry.find_one_or_404({'slug':slug, 'published': published
+                                     ,'deleted': deleted})
 
 #@TODO
 def get_by_labels(labels):

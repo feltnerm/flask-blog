@@ -4,11 +4,8 @@
 
 {% block adminbar %}
 {% if current_user.is_authenticated() %}
-<div class="adminbar">
-	<ul>
-	    <li><a href="/pastebin/new">new</a></li>
-	    <li><a href="/pastebin/stats">stats</a></li>
-	</ul>
+<div class="adminbar muted">
+    <a href="/pastebin/new">new</a> | <a href="/pastebin/stats">stats</a> | <a href="/pastebin/drafts">drafts</a> | <a href="/pastebin/deleted">deleted</a>
 </div>
 {% endif %}
 {% endblock %}

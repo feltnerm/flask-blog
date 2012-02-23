@@ -35,7 +35,8 @@ def markup(text, linenumbers=False):
         :::python
         import this
     '''
-    return markdown(text, ['codehilite(force_linenos=%s)' % linenumbers])
+    return markdown(text, ['codehilite(force_linenos=%s)' % linenumbers
+                          ,'extra',])
 
 def slugify(text, delim=u'-'):
     """Generates an ASCII-only slug. From http://flask.pocoo.org/snippets/5/"""

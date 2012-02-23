@@ -102,11 +102,9 @@ def configure_errorhandlers(app):
 def configure_extensions(app):
     ''' Configure extensions '''
    
-    FLASK_APP_DIR = os.path.dirname(os.path.abspath(__file__))
-
     db.init_app(app)
     asset = Environment(app)
-    assets_output_dir = os.path.join(FLASK_APP_DIR, 'static', 'gen')
+    assets_output_dir = os.path.join(app.config['FLASK_APP_DIR'], 'static', 'gen')
     if not os.path.exists(assets_output_dir):
         os.mkdir(assets_output_dir)
 
