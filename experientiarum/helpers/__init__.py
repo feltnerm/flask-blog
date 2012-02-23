@@ -5,6 +5,8 @@ import re
 from datetime import datetime
 from markdown import markdown
 
+from githubmarkdown import gfm
+
 from flask import url_for
 from werkzeug.routing import BuildError
 
@@ -26,6 +28,10 @@ def format_datetime(datetime):
     ''' @todo: convert mongodb datetime objects to a human readable thing. '''
     return datetime.strftime('%I:%M.%S%p %A %B %d, %Y')
 
+def githubmarkdown(text):
+    ''' Apparently GitHub flavored Markdown is cooler. We'll see... '''
+    return gfm(text)
+
 def markup(text, linenumbers=False):
     ''' Converts a text (with markup + code) to HTML 
     to create a syntax-highlighted code block, indent the block by 4 spaces 
@@ -35,7 +41,8 @@ def markup(text, linenumbers=False):
         :::python
         import this
     '''
-    return markdown(text, ['codehilite(force_linenos=%s)' % linenumbers])
+    return markdown(text, ['codehilite(force_linenos=%s)' % linenumbers
+                          ,'extra',])
 
 def slugify(text, delim=u'-'):
     """Generates an ASCII-only slug. From http://flask.pocoo.org/snippets/5/"""

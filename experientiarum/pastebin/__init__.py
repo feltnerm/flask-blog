@@ -35,22 +35,23 @@ def paste(slug):
     return render_template('pastebin/list.html', pastes = pastes)
 
 @pastebin.route('/p/<slug>/edit', methods = ['GET','POST'])
+@login_required
 def edit_paste(slug):
     
     paste = get_by_slug(slug)
     form = PasteForm(title = paste.title,
                     slug = paste.title,
-                    code = paste.code,
+                    body = paste.body,
                     explanation = paste.explanation,
                     language = paste.language,
                     labels = paste.labels,
                     source = paste.source)
 
     if form.validate_on_submit():
-        if form.title_date != paste.title:
+        if form.title.data != paste.title:
             paste.slug = slugify(form.title.data)
         paste.title = form.title.data
-        paste.code = form.code.data
+        paste.body = form.body.data
         paste.explanation = form.explanation.data
         paste.language = form.language.data
         paste.labels = form.labels.data
@@ -62,6 +63,7 @@ def edit_paste(slug):
     return render_template('pastebin/edit.html', paste = paste, form = form)
 
 @pastebin.route('/p/<slug>/delete', methods = ['GET','POST'])
+@login_required
 def delete_paste(slug):
     
     paste = db.Paste.find({"slug": slug})
@@ -79,6 +81,7 @@ def delete_paste(slug):
     return render_template('pastebin/delete.html', paste=paste, form=form)
 
 @pastebin.route('/new', methods = ['GET','POST'])
+@login_required
 def new_paste():
    
     form = PasteForm(title=None,

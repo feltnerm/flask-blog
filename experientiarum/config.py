@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
+import os.path
 from secret import super_secret_key, prod_mongo_user, prod_mongo_pass
+
 
 class Config():
     '''
@@ -16,6 +18,13 @@ class Config():
     SECRET_KEY = super_secret_key
     INDEX_TEMPLATE = 'index.html'
 
+    # Custom Shit
+    FLASK_APP_DIR = os.path.dirname(os.path.abspath(__file__))
+    FILEDB_DIR = os.path.join(FLASK_APP_DIR, '/filedb')
+    PROJECTS_DIR = os.path.join(FILEDB_DIR, '/projects')
+    ABOUT_DIR = os.path.join(FILEDB_DIR, '/about')
+
+
 class DevConfig(Config):
     
     SITE_NAME = Config.SITE_NAME + ' - development'
@@ -25,6 +34,7 @@ class DevConfig(Config):
     MONGODB_HOST = 'localhost'
     MONGODB_PORT = 27017
     
+
 class TestConfig(Config):
     
     SITE_NAME = Config.SITE_NAME + ' - testing'

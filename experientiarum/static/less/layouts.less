@@ -30,14 +30,10 @@ footer {
 // Adminbar 
 // -- only displayed if user is logged in as admin
 .adminbar {
-    li { 
-        display: inline;
-        list-style-type: none;
-        padding-right: 20px;
-        font-size: @baseFontSize - 2;
-        a { color: @navbarLinkColor; }
-        a:hover { color: @navbarLinkColorHover; } 
-    }
+    font-size: @baseFontSize - 2;
+    a { color: @navbarLinkColor; }
+    a:hover { color: @navbarLinkColorHover; } 
+    
 }
 
 // MAIN CONTENT 
@@ -51,6 +47,7 @@ footer {
     padding-bottom: 20px;
 
     .entry-title {
+        h1 { font-size: 36px; }
         :hover { background: @base3; }
         margin-bottom: 3px;
         a { color: @base03; text-decoration: none; }
@@ -76,7 +73,7 @@ footer {
 .blog { }
 .blog-form {
     input { width: 450px; }
-    textarea { .size(450px, 250px); }
+    textarea { }
     .button { width: auto;}
 
     .labels {}
@@ -89,7 +86,10 @@ footer {
     .language {}
     .labels {}
     .source {}
-    .code { overflow: auto; height: 500px;}
+    .code { 
+        overflow: auto; 
+        height: 500px;
+    }
     .documentation { }
 }
 

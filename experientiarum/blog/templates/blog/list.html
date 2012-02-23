@@ -3,18 +3,21 @@
 <div class="blog">
 {% for entry in entries %}
 	<div class="entry row">
-		<div class="twelve columns alpha entry-title">
-			<h1><strong><a href="{{ entry.url }}">{{ entry.title }}</a></strong></h1>
+        <div class="twelve columns alpha entry-title">
+            <h1><a href="{{ entry.url }}">{{ entry.title }}</a></h1>
 		</div>
 
 		<div class="three columns omega entry-meta">
 			<ul>
-				<li class="date">{{ entry.pub_date|format_date }}</li>
-				{% if current_user.is_authenticated() %}
-					<hr>
-					<li><a href="{{ entry.url }}/edit">edit</a></li>
-					<li><a href="{{ entry.url }}/delete">delete</a></li>
-				{% endif %}
+                <li class="date"><small>written:</small> {{ entry.pub_date|format_date }}</li>
+                {% if entry.edit_date %}
+                <li class="revised muted"><small>revised:</small> {{ entry.edit_date|format_date }}</li>
+                {% endif %}
+                
+                {% if current_user.is_authenticated() %}
+                <li><a href="{{ entry.url }}/edit"><small>e</small></a>
+                <a href="{{ entry.url }}/delete"><small>d</small></a></li>
+                {% endif %}
 			</ul>
 		</div>
 

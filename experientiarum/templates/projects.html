@@ -1,14 +1,15 @@
 {% extends "base.html" %}
-{% block header %}
-{% endblock %}
 
 {% block adminbar %}
 {% if current_user.is_authenticated() %}
 <div class="adminbar muted">
-    <a href="/blog/new">new</a> | <a href="/blog/stats">stats</a> | <a href="/blog/drafts">drafts</a> | <a href="/blog/deleted">deleted</a>
+    <a href="/projects/edit">edit</a> | <a href="/projects/export">export</a>
 </div>
 {% endif %}
 {% endblock %}
 
 {% block content %}
+<div id="projects" class="sixteen columns">
+    {{ body|markup|safe }}
+</div>
 {% endblock %}
