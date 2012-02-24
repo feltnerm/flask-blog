@@ -28,7 +28,12 @@ def test():
 
 ## Deployment
 PROJECT_ROOT = os.path.abspath('../')
-PROJECT_NAME = os.path.basename(PROJECT_DIRECTORY)
+PROJECT_NAME = os.path.basename(PROJECT_ROOT)
+
+def ec2():
+    env.hosts = ['23.21.160.20']
+    env.user = 'ubuntu'
+    env.key_filename = '/home/mark/.ssh/webserverkey.pem'
 
 def pack():
     ''' @todo: Pack up code '''    
@@ -85,7 +90,7 @@ def tabnanny():
     with hide('everything'):
         local('python -m tabnany ./')
 
-def clear_pyc():
+def rmpyc():
     ''' Clear cached .pyc files '''
     
     print("Removing .pyc files.")
