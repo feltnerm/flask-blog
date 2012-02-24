@@ -31,9 +31,14 @@ PROJECT_ROOT = os.path.abspath('../')
 PROJECT_NAME = os.path.basename(PROJECT_ROOT)
 
 def ec2():
-    env.hosts = ['23.21.160.20']
+    env.host_string = '23.21.160.20' 
     env.user = 'ubuntu'
     env.key_filename = '/home/mark/.ssh/webserverkey.pem'
+
+def deploy():
+    run('cd ~/experientiarum')
+    run('git checkout master')
+    run('git pull')
 
 def pack():
     ''' @todo: Pack up code '''    
