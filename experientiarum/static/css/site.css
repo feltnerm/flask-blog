@@ -29,6 +29,10 @@ footer p {
 .content {
   padding-top: 15px;
 }
+.content textarea {
+  height: 400px;
+  width: 100%;
+}
 .entry {
   margin-bottom: 5px;
   padding-left: 5px;
@@ -77,10 +81,6 @@ footer p {
 }
 .blog-form input {
   width: 50%;
-}
-.blog-form textarea {
-  height: 400px;
-  width: 100%;
 }
 .pastebin .code {
   overflow: auto;
