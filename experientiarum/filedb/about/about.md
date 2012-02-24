@@ -2,7 +2,17 @@
 _Mark Feltner_
 
 ## Who Are You?
-I am Mark Feltner. Student, soccer player, code ninja, & DJ. Currently, I reside in Platteville, Wisconsin, and I am attending the University of Wisconsin Platteville as a student of Computer Science. 
+I am Mark Feltner. Student, soccer player, code ninja, & DJ. I’m a self-proclaimed inventor, philosopher and hacker. I enjoy getting my mind blown. Things that blow my mind:
+ * space
+* love
+* art
+* music
+* programming
+* reading
+* technology
+* coincidences…
+
+Currently, I reside in Platteville, Wisconsin, and I am attending the University of Wisconsin Platteville as a student of Computer Science. 
 
 ## What Are You Doing Here?
 Not sure. I made this blogging engine as a side project, and now I'm _testing_ it.
@@ -18,5 +28,4 @@ via:
 * [email](mailto:feltner.mj@gmail.com)
 * [twitter](http://www.twitter.com/feltnermj)
 * [github](http://www.github.com/feltnerm)
-
 
