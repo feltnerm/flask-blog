@@ -35,8 +35,6 @@ def main(argv=None):
     else:
         app.generate_app('experientiarum.config.DevConfig')
 
-    print 'Running Flask application with %s config' % run_settings.server_type
-    
     if app.debug:
         app.run('0.0.0.0')
     else:
