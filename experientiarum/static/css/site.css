@@ -70,11 +70,17 @@ footer p {
 .entry .entry-body li {
   list-style-type: square;
 }
-.blog-form input {
-  width: 450px;
+.entry .entry-body .video-embed {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
-.blog-form .button {
-  width: auto;
+.blog-form input {
+  width: 50%;
+}
+.blog-form textarea {
+  height: 400px;
+  width: 100%;
 }
 .pastebin .code {
   overflow: auto;

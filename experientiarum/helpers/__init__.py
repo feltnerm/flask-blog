@@ -5,6 +5,7 @@ import re
 from datetime import datetime
 from markdown import markdown
 
+from markdownextensions import mdx_video
 from githubmarkdown import gfm
 
 from flask import url_for
@@ -19,6 +20,8 @@ from pygments.formatters import HtmlFormatter
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
+video = mdx_video.VideoExtension({})
+
 
 def format_date(date):
     ''' @todo: convert mongodb datetime objects to a human readable thing '''
@@ -28,11 +31,14 @@ def format_datetime(datetime):
     ''' @todo: convert mongodb datetime objects to a human readable thing. '''
     return datetime.strftime('%I:%M.%S%p %A %B %d, %Y')
 
-def githubmarkdown(text):
-    ''' Apparently GitHub flavored Markdown is cooler. We'll see... '''
-    return gfm(text)
+def gistcode(content):
+    ''' When a gistcode is embedded in the document, render it '''
+    result = list(set(re.findall(r"(<a[^<>]*>\s*(https://gist.github.com/\d+)\s*<a/>", content)))
+    for i, link in result:
+        content = content.replace(i, '%s <script src="%s.js"></script>' % (i, link))
+    return content
 
-def markup(text, linenumbers=False):
+def markup(text, style=None, linenumbers=False):
     ''' Converts a text (with markup + code) to HTML 
     to create a syntax-highlighted code block, indent the block by 4 spaces 
     and declare the language of the block at the first line, prefixed by 
@@ -41,8 +47,21 @@ def markup(text, linenumbers=False):
         :::python
         import this
     '''
-    return markdown(text, ['codehilite(force_linenos=%s)' % linenumbers
-                          ,'extra',])
+    if style == 'github':
+        return markdown(gfm(text))
+    else:
+        return markdown(text, ['codehilite(force_linenos=%s)' % linenumbers
+                          ,'extra',video])
+
+def request_wants_json(request):
+    """ only accept json if the quality of the json is greater than
+    the quality of the text/html because text/html is preferred to support
+    browsers that accept on */*
+    """
+
+    best = request.accept_mimetypes.best_match(['application/json','text/html'])
+    return best == 'application/json' and \
+            request.accept_mimetypes[best] > request.accept_mimetypes['text/html']
 
 def slugify(text, delim=u'-'):
     """Generates an ASCII-only slug. From http://flask.pocoo.org/snippets/5/"""

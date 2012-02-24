@@ -27,10 +27,8 @@ def test():
     local('python tests.py', capture=False)
 
 ## Deployment
-PROJECT_DIRECTORY = os.path.abspath('../')
+PROJECT_ROOT = os.path.abspath('../')
 PROJECT_NAME = os.path.basename(PROJECT_DIRECTORY)
-
-
 
 def pack():
     ''' @todo: Pack up code '''    

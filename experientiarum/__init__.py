@@ -172,8 +172,8 @@ def configure_template_filters(app):
         return Markup(helpers.githubmarkdown(text) or '')
 
     @app.template_filter()
-    def markup(text):
-        return Markup(helpers.markup(text) or '')
+    def markup(text, style=None):
+        return Markup(helpers.markup(text, style = style) or '')
     
     @app.template_filter()
     def timesince(dt):
