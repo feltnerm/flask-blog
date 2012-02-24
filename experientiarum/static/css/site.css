@@ -41,6 +41,8 @@ footer p {
 }
 .entry .entry-title {
   margin-bottom: 3px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 .entry .entry-title h1 {
   font-size: 36px;
@@ -62,6 +64,10 @@ footer p {
 .entry .row {
   border-bottom: 1px solid #999999;
 }
+.entry .entry-body {
+  margin-left: 45px;
+  margin-right: 45px;
+}
 .entry .entry-body a {
   color: #268bd2;
 }
@@ -71,13 +77,35 @@ footer p {
 .entry .entry-body a:hover {
   background: #fdf6e3;
 }
-.entry .entry-body li {
-  list-style-type: square;
+.entry .entry-body ul {
+  list-style: square inside;
+}
+.entry .entry-body ul li {
+  list-style-stype: square;
 }
 .entry .entry-body .video-embed {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+#about, #projects {
+  margin-left: 45px;
+  margin-right: 45px;
+}
+#about a, #projects a {
+  color: #268bd2;
+}
+#about a:visited, #projects a:visited {
+  color: #7a43b6;
+}
+#about a:hover, #projects a:hover {
+  background: #fdf6e3;
+}
+#about ul, #projects ul {
+  list-style: square inside;
+}
+#about ul li, #projects ul li {
+  list-style-type: square;
 }
 .blog-form input {
   width: 50%;
