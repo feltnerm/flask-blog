@@ -2,6 +2,7 @@
 
 import datetime
 import os
+import os.path
 import platform
 import urllib2
 
@@ -36,9 +37,7 @@ def ec2():
     env.key_filename = '/home/mark/.ssh/webserverkey.pem'
 
 def deploy():
-    run('cd ~/experientiarum')
-    run('git checkout master')
-    run('git pull')
+    run('cd /home/ubuntu/experientiarum && git checkout master && git pull')
 
 def pack():
     ''' @todo: Pack up code '''    
