@@ -4,6 +4,7 @@
     Blog
 '''
 
+from time import mktime
 from datetime import datetime
 
 from flask import Blueprint, render_template, redirect, url_for, flash
@@ -48,7 +49,9 @@ def edit_entry(slug):
                      slug = entry.slug,
                      body = entry.body,
                      labels = entry.labels,
+                     pub_date = entry.pub_date,
                      publish = entry.published)
+
     if form.validate_on_submit():
         # If the title has changed, then change the slug
         if form.title.data != entry.title:
@@ -56,6 +59,8 @@ def edit_entry(slug):
         entry.title = form.title.data
         entry.body = form.body.data
         entry.labels = form.labels.data
+        if form.pub_date.data:
+            entry.pub_date = form.pub_date.data
         entry.edit_date = datetime.utcnow()
         
         entry.save()
@@ -94,6 +99,7 @@ def new_entry():
     form = EntryForm(title = None,
                      body = None,
                      labels = None,
+                     pub_date = None,
                      publish = True)
     
     if form.validate_on_submit():
@@ -109,6 +115,10 @@ def new_entry():
         entry.body = form.body.data
         entry.labels = form.labels.data
         
+        if form.pub_date.data:
+            pub_date = mktime(datetime.utctimetuple(form.pub_date.data))
+            entry.pub_date = pub_date
+
         entry.save()
         
         flash('Entry created.')

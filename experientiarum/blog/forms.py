@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 from flaskext.wtf import Form, TextField, TextAreaField, SubmitField, \
-    BooleanField, SelectField, SelectMultipleField, ValidationError, required, optional
+    BooleanField, SelectField, SelectMultipleField, ValidationError, \
+    DateField, required, optional
 
 from experientiarum.extensions import db
 from experientiarum.helpers import slugify
@@ -15,13 +16,14 @@ class EntryForm(Form):
     
     title = TextField("Title",
         validators = [required(message="Title required")])
-    
+   
     slug = TextField("Slug")
     body = TextAreaField("Body",
         validators = [required(message="Body required")])
     
     labels = SelectMultipleField("Labels", choices = LABEL_CHOICES)
     
+    pub_date = DateField("Published On:")
     publish = BooleanField('Publish?')
     delete = BooleanField("Delete?")
     
