@@ -113,7 +113,6 @@ class Entry(Document):
 
     @property
     def taglist(self):
-        """ Normalize the model's taglist. """
         if self.tags is None:
             return []
 
