@@ -5,7 +5,7 @@
 '''
 
 from time import mktime
-from datetime import datetime
+from datetime import datetime, time
 
 from flask import Blueprint, render_template, redirect, url_for, flash
 
@@ -60,7 +60,7 @@ def edit_entry(slug):
         entry.body = form.body.data
         entry.labels = form.labels.data
         if form.pub_date.data:
-            entry.pub_date = form.pub_date.data
+            entry.pub_date = datetime.combine(form.pub_date.data, time())
         entry.edit_date = datetime.utcnow()
         
         entry.save()

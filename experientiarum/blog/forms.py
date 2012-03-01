@@ -23,7 +23,7 @@ class EntryForm(Form):
     
     labels = SelectMultipleField("Labels", choices = LABEL_CHOICES)
     
-    pub_date = DateField("Published On:")
+    pub_date = DateField("Published On:", format='%Y-%m-%d')
     publish = BooleanField('Publish?')
     delete = BooleanField("Delete?")
     
