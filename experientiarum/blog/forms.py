@@ -15,6 +15,7 @@ LABEL_CHOICES = [
         ('ideas','Ideas'),
         ('music','Music'),
         ('pics','Pics'),
+        ('projects','Projects'),
         ('rants','Rants'),
         ('tech','Tech'),
         ('video','Video'),
