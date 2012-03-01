@@ -9,7 +9,18 @@ from experientiarum.helpers import slugify
 
 #@TODO: come up with your choices for labels and possibly a way to add, edit, delete them.
 #@TODO: come up with reasonable field lengths and such
-LABEL_CHOICES = [('design', 'Design'), ('thoughts', 'Thoughts')]
+LABEL_CHOICES = [
+        ('art', 'Art'),
+        ('code','Code'),
+        ('ideas','Ideas'),
+        ('music','Music'),
+        ('pics','Pics'),
+        ('rants','Rants'),
+        ('tech','Tech'),
+        ('video','Video'),
+        ('writing','Writing'),
+        ('musings','Musings')
+        ]
 
 #@TODO: Check into the validate_slug, it'll probably generate some bugs
 class EntryForm(Form):

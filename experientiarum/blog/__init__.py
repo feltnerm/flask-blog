@@ -62,6 +62,13 @@ def edit_entry(slug):
         if form.pub_date.data:
             entry.pub_date = datetime.combine(form.pub_date.data, time())
         entry.edit_date = datetime.utcnow()
+
+        if form.publish.data:
+            entry.publish = form.publish.data
+
+        if form.delete.data:
+            entry.delete = form.delete.data
+            entry.delete_date = datetime.utcnow()
         
         entry.save()
         
