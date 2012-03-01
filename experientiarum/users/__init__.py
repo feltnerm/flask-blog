@@ -9,7 +9,7 @@ from flaskext.login import login_user, confirm_login, login_required, \
 from experientiarum.extensions import db
 from experientiarum.helpers import to_oid
 
-from forms import LoginForm, RegisterForm
+from forms import LoginForm, eegisterForm
 from models import get_by_username
 
 users = Blueprint('users', __name__, template_folder='templates')
@@ -58,7 +58,9 @@ def reauth():
 
 @users.route('/register', methods = ['GET', 'POST'])
 def register():
-    
+   
+    abort(401)
+    '''
     form = RegisterForm()
     
     if form.validate_on_submit():
@@ -71,4 +73,4 @@ def register():
        
         return redirect(url_for('main.index'))
     return render_template('users/register.html', form=form)
-        
+    ''' 
