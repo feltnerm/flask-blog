@@ -29,17 +29,17 @@
 			{% endif %}
 		</div>
 
-		<div class="sixteen columns entry-labels">
-		{% if entry.labels %}
-	        <br><p><small>This entry was labeled: 
-	        {% for label in entry.labellist %}
+		<div class="sixteen columns entry-tags">
+		{% if entry.tags %}
+	        <br><p><small>This entry was tagged: 
+	        {% for tag in entry.taglist %}
 	        	{% if loop.length == 1 %}
-	        		<a href="#">{{ label }}</a>.
+	        		<a href="#">{{ tag }}</a>.
 		        {% else %}
 		            {% if loop.last %}
-		            	and <a href="#">{{ label }}</a>.
+		            	and <a href="#">{{ tag }}</a>.
 		            {% else %}
-		            	<a href="#">{{ label }}</a>,
+		            	<a href="#">{{ tag }}</a>,
 		            {% endif %}
 		        {% endif %}
 	        {% endfor %}

@@ -9,20 +9,6 @@ from experientiarum.helpers import slugify
 
 #@TODO: come up with your choices for labels and possibly a way to add, edit, delete them.
 #@TODO: come up with reasonable field lengths and such
-LABEL_CHOICES = [
-        ('art', 'Art'),
-        ('code','Code'),
-        ('ideas','Ideas'),
-        ('music','Music'),
-        ('pics','Pics'),
-        ('projects','Projects'),
-        ('rants','Rants'),
-        ('tech','Tech'),
-        ('video','Video'),
-        ('writing','Writing'),
-        ('musings','Musings'),
-        ('quotes','Quotes'),
-        ]
 
 #@TODO: Check into the validate_slug, it'll probably generate some bugs
 class EntryForm(Form):
@@ -34,8 +20,7 @@ class EntryForm(Form):
     body = TextAreaField("Body",
         validators = [required(message="Body required")])
     
-    labels = SelectMultipleField("Labels", choices = LABEL_CHOICES)
-    
+    tags = TextField("Tags")
     pub_date = DateTimeField("Published On:", id="date-input", format='%Y-%m-%d')
     publish = BooleanField('Publish?')
     delete = BooleanField("Delete?")

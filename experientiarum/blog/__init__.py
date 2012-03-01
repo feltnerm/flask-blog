@@ -48,7 +48,7 @@ def edit_entry(slug):
     form = EntryForm(title = entry.title,
                      slug = entry.slug,
                      body = entry.body,
-                     labels = entry.labels,
+                     tags = entry.get_tags(),
                      pub_date = entry.pub_date,
                      publish = entry.published)
 
@@ -58,7 +58,7 @@ def edit_entry(slug):
             entry.slug = slugify(form.title.data)
         entry.title = form.title.data
         entry.body = form.body.data
-        entry.labels = form.labels.data
+        entry.set_tags(form.tags.data)
         if form.pub_date.data:
             entry.pub_date = datetime.combine(form.pub_date.data, time())
         entry.edit_date = datetime.utcnow()
@@ -105,7 +105,7 @@ def new_entry():
     
     form = EntryForm(title = None,
                      body = None,
-                     labels = None,
+                     tags = None,
                      pub_date = datetime.utcnow(),
                      publish = True)
     
@@ -120,7 +120,7 @@ def new_entry():
         if pre_entries.count():
             entry.slug += '-%s' % (pre_entries.count() + 1,)
         entry.body = form.body.data
-        entry.labels = form.labels.data
+        entry.set_tags(form.tags.data)
         
         entry.pub_date = form.pub_date.data
 
