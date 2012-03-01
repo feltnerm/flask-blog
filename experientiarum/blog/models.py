@@ -104,7 +104,10 @@ class Entry(Document):
         """ take a comma-delimited list of tags and append them to the 
         model's taglist, if not already in the taglist.
         """
-        self.tags = [t.strip() for t in tags.split(',')]
+        self.tags = []
+        for tag in [t.strip() for t in tags.split(',')]:
+            if not tag in self.tags:
+                self.tags.append(tag)
 
     def get_tags(self):
         if not self.tags:
