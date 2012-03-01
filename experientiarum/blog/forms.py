@@ -20,7 +20,8 @@ LABEL_CHOICES = [
         ('tech','Tech'),
         ('video','Video'),
         ('writing','Writing'),
-        ('musings','Musings')
+        ('musings','Musings'),
+        ('quotes','Quotes'),
         ]
 
 #@TODO: Check into the validate_slug, it'll probably generate some bugs
