@@ -107,6 +107,8 @@ class Entry(Document):
         self.tags = [t.strip() for t in tags.split(',')]
 
     def get_tags(self):
+        if not self.tags:
+            return ''
         return ', '.join(self.tags)
 
     @property
