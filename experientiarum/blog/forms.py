@@ -2,7 +2,7 @@
 
 from flaskext.wtf import Form, TextField, TextAreaField, SubmitField, \
     BooleanField, SelectField, SelectMultipleField, ValidationError, \
-    DateField, required, optional
+    DateTimeField, required, optional
 
 from experientiarum.extensions import db
 from experientiarum.helpers import slugify
@@ -23,7 +23,7 @@ class EntryForm(Form):
     
     labels = SelectMultipleField("Labels", choices = LABEL_CHOICES)
     
-    pub_date = DateField("Published On:", format='%Y-%m-%d')
+    pub_date = DateTimeField("Published On:", format='%Y-%m-%d')
     publish = BooleanField('Publish?')
     delete = BooleanField("Delete?")
     

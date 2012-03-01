@@ -99,7 +99,7 @@ def new_entry():
     form = EntryForm(title = None,
                      body = None,
                      labels = None,
-                     pub_date = None,
+                     pub_date = datetime.utcnow(),
                      publish = True)
     
     if form.validate_on_submit():
@@ -115,9 +115,7 @@ def new_entry():
         entry.body = form.body.data
         entry.labels = form.labels.data
         
-        if form.pub_date.data:
-            pub_date = mktime(datetime.utctimetuple(form.pub_date.data))
-            entry.pub_date = pub_date
+        entry.pub_date = form.pub_date.data
 
         entry.save()
         
