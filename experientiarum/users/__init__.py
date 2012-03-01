@@ -9,7 +9,7 @@ from flaskext.login import login_user, confirm_login, login_required, \
 from experientiarum.extensions import db
 from experientiarum.helpers import to_oid
 
-from forms import LoginForm, eegisterForm
+from forms import LoginForm, RegisterForm
 from models import get_by_username
 
 users = Blueprint('users', __name__, template_folder='templates')
