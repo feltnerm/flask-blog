@@ -81,6 +81,7 @@ footer p {
   list-style: square inside;
 }
 .entry .entry-body ul li {
+  margin-left: 15px;
   list-style-stype: square;
 }
 .entry .entry-body .video-embed {
