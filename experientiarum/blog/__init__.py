@@ -27,7 +27,8 @@ def entries():
     '''
     
     entries = db.Entry.find({'deleted':False}).sort('pub_date', -1)
-    return render_template('blog/list.html', entries = entries)
+    return render_template('blog/list.html', entries = entries
+            , count = entries.count())
 
 @blog.route('/e/<slug>')
 def entry(slug):
@@ -36,7 +37,7 @@ def entry(slug):
     entry = get_by_slug(slug)
     entries = []
     entries.append(entry)
-    return render_template('blog/list.html', entries = entries)
+    return render_template('blog/list.html', entries = entries, count = 1)
 
 #@TODO: Ensure that there are not problems dealing with the slug
 @blog.route('/e/<slug>/edit', methods=['GET', 'POST'])
