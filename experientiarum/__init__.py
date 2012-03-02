@@ -180,7 +180,7 @@ def configure_template_filters(app):
         return helpers.timesince(dt)
 
     @app.template_filter()
-    def truncate_html(html, num=100):
+    def truncate_html(html, num=200):
         return helpers.truncate_html_words(html, num)    
 
 def generate_app(config):
