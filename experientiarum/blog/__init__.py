@@ -4,21 +4,12 @@
     Blog
 '''
 
-<<<<<<< HEAD
 from datetime import datetime
-from urlparse import urljoin
-
-from flask import Blueprint, render_template, redirect, url_for,\
-        flash
-=======
-from time import mktime
-from datetime import datetime, time
 from urlparse import urljoin
 
 from flask import Blueprint, request, render_template, redirect, url_for,\
         flash
 
->>>>>>> 63c36b38ccc47a5417b9ce7ecf4a24a54cd45e05
 from flaskext.login import login_required
 
 from werkzeug.contrib.atom import AtomFeed
@@ -41,21 +32,6 @@ def entries():
     entries = db.Entry.find({'deleted':False}).sort('pub_date', -1)
     return render_template('blog/list.html', entries = entries
             , count = entries.count())
-
-@blog.route('/recent.atom')
-def recent_feed():
-    feed = AtomFeed('Recent Entries',
-                    feed_url=request.url, url=request.url_root)
-    entries = db.Entry.find({'deleted':False, 'published':True})\
-            .sort('pub_date', -1).limit(15);
-
-    for entry in entries:
-        feed.add(entry.title, unicode(entry.body), content_type='html',
-                 author='Mark Feltner',
-                 url=urljoin(request.url_root, entry.url),
-                 updated=entry.edit_date,
-                 published=entry.pub_date)
-    return feed.get_response()
 
 @blog.route('/recent.atom')
 def recent_entries():
