@@ -41,7 +41,7 @@ def get_by_tags(tags):
    
     result = []
     for tag in tags.split('+'):
-        for r in db.Entry.find({"tags":tag}):
+        for r in db.Entry.find({"tags":tag, "deleted":False, "published":True}).sort('pub_date',-1):
             if not r in result:
                 result.append(r)
     return result
