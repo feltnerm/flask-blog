@@ -4,7 +4,6 @@
     Blog
 '''
 
-from time import mktime
 from datetime import datetime, time
 from urlparse import urljoin
 
@@ -16,7 +15,7 @@ from flaskext.login import login_required
 from werkzeug.contrib.atom import AtomFeed
 
 from experientiarum.extensions import db
-from experientiarum.helpers import slugify
+from experientiarum.helpers import slugify, markup
 
 from forms import EntryForm
 from models import get_by_date, get_by_tags, get_by_slug
@@ -30,24 +29,25 @@ def entries():
     in descending order by their pub_date.
     '''
     
-    entries = db.Entry.find({'deleted':False}).sort('pub_date', -1)
+    entries = db.Entry.find({'deleted':False}).sort('_id', -1)
     return render_template('blog/list.html', entries = entries
             , count = entries.count())
 
 @blog.route('/recent.atom')
-def recent_feed():
+def recent_entries():
     feed = AtomFeed('Recent Entries',
-                    feed_url=request.url, url=request.url_root)
+            feed_url=request.url, url=request.url_root)
     entries = db.Entry.find({'deleted':False, 'published':True})\
-            .sort('pub_date', -1).limit(15);
+            .sort('_id',-1).limit(15);
 
     for entry in entries:
-        feed.add(entry.title, unicode(entry.body), content_type='html',
-                 author='Mark Feltner',
-                 url=urljoin(request.url_root, entry.url),
-                 updated=entry.edit_date,
-                 published=entry.pub_date)
+        feed.add(entry.title, unicode(markup(entry.body)), content_type='html',
+                author='Mark Feltner',
+                url=urljoin(request.url_root, entry.url),
+                updated=entry.pub_date,
+                published=entry.pub_date)
     return feed.get_response()
+
 
 @blog.route('/e/<slug>')
 def entry(slug):
