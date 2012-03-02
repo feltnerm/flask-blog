@@ -15,7 +15,7 @@ from flaskext.login import login_required
 from werkzeug.contrib.atom import AtomFeed
 
 from experientiarum.extensions import db
-from experientiarum.helpers import slugify
+from experientiarum.helpers import slugify, markup
 
 from forms import EntryForm
 from models import get_by_date, get_by_tags, get_by_slug
@@ -41,7 +41,7 @@ def recent_entries():
             .sort('pub_date',-1).limit(15);
 
     for entry in entries:
-        feed.app(entry.title, unicode(entry.body), content_type='html',
+        feed.add(entry.title, unicode(markup(entry.body)), content_type='html',
                 author='Mark Feltner',
                 url=urljoin(request.url_root, entry.url),
                 updated=entry.pub_date,
