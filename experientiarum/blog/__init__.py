@@ -29,7 +29,7 @@ def entries():
     in descending order by their pub_date.
     '''
     
-    entries = db.Entry.find({'deleted':False}).sort('_id', -1)
+    entries = db.Entry.find({'deleted':False}).sort([('pub_date', -1),('_id', -1)])
     return render_template('blog/list.html', entries = entries
             , count = entries.count())
 
