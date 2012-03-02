@@ -1,2 +1,3 @@
-jQuery ($) ->
-    
+$ = jQuery 
+$ ->
+    $.fn.(".date-field").datepicker();

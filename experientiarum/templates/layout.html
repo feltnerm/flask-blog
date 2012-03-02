@@ -15,10 +15,17 @@
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
+<<<<<<< HEAD
     <link href='/blog/recent.atom'
           rel ='altnernate'
           title='Recent Entries'
           type='application/atom+xml'>
+=======
+    <link href="/blog/recent.atom"
+          rel ="alternate"
+          title="Recent Entries"
+          type="application/atom+xml">
+>>>>>>> 63c36b38ccc47a5417b9ce7ecf4a24a54cd45e05
 
     <!-- Mobile Specific Metas
   ================================================== -->
@@ -26,7 +33,7 @@
 
     <!-- CSS
   ================================================== -->
-    {% assets filters="cssmin", output="gen/packed.css", "css/base.css", "css/skeleton.css", "css/layout.css", "css/site.css" %}
+    {% assets filters="cssmin", output="gen/packed.css", "css/base.css", "css/skeleton.css", "css/layout.css", "js/libs/jqueryui/css/overcast/jquery-ui-1.8.18.custom.css", "css/site.css"%}
       <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}"/>
     {% endassets %}
 
@@ -117,7 +124,7 @@
             {% endif %}
             Copyright 2012, Mark Feltner.<br>
             Content licensed under the Creative Commons attribution-noncommercial-sharealike License.<br>
-            Contact me via <a href="mailto:feltnerm@gmail.com">email</a>, <a href="http://www.twitter.com/feltnermj"> twitter</a>, or <a href="http://www.github.com/feltnerm">github</a>. (<a href="/rss">feed</a>)
+            Contact me via <a href="mailto:feltnerm@gmail.com">email</a>, <a href="http://www.twitter.com/feltnermj"> twitter</a>, or <a href="http://www.github.com/feltnerm">github</a>. (<a href="/blog/recent.atom">feed</a>)
         </p>
         </footer><!-- /footer -->
     </div><!-- /container -->
@@ -132,13 +139,19 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script>window.jQuery || document.write("<script src='/static/js/libs/jquery-1.7.1.min.js'>/x3c/script>")</script>
 
+    <!-- Same thing as above, but for jQuery-UI -->
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+    <script>window.jQuery || document.write("<script src='/static/js/libs/jqueryui/js/jquery-ui-1.8.18.min.js'>/x3c/script>")</script>
+
     {% assets filters="jsmin", output="gen/packed.js", "js/plugins.js", "js/script.js", "js/tabs.js" %}
       <script src="{{ ASSET_URL }}"></script>
     {% endassets %}
 
-    {#
+    <script>
+    var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-29649709-1"]);_gaq.push(["_trackPageview"]);(function(){var a=document.createElement("script");a.type="text/javascript";a.async=true;a.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js";var b=document.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b)})()
+    </script>
     <!-- Google Analytics should go here; Change UA-XXXXX-X to be siteID -->
-    #}
+
 
 <!-- End Document
 ================================================== -->

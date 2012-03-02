@@ -1,27 +1,27 @@
 #!/usr/bin/env python
 
 from flaskext.wtf import Form, TextField, TextAreaField, SubmitField, \
-    BooleanField, SelectField, SelectMultipleField, ValidationError, required, optional
+    BooleanField, SelectField, SelectMultipleField, ValidationError, \
+    DateTimeField, required, optional
 
 from experientiarum.extensions import db
 from experientiarum.helpers import slugify
 
 #@TODO: come up with your choices for labels and possibly a way to add, edit, delete them.
 #@TODO: come up with reasonable field lengths and such
-LABEL_CHOICES = [('design', 'Design'), ('thoughts', 'Thoughts')]
 
 #@TODO: Check into the validate_slug, it'll probably generate some bugs
 class EntryForm(Form):
     
     title = TextField("Title",
         validators = [required(message="Title required")])
-    
+   
     slug = TextField("Slug")
     body = TextAreaField("Body",
         validators = [required(message="Body required")])
     
-    labels = SelectMultipleField("Labels", choices = LABEL_CHOICES)
-    
+    tags = TextField("Tags")
+    pub_date = DateTimeField("Published On:", id="date-input", format='%Y-%m-%d')
     publish = BooleanField('Publish?')
     delete = BooleanField("Delete?")
     

@@ -37,6 +37,17 @@ def get_by_slug(slug, published = True, deleted = False):
                                      ,'deleted': deleted})
 
 #@TODO
+def get_by_tags(tags):
+   
+    result = []
+    for tag in tags.split('+'):
+        for r in db.Entry.find({"tags":tag, "deleted":False, "published":True}).sort('pub_date',-1):
+            if not r in result:
+                result.append(r)
+    return result
+
+
+#@TODO
 def get_by_labels(labels):
     """ Retrieve all entries whose label(s) match labels.
     Labels could be one string or a list of them.
@@ -57,7 +68,7 @@ class Entry(Document):
         title       -- title of the Entry
         slug        -- shortened version of the Entry title
         body        -- the actual text of the Entry
-        labels      -- a list of labels pertaining to this Entry
+        tags        -- a list of tags pertaining to this Entry
         published   -- whether or not the post has been marked as 'published'
         pub_date    -- the date the Entry was originally published
         edit_date   -- the date of the most previous edit
@@ -73,7 +84,7 @@ class Entry(Document):
                  'title': unicode,
                  'slug' : unicode,
                  'body' : unicode,
-                 'labels': list,
+                 'tags': list,
                  'published' : bool,
                  'pub_date': datetime,
                  'edit_date' : datetime,
@@ -96,12 +107,26 @@ class Entry(Document):
     #            {'fields': 'labels'}
     #            ]
 
-    #@TODO
+    def set_tags(self, tags):
+        """ take a comma-delimited list of tags and append them to the 
+        model's taglist, if not already in the taglist.
+        """
+        self.tags = []
+        for tag in [t.strip() for t in tags.split(',')]:
+            if not tag in self.tags:
+                self.tags.append(tag)
+
+    def get_tags(self):
+        if not self.tags:
+            return ''
+        return ', '.join(self.tags)
+
     @property
-    def labellist(self):
-        if not self.labels:
+    def taglist(self):
+        if self.tags is None:
             return []
-        return self.labels
+
+        return [t.strip() for t in self.tags.split(",")]
 
     def _url(self, external=False):
         return url_for('blog.entry', slug = self.slug, _external = external)

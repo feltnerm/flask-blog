@@ -58,7 +58,9 @@ def reauth():
 
 @users.route('/register', methods = ['GET', 'POST'])
 def register():
-    
+   
+    abort(401)
+    '''
     form = RegisterForm()
     
     if form.validate_on_submit():
@@ -71,4 +73,4 @@ def register():
        
         return redirect(url_for('main.index'))
     return render_template('users/register.html', form=form)
-        
+    ''' 

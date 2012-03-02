@@ -4,11 +4,21 @@
     Blog
 '''
 
+<<<<<<< HEAD
 from datetime import datetime
 from urlparse import urljoin
 
 from flask import Blueprint, render_template, redirect, url_for,\
         flash
+=======
+from time import mktime
+from datetime import datetime, time
+from urlparse import urljoin
+
+from flask import Blueprint, request, render_template, redirect, url_for,\
+        flash
+
+>>>>>>> 63c36b38ccc47a5417b9ce7ecf4a24a54cd45e05
 from flaskext.login import login_required
 
 from werkzeug.contrib.atom import AtomFeed
@@ -17,7 +27,7 @@ from experientiarum.extensions import db
 from experientiarum.helpers import slugify
 
 from forms import EntryForm
-from models import get_by_date, get_by_labels, get_by_slug
+from models import get_by_date, get_by_tags, get_by_slug
 
 
 blog = Blueprint('blog', __name__, template_folder='templates')
@@ -29,7 +39,23 @@ def entries():
     '''
     
     entries = db.Entry.find({'deleted':False}).sort('pub_date', -1)
-    return render_template('blog/list.html', entries = entries)
+    return render_template('blog/list.html', entries = entries
+            , count = entries.count())
+
+@blog.route('/recent.atom')
+def recent_feed():
+    feed = AtomFeed('Recent Entries',
+                    feed_url=request.url, url=request.url_root)
+    entries = db.Entry.find({'deleted':False, 'published':True})\
+            .sort('pub_date', -1).limit(15);
+
+    for entry in entries:
+        feed.add(entry.title, unicode(entry.body), content_type='html',
+                 author='Mark Feltner',
+                 url=urljoin(request.url_root, entry.url),
+                 updated=entry.edit_date,
+                 published=entry.pub_date)
+    return feed.get_response()
 
 @blog.route('/recent.atom')
 def recent_entries():
@@ -54,7 +80,7 @@ def entry(slug):
     entry = get_by_slug(slug)
     entries = []
     entries.append(entry)
-    return render_template('blog/list.html', entries = entries)
+    return render_template('blog/list.html', entries = entries, count = 1)
 
 #@TODO: Ensure that there are not problems dealing with the slug
 @blog.route('/e/<slug>/edit', methods=['GET', 'POST'])
@@ -66,16 +92,27 @@ def edit_entry(slug):
     form = EntryForm(title = entry.title,
                      slug = entry.slug,
                      body = entry.body,
-                     labels = entry.labels,
+                     tags = entry.get_tags(),
+                     pub_date = entry.pub_date,
                      publish = entry.published)
+
     if form.validate_on_submit():
         # If the title has changed, then change the slug
         if form.title.data != entry.title:
             entry.slug = slugify(form.title.data)
         entry.title = form.title.data
         entry.body = form.body.data
-        entry.labels = form.labels.data
+        entry.set_tags(form.tags.data)
+        if form.pub_date.data:
+            entry.pub_date = datetime.combine(form.pub_date.data, time())
         entry.edit_date = datetime.utcnow()
+
+        if form.publish.data:
+            entry.publish = form.publish.data
+
+        if form.delete.data:
+            entry.delete = form.delete.data
+            entry.delete_date = datetime.utcnow()
         
         entry.save()
         
@@ -112,7 +149,8 @@ def new_entry():
     
     form = EntryForm(title = None,
                      body = None,
-                     labels = None,
+                     tags = None,
+                     pub_date = datetime.utcnow(),
                      publish = True)
     
     if form.validate_on_submit():
@@ -126,8 +164,10 @@ def new_entry():
         if pre_entries.count():
             entry.slug += '-%s' % (pre_entries.count() + 1,)
         entry.body = form.body.data
-        entry.labels = form.labels.data
+        entry.set_tags(form.tags.data)
         
+        entry.pub_date = form.pub_date.data
+
         entry.save()
         
         flash('Entry created.')
@@ -147,13 +187,14 @@ def archive(year = None, month = None, day = None, slug = None):
         return render_template('blog/entry.html', entry=entry)
     
     entries = get_by_date(year, month, day)
-    return render_template('blog/entries.html', entries=entries)
+    return render_template('blog/list.html', entries=entries)
 
 #@TODO: make it all work
-@blog.route('/l/<labels>')
-def labels(labels = None):
-    entries = get_by_labels(labels)
-    return render_template('blog/entries.html', entries=entries)
+@blog.route('/t/<tags>')
+def tags(tags = None):
+    entries = get_by_tags(tags)
+    return render_template('blog/list.html', entries=entries
+            , count = len(entries))
 
 @blog.route('/deleted')
 @blog.route('/deleted/<slug>')
