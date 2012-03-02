@@ -15,7 +15,7 @@ from experientiarum.extensions import db
 from experientiarum.helpers import slugify
 
 from forms import EntryForm
-from models import get_by_date, get_by_labels, get_by_slug
+from models import get_by_date, get_by_tags, get_by_slug
 
 
 blog = Blueprint('blog', __name__, template_folder='templates')
@@ -144,13 +144,14 @@ def archive(year = None, month = None, day = None, slug = None):
         return render_template('blog/entry.html', entry=entry)
     
     entries = get_by_date(year, month, day)
-    return render_template('blog/entries.html', entries=entries)
+    return render_template('blog/list.html', entries=entries)
 
 #@TODO: make it all work
-@blog.route('/l/<labels>')
-def labels(labels = None):
-    entries = get_by_labels(labels)
-    return render_template('blog/entries.html', entries=entries)
+@blog.route('/t/<tags>')
+def tags(tags = None):
+    entries = get_by_tags(tags)
+    return render_template('blog/list.html', entries=entries
+            , count = len(entries))
 
 @blog.route('/deleted')
 @blog.route('/deleted/<slug>')

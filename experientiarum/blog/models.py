@@ -38,7 +38,14 @@ def get_by_slug(slug, published = True, deleted = False):
 
 #@TODO
 def get_by_tags(tags):
-    pass
+   
+    result = []
+    for tag in tags.split('+'):
+        for r in db.Entry.find({"tags":tag}):
+            if not r in result:
+                result.append(r)
+    return result
+
 
 #@TODO
 def get_by_labels(labels):

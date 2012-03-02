@@ -10,7 +10,7 @@
 		<div class="three columns omega entry-meta">
 			<ul>
                 <li class="date"><small>written:</small> {{ entry.pub_date|format_date }}</li>
-                {% if entry.edit_date %}
+                {% if entry.edit_date and count <= 1 %}
                 <li class="revised muted"><small>revised:</small> {{ entry.edit_date|format_date }}</li>
                 {% endif %}
                 
@@ -38,18 +38,18 @@
 	        <br><p><small>This entry was tagged: 
 	        {% for tag in entry.tags %}
 	        	{% if loop.length == 1 %}
-	        		<a href="#">{{ tag }}</a>.
+                        <a href="/blog/t/{{ tag }}">{{ tag }}</a>.
                         {% elif loop.length == 2 %}
                             {% if loop.last %}
-                                and <a href="#">{{ tag }}</a>.
+                                and <a href="/blog/t/{{ tag }}">{{ tag }}</a>.
                             {% else %}
-                                <a href="#">{{ tag }}</a>
+                                <a href="/blog/t/{{ tag }}">{{ tag }}</a>
                             {% endif %}
 		        {% else %}
 		            {% if loop.last %}
-		            	and <a href="#">{{ tag }}</a>.
+		            	and <a href="/blog/t/{{ tag }}">{{ tag }}</a>.
 		            {% else %}
-		            	<a href="#">{{ tag }}</a>,
+		            	<a href="/blog/t/{{ tag }}">{{ tag }}</a>,
 		            {% endif %}
 		        {% endif %}
 	        {% endfor %}
