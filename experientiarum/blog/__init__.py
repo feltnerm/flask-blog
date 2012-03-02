@@ -36,7 +36,7 @@ def entries():
 @blog.route('/recent.atom')
 def recent_entries():
     feed = AtomFeed('Recent Entries',
-            feed_ulr=request.url, url=request.url_root)
+            feed_url=request.url, url=request.url_root)
     entries = db.Entry.find({'deleted':False, 'published':True})\
             .sort('_id',-1).limit(15);
 
