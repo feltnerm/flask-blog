@@ -5,10 +5,13 @@
 '''
 
 from datetime import datetime
+from urlparse import urljoin
 
-from flask import Blueprint, render_template, redirect, url_for, flash
-
+from flask import Blueprint, render_template, redirect, url_for,\
+        flash
 from flaskext.login import login_required
+
+from werkzeug.contrib.atom import AtomFeed
 
 from experientiarum.extensions import db
 from experientiarum.helpers import slugify
@@ -27,6 +30,22 @@ def entries():
     
     entries = db.Entry.find({'deleted':False}).sort('pub_date', -1)
     return render_template('blog/list.html', entries = entries)
+
+@blog.route('/recent.atom')
+def recent_entries():
+    feed = AtomFeed('Recent Entries',
+            feed_ulr=request.url, url=request.url_root)
+    entries = db.Entry.find({'deleted':False, 'published':True})\
+            .sort('pub_date',-1).limit(15);
+
+    for entry in entries:
+        feed.app(entry.title, unicode(entry.body), content_type='html',
+                author='Mark Feltner',
+                url=urljoin(request.url_root, entry.url),
+                updated=entry.pub_date,
+                published=entry.pub_date)
+    return feed.get_response()
+
 
 @blog.route('/e/<slug>')
 def entry(slug):
