@@ -29,16 +29,13 @@ def entries():
     in descending order by their pub_date.
     '''
     
-<<<<<<< HEAD
     entries = db.Entry.find({'deleted':False}).sort([('pub_date', -1),('_id', -1)])
-=======
-    entries = db.Entry.find({'deleted':False}).sort('_id', -1)
->>>>>>> master
     return render_template('blog/list.html', entries = entries
             , count = entries.count())
 
 @blog.route('/recent.atom')
 def recent_entries():
+
     feed = AtomFeed('Recent Entries',
             feed_url=request.url, url=request.url_root)
     entries = db.Entry.find({'deleted':False, 'published':True})\
