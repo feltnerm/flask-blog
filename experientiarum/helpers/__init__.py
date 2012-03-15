@@ -109,6 +109,7 @@ def timesince(dt, past_="ago", future_="from now", default="just now"):
 
     return default
 
+#@TODO: This piece is now depracated thanks to some tasty Javascript
 def truncate_html_words(html, num=50):
     """
     From Django :)
