@@ -22,12 +22,12 @@
 		</div>
 
                 {% if count <= 1 %}
-		<div class="sixteen columns entry-body">
+		<div class="sixteen columns entry-body ">
                 {% else %}
-                <div class="twelve columns entry-body">
+                <div class="twelve columns entry-body ddd-wrapper">
                 {% endif %}
                         {% if loop.length > 1 %}
-				{{ entry.body|markup|truncate_html|safe }}
+				{{ entry.body|markup|safe }}
 			{% else %}
 				{{ entry.body|markup|safe }}
 			{% endif %}
