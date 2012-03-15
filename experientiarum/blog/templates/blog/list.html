@@ -9,9 +9,9 @@
 
 		<div class="three columns omega entry-meta">
 		<ul>
-            <li class="date"><small>written:</small> {{ entry.pub_date|format_date }}</li>
+            <li class="date"><small></small> {{ entry.pub_date|format_date }}</li>
             {% if entry.edit_date and count <= 1 %}
-            <li class="revised muted"><small>revised:</small> {{ entry.edit_date|format_date }}</li>
+            <li class="revised muted">{{ entry.edit_date|format_date }}</li>
             {% endif %}
             
             {% if current_user.is_authenticated() %}
