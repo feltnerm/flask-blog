@@ -11,5 +11,15 @@ $(document).ready( function () {
             height: 500,
             tolerance: 0
         });
-});
 
+        $(".twitter").click( function {
+
+            var  cr= new Date().toJSON();
+            var day     = new Date().getDay();
+            vay
+
+            data = { 'created_at' : function { return new Date().toJSON(); },
+                     'status': 
+                    }
+
+        } )
