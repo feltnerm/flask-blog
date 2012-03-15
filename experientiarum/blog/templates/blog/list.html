@@ -4,60 +4,68 @@
 {% for entry in entries %}
 	<div class="entry row">
         <div class="twelve columns alpha entry-title">
-            <h1><a href="{{ entry.url }}">{{ entry.title }}</a></h1>
+        <h1><a href="{{ entry.url }}">{{ entry.title }}</a></h1>
 		</div>
 
 		<div class="three columns omega entry-meta">
-			<ul>
-                <li class="date"><small>written:</small> {{ entry.pub_date|format_date }}</li>
-                {% if entry.edit_date and count <= 1 %}
-                <li class="revised muted"><small>revised:</small> {{ entry.edit_date|format_date }}</li>
-                {% endif %}
-                
-                {% if current_user.is_authenticated() %}
-                <li><a href="{{ entry.url }}/edit"><small>e</small></a>
-                <a href="{{ entry.url }}/delete"><small>d</small></a></li>
-                {% endif %}
-			</ul>
+		<ul>
+            <li class="date"><small>written:</small> {{ entry.pub_date|format_date }}</li>
+            {% if entry.edit_date and count <= 1 %}
+            <li class="revised muted"><small>revised:</small> {{ entry.edit_date|format_date }}</li>
+            {% endif %}
+            
+            {% if current_user.is_authenticated() %}
+            <li><a href="{{ entry.url }}/edit"><small>e</small></a>
+            <a href="{{ entry.url }}/delete"><small>d</small></a></li>
+            {% endif %}
+		</ul>
 		</div>
 
-                {% if count <= 1 %}
+        {% if count <= 1 %}
 		<div class="sixteen columns entry-body ">
-                {% else %}
-                <div class="twelve columns entry-body ddd-wrapper">
-                {% endif %}
-                        {% if loop.length > 1 %}
-				{{ entry.body|markup|safe }}
-			{% else %}
-				{{ entry.body|markup|safe }}
-			{% endif %}
+
+        {% else %}
+        <div class="twelve columns entry-body ddd-wrapper">
+        {% endif %}
+		{{ entry.body|markup|safe }}
 		</div>
 
-		<div class="sixteen columns entry-tags">
-		{% if entry.tags[0] %}
-	        <br><p><small>This entry was tagged: 
-	        {% for tag in entry.tags %}
-	        	{% if loop.length == 1 %}
+		<div class="sixteen columns clearfix">
+            <div class="twelve columns alpha entry-tags">
+                <br><p><small>
+                {% if entry.tags[0] %}
+                This entry was tagged: 
+        	    {% for tag in entry.tags %}
+                    {% if loop.length == 1 %}
                         <a href="/blog/t/{{ tag }}">{{ tag }}</a>.
-                        {% elif loop.length == 2 %}
-                            {% if loop.last %}
-                                and <a href="/blog/t/{{ tag }}">{{ tag }}</a>.
-                            {% else %}
-                                <a href="/blog/t/{{ tag }}">{{ tag }}</a>
-                            {% endif %}
-		        {% else %}
-		            {% if loop.last %}
-		            	and <a href="/blog/t/{{ tag }}">{{ tag }}</a>.
-		            {% else %}
-		            	<a href="/blog/t/{{ tag }}">{{ tag }}</a>,
-		            {% endif %}
-		        {% endif %}
-	        {% endfor %}
-	        </small></p>
-	    {% endif %}
-		</div>
+                    {% elif loop.length == 2 %}
+                        {% if loop.last %}
+                        and <a href="/blog/t/{{ tag }}">{{ tag }}</a>.
+                        {% else %}
+                        <a href="/blog/t/{{ tag }}">{{ tag }}</a>
+                        {% endif %}
+        		    {% else %}
+        		          {% if loop.last %}
+        		              and <a href="/blog/t/{{ tag }}">{{ tag }}</a>.
+        		          {% else %}
+        		              <a href="/blog/t/{{ tag }}">{{ tag }}</a>,
+        		          {% endif %}
+        		    {% endif %}
+        	    {% endfor %}
+        	    </small></p>
+        	{% endif %}
+        	</div>
+            <div class="three columns omega social">
+                <p>
+                    <a href="#" class="sb circle no-shadow no-border twitter">Twitter</a>
+                    <a href="#" class="sb circle no-shadow no-border facebook">Twitter</a>
+                    <a href="#" class="sb circle no-shadow no-border star">Twitter</a>
+                </p>
+            </div>
+        </div>
 
 	</div>
 {% endfor %}
+
 </div>
 {% endblock %}
