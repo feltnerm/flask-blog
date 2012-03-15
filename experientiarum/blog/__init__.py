@@ -38,7 +38,7 @@ def recent_entries():
     feed = AtomFeed('Recent Entries',
             feed_url=request.url, url=request.url_root)
     entries = db.Entry.find({'deleted':False, 'published':True})\
-            .sort('_id',-1).limit(15);
+            .sort('pub_date',-1).limit(15);
 
     for entry in entries:
         feed.add(entry.title, unicode(markup(entry.body)), content_type='html',
