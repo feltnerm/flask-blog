@@ -26,7 +26,7 @@
 
     <!-- CSS
   ================================================== -->
-    {% assets filters="cssmin", output="gen/packed.css", "css/base.css", "css/skeleton.css", "css/layout.css", "js/libs/jqueryui/css/overcast/jquery-ui-1.8.18.custom.css", "css/site.css"%}
+    {% assets filters="cssmin", output="gen/packed.css", "css/base.css", "css/skeleton.css", "css/layout.css", "js/libs/jqueryui/css/overcast/jquery-ui-1.8.18.custom.css", "css/social-buttons.css", "css/site.css" %}
       <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}"/>
     {% endassets %}
 
@@ -136,9 +136,13 @@
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
     <script>window.jQuery || document.write("<script src='/static/js/libs/jqueryui/js/jquery-ui-1.8.18.min.js'>/x3c/script>")</script>
 
+        <script src="/static/js/libs/jquery.dotdotdot.min.js" type="text/javascript"></script>
+
     {% assets filters="jsmin", output="gen/packed.js", "js/plugins.js", "js/script.js", "js/tabs.js" %}
       <script src="{{ ASSET_URL }}"></script>
     {% endassets %}
+
+
 
     <script>
     var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-29649709-1"]);_gaq.push(["_trackPageview"]);(function(){var a=document.createElement("script");a.type="text/javascript";a.async=true;a.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js";var b=document.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b)})()
