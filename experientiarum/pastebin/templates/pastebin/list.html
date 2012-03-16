@@ -11,18 +11,26 @@
 			<ul>
 				<li class="date">{{ paste.pub_date|format_date }}</li>
 				{% if current_user.is_authenticated() %}
-					<hr>
-					<li><a href="{{ paste.url }}/edit">edit</a></li>
-					<li><a href="{{ paste.url }}/delete">delete</a></li>
-				{% endif %}
+            	<li><a href="{{ paste.url }}/edit"><small>e</small></a>
+            	<a href="{{ paste.url }}/delete"><small>d</small></a></li>
+            {% endif %}
 			</ul>
 		</div>
 
+		{% if loop.length <= 1 %}
 		<div class="sixteen columns entry-body">
-			<h1>{{ paste.explanation }}</h1>
-			<div class="code">
-				<p>{{ paste.body|markup|safe }}</p>
-			</div>
+
+		{% else %}
+		<div class="twelve columns entry-body code-wrapper">
+		{% endif %}
+		<p>
+			{{ paste.explanation }}
+		</p>
+
+		<div class="code {{ paste.language }}">
+			{{ paste.body|markup|safe }}
+		</div>
+
 		</div>
 
 		<div class="sixteen columns entry-labels">
