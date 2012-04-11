@@ -22,4 +22,4 @@ log/*.log*
 experientiarum/static/gen/*
 
 # Mac shite
-.DS_Store
+*.DS_Store
