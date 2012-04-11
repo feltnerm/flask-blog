@@ -66,10 +66,10 @@
         <div class="sixteen columns navtabs">
             <ul class="tabs">
                 <li><a href="/blog">blog</a></li>
-                <li><a href="/reads">reads</a></li>
                 <li><a href="/projects">projects</a></li>
                 <li><a href="/about">about</a></li>
                 {% if current_user.is_authenticated() %}
+                <li><a href="/reads">reads</a></li>
                 <li><a href="/bookmarks">bookmarks</a></li>
                 <li><a href="/pastebin">pastebin</a></li>
                 <li><a href="/todo">todo</a></li>
