@@ -12,14 +12,14 @@ pip-log.txt
 .tox
 
 secret.py
-experientiarum/static/.webassets-cache/*
 
 # Uncomment when you get logging set up
 log/*.log*
 
 # Uncomment when you get Flask-Assets (static content extension)
 # set up
-experientiarum/static/gen/*
+apps/static/.webassets-cache/*
+apps/static/gen/*
 
 # Mac shite
 *.DS_Store

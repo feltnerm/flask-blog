@@ -1,101 +1,281 @@
 #!/usr/bin/env python
+# EC2: ubuntu@23.21.160.20
+#!/usr/bin/env python
 
+import binascii
 import datetime
 import os
 import os.path
 import platform
 import urllib2
+from pprint import pprint
 
-from fabric import colors
+from fabric.colors import *
 from fabric.api import *
-from fabric.utils import puts, warn
+from fabric.contrib.console import *
+from fabric.contrib.files import *
+from fabric.utils import *
+
+"""
+    fabfile
+
+    Heavily inspired by: https://github.com/samuelclay/NewsBlur/blob/master/fabfile.py
+"""
 
 
-## Run things
-def console():
-    ''' Open interactive console '''
-    
-    local('ipython -i play.py', capture=False)
+# ==============
+# Color Printing
+# ==============
+def pblue(s, bold=False): 
+    puts(blue(s,bold))
+def pcyan(s, bold=False): 
+    puts(cyan(s,bold))
+def pgreen(s, bold=False): 
+    puts(green(s, bold))
+def pmage(s, bold=False): 
+    puts(magenta(s,bold))
+def pred(s, bold=False): 
+    puts(red(s, bold))
+def pwhite(s, bold=False): 
+    puts(white(s, bold))
+def pyellow(s, bold=False): 
+    puts(yellow(s, bold))
+
+@task
+def penv():
+    pblue("Current Environment:")
+    pprint(env)
+
+
+# ====================
+# Environment Settings
+# ====================
+
+# Default
+env.PROJECT_ROOT = os.path.dirname(__file__)
+env.PROJECT_VENV = 'experientiarum'
+env.user = "mark"
+env.roledefs = {
+    'local': ['localhost'],
+    'web': ['23.21.160.20']
+    #'app': ['app.uwplatt.edu',
+    #'dev': ['dev.uwplatt.edu'],
+    #'ldap': ['ldap.uwplatt.ed'],
+}
 
 def server():
-    ''' Run the development server'''
-    
-    local('python runserver.py --server-type d', capture=False)
+    env.PROJECT_ROOT = '~/experientiarum' 
+    env.user = "ubuntu" 
+    env.key_filename = "~/.ssh/webserverkey.pem"
 
+
+@task
+def web():
+    server()
+    env.roles = ['web']
+
+@task
+def app():
+    server()
+    env.roles = ['app']
+
+@task
+def dev():
+    server()
+    env.roles = ['dev']
+
+
+# ========
+# Settings
+# ========
+@task
+def make_settings():
+    """ Creates a new settings.py """
+    
+    settings = dict()
+
+    # Prompt User for Settings
+    pblue("Enter your environment settings.")
+    settings['PRODUCTION'] = False
+    if confirm(blue("Are these settings for a production server?")):
+            settings['PRODUCTION'] = True
+    puts('')
+    settings['MONGODB_DATABASE'] = prompt(magenta('MONGODB_DATABASE:'))
+    settings['MONGODB_USERNAME'] = prompt(magenta('MONGODB_USERNAME:'))
+    settings['MONGODB_HOST'] = prompt(magenta('MONGODB_HOST:'))
+    settings['MONGODB_PORT'] = prompt(magenta('MONGODB_PORT:'))
+    if confirm(yellow("Verify everything looks correct?")):
+        settings['SECRET_KEY'] = binascii.b2a_hqx(os.urandom(42))
+
+        with cd(env.PROJECT_ROOT):
+            with prefix('workon %s' % env.PROJECT_VENV): 
+                upload_template('settings.py.template', 
+                        os.path.join(env.PROJECT_ROOT, 'settings.py'), 
+                        context=settings, use_jinja=True, backup=False)
+
+# ======================
+# Environment Operations
+# ======================
+@task
+def make_venv():
+    if run('python3 --version', True):
+        run('mkproject -p python2.7 %s' % env.PROJECT_VENV)
+    else:
+        run('mkproject -p python2.7 %s' % env.PROJECT_VENV)
+
+
+# ===================
+# Development / Debug
+# ===================
+@task
+def console():
+    local('ipython -i play.py')
+
+@task
+def less():
+    local('lessc apps/static/less/style.less apps/static/css/style.css')
+
+@task
+def coffee():
+    local('coffee -b --compile --output apps/static/js/ apps/static/coffee/*.coffee')
+
+@task
+def compile():
+    less()
+    coffee()
+
+@task
 def test():
-    '''Run the test suite'''
-    
-    local('python tests.py', capture=False)
+    local('nosetest tests')
 
-## Deployment
-PROJECT_ROOT = os.path.abspath('../')
-PROJECT_NAME = os.path.basename(PROJECT_ROOT)
 
-def ec2():
-    env.host_string = '23.21.160.20' 
-    env.user = 'ubuntu'
-    env.key_filename = '/home/mark/.ssh/webserverkey.pem'
+# ============
+# Requirements
+# ============
+@task
+def install_deps():
+    """ Install dependencies depending on server type. """
+    with prefix('source virtualenvwrapper.sh'):
+        with prefix('workon %s' % env.PROJECT_VENV):
+            if confirm(magenta("Is this a production server?")):
+                run('pip install -U -r requirements/prod.txt --use-mirrors')
+            else:
+                run('pip install -U -r requirements/dev.txt --use-mirrors')
 
-def deploy():
-    run('cd /home/ubuntu/experientiarum && git checkout master && git pull')
-
-def pack():
-    ''' @todo: Pack up code '''    
-    #local('cd %s' % PROJECT_DIRECTORY)
-    #local('tar -cf %s.tar %s' % (PROJECT_NAME, PROJECT_NAME)
-    #local('gzip %s.tar' % PROJECT_NAME) 
+@task
+def freeze():
     pass
 
-def unpack():
-    ''' @todo: Unpack code '''
-    pass 
+# ===============
+# Version Control
+# ==============
+@task
+def clone():
+    pass
+    run('git clone git@github.com:feltnerm/experientiarum.git %s' % env.PROJECT_ROOT)
 
-def update():
-    ''' Update local copy from master remote git repo. '''
-    
-    run('git pull origin master')
-    
-def install_deps():
-    ''' Install python dependencies. '''
-    
-    run('pip install -q -r requirements.txt')
+@task
+def pull():
+    with cd(env.PROJECT_ROOT):
+        run('git pull')
 
-## Utils
-def lessc():
-    ''' compiles .less -> .css with lessc '''
-    
-    local('lessc experientiarum/static/css/site.less experientiarum/static/css/site.css')
+@task
+@serial
+def push():
+    ''' Pushes local changes to master, and pulls them down to each server'''
+    local('git push')
+    with cd(env.PROJECT_ROOT):
+        run('git pull')
+@task
+def status():
+    s = local('git status --porcelain', True)
+    if s:
+        pyellow('Detected Changes to Branch', bold=True)
+        puts(s)
 
+# =====================
+# Server Administration
+# ====================
+
+
+# ==========
+# Migrations
+# ==========
+
+
+# ======
+# Backups
+# =======
+
+
+# ===========
+# Boilerplate
+# ===========
+@task
+def boilerplate():
+    """ Create a new project based on the boilerplate. """
+    pgreen("Forging boilerplate.", bold=True)
+    bp = dict()
+    bp['SITE_NAME'] = prompt(magenta("Project Name: "))
+    bp['PROJECT_ROOT'] = os.path.expanduser(os.path.join('~/Projects',bp['SITE_NAME']))
+    if not confirm(green("%s okay for project root?" % bp['PROJECT_ROOT'])):
+        bp['PROJECT_ROOT'] = prompt(magenta("Project Root: "))
+    
+    if not os.path.exists(bp['PROJECT_ROOT']):
+        local('mkdir %s' % bp['PROJECT_ROOT'])
+        local('cp -r %s/* %s' % (env.PROJECT_ROOT, bp['PROJECT_ROOT']))
+        #upload_template('settings.py.template',
+        #    bp['PROJECT_ROOT'],
+        #    context=bp,
+        #    use_jinja=True,
+        #    backup=False
+        #    )
+    else:
+        pred('Project already exists!')
+
+# =========
+# Bootstrap
+# =========
+@task
+def bootstrap():
+
+    pgreen("Bootstrappin' yer server!", bold=True)
+    #make_venv()
+    #install_deps()
+    #pull()
+    #init_postgres()
+    #init_mongo()
+    #make_settings()
+    #init_migrate()
+    
+    #with cd(env.PROJECT_ROOT):
+        #run('mkdir log/')
+    
+
+# ===============
+# Setup :: Common
+# ===============
+
+# =========
+# Utilities
+# =========
+@task
+def clean():
+    rmpyc()
+
+@task
 def pychecker():
-    ''' Checks code with pychecker '''
-    
     local('pychecker .')
 
+@task
 def pep8():
-    ''' Flags any violations of the python style guide '''
-    
-    print("Checking python style")
-    # Grab everything public folder inside the current directory
-    dir_list = [x[0] for x in os.walk('./') if not x[0].startswith('./.')]
-    # Loop through them all and run pep8
-    results = []
-    with hide('everything'):
-        for d in dir_list:
-            results.append(local("pep8 %s" % d))
-    # Filter out the empty results and print the real stuff
-    results = [e for e in results if e]
-    for e in results:
-        print(e)
-
-def tabnanny():
-    ''' Checks whether any of the input files have improper tabs. '''
-
-    print('Running tabnanny')
-    with hide('everything'):
-        local('python -m tabnany ./')
-
+    """ Run PEP8 on my code. """
+    puts("Checking python style")
+    with cd(env.PROJECT_ROOT):
+        local('pep8 .')
+@task
 def rmpyc():
-    ''' Clear cached .pyc files '''
-    
-    print("Removing .pyc files.")
+    ''' Delete compiled python (.pyc) files. '''
+
+    pwhite('Removing .pyc files.')
     local("find . -iname '*.pyc' -exec rm -v {} \;", capture=False)

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block header %}
+{% endblock %}
+
+{% block adminbar %}
+{% if current_user.is_authenticated() %}
+<div class="adminbar muted">
+    <a href="/pastebin/new">new</a> | <a href="/pastebin/stats">stats</a> | <a href="/pastebin/drafts">drafts</a> | <a href="/pastebin/deleted">deleted</a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% endblock %}

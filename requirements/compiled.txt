@@ -1,0 +1,3 @@
+pymongo
+py-bcrypt
+fabric

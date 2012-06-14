@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block header %}
+{% endblock %}
+
+{% block adminbar %}
+{% endblock %}
+
+{% block content %}
+{% if entry %}
+	<div class="entry row">
+		<div class="twelve columns alpha entry-title">
+			{% block entry_title %}
+			{% endblock %}
+		</div>
+
+		<div class="three columns omega entry-meta">
+			{% block entry_meta %}
+			{% endblock %}
+		</div>
+
+		<div class="sixteen columns entry-body">
+			{% block entry_body %}
+			{% endblock %}
+		</div>
+
+		<div class="sixteen columns entry-labels">
+			{% block entry_labels %}
+			{% endblock %}
+		</div>
+	</div>
+{% endif %}
+{% endblock %}

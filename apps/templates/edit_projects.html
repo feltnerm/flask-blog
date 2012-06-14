@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block adminbar %}
+{% if current_user.is_authenticated() %}
+<div class="adminbar muted">
+    <a href="/projects/edit">edit</a> | <a href="/projects/export">export</a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% from "_formhelpers.html" import render_field %}
+<form class='projects-form' method="POST" action>
+    {{ form.hidden_tag() }}
+  <dl>
+    {{ render_field(form.body) }}
+  </dl>
+  {{ form.submit(class="button") }}
+</form>
+{% endblock %}

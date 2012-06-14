@@ -1,0 +1,16 @@
+{% extends "pastebin/base.html" %}
+{% block content %}
+{% from "_formhelpers.html" import render_field %}
+<form class='pastebin-form' method="POST" action="/pastebin/new">
+    {{ form.hidden_tag() }}
+  <dl>
+    {{ render_field(form.title) }}
+    {{ render_field(form.body) }}
+    {{ render_field(form.language) }}
+    {{ render_field(form.labels) }}
+    {{ render_field(form.explanation) }}
+    {{ render_field(form.source) }}
+  </dl>
+  {{ form.submit(class="button") }}
+</form>
+{% endblock %}
