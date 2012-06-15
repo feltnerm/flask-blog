@@ -7,7 +7,7 @@ from flask.ext.mongokit import Document
 from apps.extensions import bcrypt, db
 
 def authenticate(login, password):
-    user = db.User.find_one({'_$or': [{'username':login}, {'email':login}]})
+    user = db.User.find_one({'username':login})
 
     if user:
         authenticated = user.check_password(password)
@@ -18,10 +18,7 @@ def authenticate(login, password):
 
 def from_identity(identity):
 
-    try:
-        user = db.User.find_one(int(identity.name))
-    except ValueError:
-        user = None
+    user = db.User.find_one(int(identity.name))
 
     if user:
         identity.provides.update(user.provides)
@@ -53,13 +50,13 @@ class User(Document):
                  'email': unicode,
                  'date_joined': datetime,
                  'last_login': datetime,
-                 'class': int
+                 'role': int
                  }
    
     required_fields = ['username','password']
     default_values = {
             'date_joined': datetime.utcnow(),
-            'class': CLASSES['member']
+            'role': 0 
             } 
     use_dot_notation = True
     
@@ -92,11 +89,11 @@ class User(Document):
 
     @property
     def is_moderator(self):
-        return self.get('class') >= self.CLASSES['moderator']
+        return self['role'] >= self.CLASSES['moderator']
 
     @property
     def is_admin(self):
-        return self.get('class') >= self.CLASSES['admin']
+        return self['role'] >= self.CLASSES['admin']
 
     def is_anonymous(self):
         return False

@@ -9,9 +9,9 @@ import logging
 # Server Settings
 # ================
 
-SITE_NAME = 'blog' #ENTER SITE NAME!
+SITE_NAME = 'experientiarum' #ENTER SITE NAME!
 #SITE_URL = ''
-ADMINS = ['feltner.mj@gmail.com']
+#ADMINS = []
 #SERVER_EMAIL = ''
 
 
@@ -56,7 +56,7 @@ BABEL_DEFAULT_LOCALE = 'en'
 BABEL_DEFAULT_TIMEZONE = 'utc'
 ASSETS_DEBUG = DEBUG
 INDEX_TEMPLATE = 'index.html'
-SECRET_KEY = """aLGP-I-09,a8pXRmJA"lQ0bCj988*''Q5h!RlpM`PjV)pF!BHVqqE2NU"""
+SECRET_KEY = """&4CJl2JE,2-8EX6$HGI0p!2R4b+A6NE5E43UQ5CaCPTP4hVUAe(01FEa"""
 
 # =======
 # Logging

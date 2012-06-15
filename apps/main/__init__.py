@@ -18,7 +18,7 @@ def index():
 
 @main.route('/about')
 def about():
-    about_file_path = os.path.abspath('experientiarum/filedb/about/about.md')
+    about_file_path = os.path.abspath('apps/filedb/about/about.md')
     about_file = open(about_file_path, 'rb')
     body = about_file.read()
     about_file.close()
@@ -29,7 +29,7 @@ def about():
 @login_required
 def edit_about():
 
-    about_file_path = os.path.abspath('experientiarum/filedb/about/about.md')
+    about_file_path = os.path.abspath('apps/filedb/about/about.md')
     about_file = open(about_file_path, 'rb')
     body = about_file.read()
     about_file.close()
@@ -44,7 +44,7 @@ def edit_about():
         # Save the older file in a backup
         if form_md5 != body_md5:
             date = datetime.utcnow().strftime('%H:%M_%y-%j')
-            new_file_path = os.path.abspath('experientiarum/filedb/about/backup/%s_about.md' % date)
+            new_file_path = os.path.abspath('apps/filedb/about/backup/%s_about.md' % date)
             with open(new_file_path, 'wb') as new_file:
                 new_file.write(body)
             body = form.body.data
@@ -60,7 +60,7 @@ def edit_about():
 @main.route('/projects')
 def projects():
 
-    projects_file_path = os.path.abspath('experientiarum/filedb/projects/projects.md')
+    projects_file_path = os.path.abspath('apps/filedb/projects/projects.md')
     projects_file = open(projects_file_path, 'rb')
     body = projects_file.read()
     projects_file.close()
@@ -71,7 +71,7 @@ def projects():
 @login_required
 def edit_projects():
 
-    projects_file_path = os.path.abspath('experientiarum/filedb/projects/projects.md')
+    projects_file_path = os.path.abspath('apps/filedb/projects/projects.md')
     projects_file = open(projects_file_path, 'rb')
     body = projects_file.read()
     projects_file.close()
@@ -86,7 +86,7 @@ def edit_projects():
         # Save the older file in a backup
         if form_md5 != body_md5:
             date = datetime.utcnow().strftime('%H:%M_%y-%j')
-            new_file_path = os.path.abspath('experientiarum/filedb/projects/backup/%s_projects.md' % date)
+            new_file_path = os.path.abspath('apps/filedb/projects/backup/%s_projects.md' % date)
             with open(new_file_path, 'wb') as new_file:
                 new_file.write(body)
             body = form.body.data

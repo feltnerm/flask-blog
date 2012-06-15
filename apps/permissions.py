@@ -2,8 +2,8 @@
 
 from flask.ext.principal import RoleNeed, Permission
 
-admin = Permission(RoleNeed('admin'))
-moderator = Permission(RoleNeed('moderator'))
-auth = Permission(RoleNeed('authenticated'))
+admin = Permission(RoleNeed(2))
+moderator = Permission(RoleNeed(1))
+auth = Permission(RoleNeed(0))
 
-null = Permission(RoleNeed('null'))
+null = Permission(RoleNeed(None))

@@ -4,8 +4,8 @@ from flaskext.wtf import Form, TextField, TextAreaField, SubmitField, \
     BooleanField, SelectField, SelectMultipleField, ValidationError, \
     DateTimeField, required, optional
 
-from experientiarum.extensions import db
-from experientiarum.helpers import slugify
+from apps.extensions import db
+from apps.helpers import slugify
 
 #@TODO: come up with your choices for labels and possibly a way to add, edit, delete them.
 #@TODO: come up with reasonable field lengths and such
@@ -25,8 +25,6 @@ class EntryForm(Form):
     publish = BooleanField('Publish?')
     delete = BooleanField("Delete?")
     
-    submit = SubmitField("Save")
-
     #@TODO: Validate field lengths, types, etc.
     #def validate(self):
     #    pass

@@ -10,12 +10,11 @@ from urlparse import urljoin
 from flask import Blueprint, request, render_template, redirect, url_for,\
         flash
 
-from flaskext.login import login_required
-
 from werkzeug.contrib.atom import AtomFeed
 
-from experientiarum.extensions import db
-from experientiarum.helpers import slugify, markup
+from apps.extensions import db
+from apps.helpers import slugify, markup
+from apps.permissions import admin
 
 from forms import EntryForm
 from models import get_by_date, get_by_tags, get_by_slug
@@ -30,8 +29,8 @@ def entries():
     '''
     
     entries = db.Entry.find({'deleted':False}).sort([('pub_date', -1),('_id', -1)])
-    return render_template('blog/list.html', entries = entries
-            , count = entries.count())
+    return render_template('blog/entries.html', entries = entries)
+
 
 @blog.route('/recent.atom')
 def recent_entries():
@@ -56,11 +55,11 @@ def entry(slug):
     entry = get_by_slug(slug)
     entries = []
     entries.append(entry)
-    return render_template('blog/list.html', entries = entries, count = 1)
+    return render_template('blog/entry.html', entry = entry)
 
 #@TODO: Ensure that there are not problems dealing with the slug
 @blog.route('/e/<slug>/edit', methods=['GET', 'POST'])
-@login_required
+@admin.require()
 def edit_entry(slug):
     ''' Edit an existing entry. '''
 
@@ -98,7 +97,7 @@ def edit_entry(slug):
 
 #@TODO: Is this still not working?
 @blog.route('/e/<slug>/delete', methods=['GET', 'POST'])
-@login_required
+@admin.require()
 def delete_entry(slug):
     ''' Delete an existing entry. '''
     
@@ -119,7 +118,7 @@ def delete_entry(slug):
 #@TODO: Make sure the slug is made properly, and make sure it is checked
 # against previous slugs the right way.
 @blog.route('/new', methods=['GET', 'POST'])
-@login_required
+@admin.require()
 def new_entry():
     ''' Add a entry. '''
     
@@ -174,7 +173,6 @@ def tags(tags = None):
 
 @blog.route('/deleted')
 @blog.route('/deleted/<slug>')
-@login_required
 def deleted(slug=None):
     entries = []
     if slug:
@@ -187,7 +185,6 @@ def deleted(slug=None):
 
 @blog.route('/drafts')
 @blog.route('/drafs/<slug>')
-@login_required
 def drafs(slug=None):
     entries = []
     if slug:

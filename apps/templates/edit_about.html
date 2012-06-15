@@ -1,20 +1,20 @@
-{% extends "base.html" %}
-
-{% block adminbar %}
-{% if current_user.is_authenticated() %}
-<div class="adminbar muted">
-    <a href="/about/edit">edit</a> | <a href="/about/export">export</a>
-</div>
-{% endif %}
-{% endblock %}
+{% extends "layout.html" %}
 
 {% block content %}
-{% from "_formhelpers.html" import render_field %}
-<form class='projects-form' method="POST" action>
-    {{ form.hidden_tag() }}
-  <dl>
-    {{ render_field(form.body) }}
-  </dl>
-  {{ form.submit(class="button") }}
-</form>
+{% from "_library.html" import render_form %}
+<div class="row-fluid">
+    <div class="span6">
+        <div class="row-fluid">
+            {{ render_form(form) }}
+        </div>
+    </div>
+    <div class="span6 preview-pane">
+        <div class="row-fluid">
+            <form class="form-horizontal">
+                <label>Preview</label>
+                <textarea class="preview-textarea .span6" rows="30"></textarea>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

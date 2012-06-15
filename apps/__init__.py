@@ -21,7 +21,7 @@ import logging
 from logging import Formatter, StreamHandler
 from logging.handlers import RotatingFileHandler
 
-from flask import Flask, redirect, request, flash,  Markup, render_template, url_for
+from flask import Flask, g, redirect, request, flash,  Markup, render_template, url_for
     
 from flask.ext.assets import Environment, Bundle
 from flask_debugtoolbar import DebugToolbarExtension
@@ -47,7 +47,7 @@ def configure_assets(app):
 
     less_css = Bundle('less/style.less',
             filters='less',
-            output='gen/style.css',
+            output='css/style.css',
             debug=False)
 
     coffee_script = Bundle('coffee/script.coffee',
@@ -57,12 +57,12 @@ def configure_assets(app):
 
     assets.register('css_all', less_css,
             filters='cssmin',
-            output='gen/packed.css',
+            output='css/style.css',
             debug=app.debug)
 
     assets.register('js_all', coffee_script,
             filters='uglifyjs',
-            output='gen/packed.js',
+            output='js/script.js',
             debug=app.debug)
 
 
@@ -71,7 +71,6 @@ def configure_beforehandlers(app):
     @app.before_request
     def authenticate():
         g.user = getattr(g.identity, 'user', None)
-
 
 def configure_blueprints(app):
     ''' Register blueprints. '''
@@ -88,11 +87,11 @@ def configure_blueprints(app):
     db.register([User])
         
     # BLOG
-    #from blog import blog
-    #app.register_blueprint(blog, url_prefix = '/blog')
+    from blog import blog
+    app.register_blueprint(blog, url_prefix = '/blog')
 
-    #from blog.models import Entry
-    #db.register([Entry])
+    from blog.models import Entry
+    db.register([Entry])
     
     # BOOKMARKS
     #from bookmarks import bookmarks
@@ -165,7 +164,10 @@ def configure_identity(app):
     principal = Principal(app)
     @identity_loaded.connect_via(app)
     def on_identity_loaded(sender, identity):
-        g.user = from_identity(identity)
+        user = db.User.find_one({"username": identity.name})
+        identity.provides.add(RoleNeed(user.role))
+        identity.user = user
+        g.user = user
 
     @login_manager.user_loader
     def load_user(userid):

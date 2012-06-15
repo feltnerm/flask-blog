@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 
+import urllib2
 from datetime import datetime
 
 from flask import abort, url_for
 from werkzeug import cached_property
 
-from flaskext.mongokit import Document
+from flask.ext.mongokit import Document
 
-from experientiarum.extensions import db
+from apps.extensions import db
 
 #@TODO
 def get_by_date(year=None, month=None, day=None):
@@ -129,12 +130,12 @@ class Entry(Document):
         return [t.strip() for t in self.tags.split(",")]
 
     def _url(self, external=False):
-        return url_for('blog.entry', slug = self.slug, _external = external)
+        return url_for('blog.entry', slug=self.slug, _external = external)
     
     @cached_property
     def url(self):
         return self._url()
-    
+
     @cached_property
     def permalink(self):
         return self._url(True)

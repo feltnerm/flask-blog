@@ -6,6 +6,7 @@ from flask import Blueprint, render_template, abort, request, redirect, \
 from flask.ext.login import login_user, confirm_login, login_required, \
         logout_user
 
+from flask.ext.principal import Identity, identity_changed
 from apps.extensions import db
 from apps.helpers import to_oid
 
@@ -24,6 +25,7 @@ def login():
         user, authenticated = authenticate(form.username.data, form.password.data)  
         if authenticated:
             login_user(user, remember=form.remember.data)
+            identity_changed.send(current_app._get_current_object(), identity=Identity(user.username))
             user.last_login = datetime.utcnow()
             user.save()
             return redirect(request.args.get("next") or url_for('main.index'))

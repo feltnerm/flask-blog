@@ -1,15 +1,9 @@
-{% extends "blog/base.html" %}
+{% extends "layout.html" %}
 {% block content %}
-{% from "_formhelpers.html" import render_field %}
-<form class='blog-form' method="POST" action="/blog/new">
-    {{ form.hidden_tag() }}
-  <dl>
-    {{ render_field(form.title) }}
-    {{ render_field(form.body) }}
-    {{ render_field(form.tags) }}
-    {{ render_field(form.pub_date) }}
-    {{ render_field(form.publish) }}
-  </dl>
-  {{ form.submit(class="button") }}
-</form>
+{% from "_library.html" import render_form %}
+<div class="row-fluid">
+    <div class="span6">
+    {{ render_form(form) }}
+    </div>
+</div>
 {% endblock %}

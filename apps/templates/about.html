@@ -1,15 +1,11 @@
-{% extends "base.html" %}
-
-{% block adminbar %}
-{% if current_user.is_authenticated() %}
-<div class="adminbar muted">
-    <a href="/about/edit">edit</a> | <a href="/about/export">export</a>
-</div>
-{% endif %}
-{% endblock %}
-
+{% extends "layout.html" %}
 {% block content %}
-<div id="about" class="sixteen columns entry-body">
-    {{ body|markup|safe }}
+<div class="row-fluid">
+        {{ body|markup|safe }}
 </div>
+{% endblock %}
+{% from "_library.html" import render_admin %}
+{% block admin %}
+<li class="nav-header">admin</li>
+{{ render_admin([{"href":"/about/edit", "text":"edit"},]) }}
 {% endblock %}

@@ -17,8 +17,6 @@ class LoginForm(Form):
     
     remember = BooleanField("Remember?")
     
-    submit = SubmitField("Submit")
-
 class RegisterForm(Form):
     
     username = TextField("Username",
@@ -34,6 +32,4 @@ class RegisterForm(Form):
     password2 = PasswordField("Password2",
                               validators = [equal_to("password1", message="Passwords must match")]
                               )
-    
-    submit = SubmitField("Register")
     

@@ -1,41 +1,23 @@
-{% extends "blog/base.html" %}
+{% extends "layout.html" %}
 {% block content %}
-<div class="blog">
 {% for entry in entries %}
-	<div class="entry row">
-        <div class="twelve columns alpha entry-title">
+	<div class="row-fluid">
+        <div class="span8 entry-title">
         <h1><a href="{{ entry.url }}">{{ entry.title }}</a></h1>
 		</div>
 
-		<div class="three columns omega entry-meta">
-		<ul>
-            <li class="date"><small></small> {{ entry.pub_date|format_date }}</li>
-            {% if entry.edit_date and count <= 1 %}
-            <li class="revised muted">{{ entry.edit_date|format_date }}</li>
-            {% endif %}
-            
-            {% if current_user.is_authenticated() %}
-            <li><a href="{{ entry.url }}/edit"><small>e</small></a>
-            <a href="{{ entry.url }}/delete"><small>d</small></a></li>
-            {% endif %}
-		</ul>
-		</div>
-
-        {% if count <= 1 %}
-		<div class="sixteen columns entry-body ">
-
-        {% else %}
-        <div class="twelve columns entry-body ddd-wrapper">
+		<div class="span2 entry-dates">
+        {{ entry.pub_date|format_date }}
+        {% if entry.edit_date %}
+        {{ entry.edit_date|format_date }}
         {% endif %}
-		{{ entry.body|markup|safe }}
-		</div>
-
-		<div class="sixteen columns clearfix">
-            <div class="twelve columns alpha entry-tags">
-                <br><p><small>
+        
+        {% if current_user.is_authenticated() %}
+        {% endif %}
+            <div class="well entry-tags">
                 {% if entry.tags[0] %}
-                This entry was tagged: 
-        	    {% for tag in entry.tags %}
+                <p><small>tags: 
+        	    {% for tag in entry.tags -%}
                     {% if loop.length == 1 %}
                         <a href="/blog/t/{{ tag }}">{{ tag }}</a>.
                     {% elif loop.length == 2 %}
@@ -53,19 +35,9 @@
         		    {% endif %}
         	    {% endfor %}
         	    </small></p>
-        	{% endif %}
-        	</div>
-            <div class="three columns omega social">
-                <p>
-                    <a href="#" class="sb circle no-shadow no-border twitter">Twitter</a>
-                    <a href="#" class="sb circle no-shadow no-border facebook">Twitter</a>
-                    <a href="#" class="sb circle no-shadow no-border star">Twitter</a>
-                </p>
+        	    {% endif %}
             </div>
-        </div>
-
-	</div>
+		</div>
+    </div>
 {% endfor %}
-
-</div>
 {% endblock %}
