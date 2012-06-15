@@ -9,7 +9,7 @@ import logging
 # Server Settings
 # ================
 
-SITE_NAME = 'experientiarum' #ENTER SITE NAME!
+SITE_NAME = 'blog' #ENTER SITE NAME!
 #SITE_URL = ''
 ADMINS = ['feltner.mj@gmail.com']
 #SERVER_EMAIL = ''
@@ -79,10 +79,11 @@ ERROR_LOG = 'logs/error.log'
 # =======
 # MongoDB
 # =======
-MONGODB_DATABASE = 'devdb'
+MONGODB_DATABASE = 'experientiarum'
 MONGODB_USERNAME = ''
+MONGODB_PASSWORD = ''
 MONGODB_HOST = 'localhost'
-MONGODB_PORT = '27017'
+MONGODB_PORT = 27017
 
 # =====
 # Cache

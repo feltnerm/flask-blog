@@ -21,13 +21,16 @@ import logging
 from logging import Formatter, StreamHandler
 from logging.handlers import RotatingFileHandler
 
-from flask import Flask, request, flash,  Markup, render_template
+from flask import Flask, redirect, request, flash,  Markup, render_template, url_for
     
-from flask.ext.assets import Environment
+from flask.ext.assets import Environment, Bundle
+from flask_debugtoolbar import DebugToolbarExtension
 from flask.ext.login import LoginManager
+from flask.ext.principal import Principal, RoleNeed, UserNeed, identity_loaded
 
 from apps import helpers
 from apps.extensions import admin, babel, bcrypt, cache, db, mail
+from apps.users.models import from_identity
 
 def configure_app(app, filename):
     """ Load the app's configuration. """
@@ -39,7 +42,7 @@ def configure_assets(app):
 
     assets = Environment(app)
     assets_output_dir = os.path.join(app.config['STATIC_ROOT'], 'gen')
-    if not os.path.exist(assets_output_dir):
+    if not os.path.exists(assets_output_dir):
         os.mkdir(assets_output_dir)
 
     less_css = Bundle('less/style.less',
@@ -49,11 +52,11 @@ def configure_assets(app):
 
     coffee_script = Bundle('coffee/script.coffee',
             filters='coffeescript',
-            output='gen/style.css',
+            output='gen/script.js',
             debug=False)
 
     assets.register('css_all', less_css,
-            filters='csmin',
+            filters='cssmin',
             output='gen/packed.css',
             debug=app.debug)
 
@@ -61,6 +64,13 @@ def configure_assets(app):
             filters='uglifyjs',
             output='gen/packed.js',
             debug=app.debug)
+
+
+def configure_beforehandlers(app):
+
+    @app.before_request
+    def authenticate():
+        g.user = getattr(g.identity, 'user', None)
 
 
 def configure_blueprints(app):
@@ -78,22 +88,22 @@ def configure_blueprints(app):
     db.register([User])
         
     # BLOG
-    from blog import blog
-    app.register_blueprint(blog, url_prefix = '/blog')
+    #from blog import blog
+    #app.register_blueprint(blog, url_prefix = '/blog')
 
-    from blog.models import Entry
-    db.register([Entry])
+    #from blog.models import Entry
+    #db.register([Entry])
     
     # BOOKMARKS
     #from bookmarks import bookmarks
     #app.register_blueprint(bookmarks, url_prefix = '/bookmarks')
     
     # PASTEBIN
-    from pastebin import pastebin
-    app.register_blueprint(pastebin, url_prefix = '/pastebin')
+    #from pastebin import pastebin
+    #app.register_blueprint(pastebin, url_prefix = '/pastebin')
 
-    from pastebin.models import Paste
-    db.register([Paste])
+    #from pastebin.models import Paste
+    #db.register([Paste])
     
     # READLATERS
     #from readlaters import readlaters
@@ -107,7 +117,7 @@ def configure_blueprints(app):
 def configure_errorhandlers(app):
     ''' Set up default HTTP error pages '''
 
-    @app.error_handler(401)
+    @app.errorhandler(401)
     def unauthorized(error):
         return redirect(url_for('users.login', next=request.path))
 
@@ -151,6 +161,11 @@ def configure_identity(app):
     login_manager.login_message = u'Please log in to access this page.'
     #login_manager.refresh_view = 'users.reauth'
     #login_manager.needs_refresh_message = u'To protect your account, please reauthenticate to access this page.'
+
+    principal = Principal(app)
+    @identity_loaded.connect_via(app)
+    def on_identity_loaded(sender, identity):
+        g.user = from_identity(identity)
 
     @login_manager.user_loader
     def load_user(userid):

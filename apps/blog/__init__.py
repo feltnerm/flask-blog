@@ -21,7 +21,7 @@ from forms import EntryForm
 from models import get_by_date, get_by_tags, get_by_slug
 
 
-blog = Blueprint('blog', __name__, template_folder='templates')
+blog = Blueprint('blog', __name__)
 
 @blog.route('/')
 def entries():

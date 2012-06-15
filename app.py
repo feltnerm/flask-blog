@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import os
 from apps import generate_app
 
-app = generate_app('settings.py')
+config = os.path.abspath('settings.py')
+app = generate_app(config)

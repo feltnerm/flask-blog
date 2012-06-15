@@ -11,7 +11,7 @@ import logging
 
 SITE_NAME = 'experientiarum' #ENTER SITE NAME!
 #SITE_URL = ''
-ADMINS = ['feltner.mj@gmail.com']
+#ADMINS = []
 #SERVER_EMAIL = '{{ DEFAULT_MAIL_SENDER }}'
 
 
@@ -81,8 +81,9 @@ ERROR_LOG = 'logs/error.log'
 # =======
 MONGODB_DATABASE = '{{ MONGODB_DATABASE }}'
 MONGODB_USERNAME = '{{ MONGODB_USERNAME }}'
+MONGODB_PASSWORD = '{{ MONGODB_PASSWORD }}'
 MONGODB_HOST = '{{ MONGODB_HOST }}'
-MONGODB_PORT = '{{ MONGODB_PORT }}'
+MONGODB_PORT = {{ MONGODB_PORT }}
 
 # =====
 # Cache

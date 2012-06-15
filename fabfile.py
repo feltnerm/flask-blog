@@ -53,7 +53,7 @@ def penv():
 
 # Default
 env.PROJECT_ROOT = os.path.dirname(__file__)
-env.PROJECT_VENV = 'experientiarum'
+env.PROJECT_VENV = 'blog'
 env.user = "mark"
 env.roledefs = {
     'local': ['localhost'],
@@ -64,7 +64,7 @@ env.roledefs = {
 }
 
 def server():
-    env.PROJECT_ROOT = '~/experientiarum' 
+    env.PROJECT_ROOT = '~/blog' 
     env.user = "ubuntu" 
     env.key_filename = "~/.ssh/webserverkey.pem"
 
@@ -100,10 +100,11 @@ def make_settings():
     if confirm(blue("Are these settings for a production server?")):
             settings['PRODUCTION'] = True
     puts('')
-    settings['MONGODB_DATABASE'] = prompt(magenta('MONGODB_DATABASE:'))
-    settings['MONGODB_USERNAME'] = prompt(magenta('MONGODB_USERNAME:'))
     settings['MONGODB_HOST'] = prompt(magenta('MONGODB_HOST:'))
     settings['MONGODB_PORT'] = prompt(magenta('MONGODB_PORT:'))
+    settings['MONGODB_DATABASE'] = prompt(magenta('MONGODB_DATABASE:'))
+    settings['MONGODB_USERNAME'] = prompt(magenta('MONGODB_USERNAME:'))
+    settings['MONGODB_PASSWORD'] = prompt(magenta('MONGODB_PASSWORD:'))
     if confirm(yellow("Verify everything looks correct?")):
         settings['SECRET_KEY'] = binascii.b2a_hqx(os.urandom(42))
 
@@ -172,7 +173,7 @@ def freeze():
 @task
 def clone():
     pass
-    run('git clone git@github.com:feltnerm/experientiarum.git %s' % env.PROJECT_ROOT)
+    run('git clone git@github.com:feltnerm/blog.git %s' % env.PROJECT_ROOT)
 
 @task
 def pull():

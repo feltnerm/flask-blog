@@ -3,7 +3,7 @@
 from flaskext.wtf import Form, TextField, SubmitField, PasswordField, \
     BooleanField, required, equal_to
 
-from experientiarum.extensions import db
+from apps.extensions import db
 
 class LoginForm(Form):
     
