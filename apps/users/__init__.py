@@ -63,8 +63,8 @@ def register():
             user._set_password(form.password1.data)
             user.save()
             login_user(user) 
+            identity_changed.send(current_app._get_current_object(), identity=Identity(user.username))
             flash(u"Welcome %s" % user.username)
-           
             return redirect(url_for('main.index'))
         flash('Username %s already taken!' % form.username.data)
     return render_template('users/register.html', form=form)

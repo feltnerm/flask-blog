@@ -32,10 +32,10 @@
             <div class='controls'>
                 <div>
                     {% if not focus_set %}
-                    {{ f(autofocus='autofocus') }}
+                    {{ f(autofocus='autofocus', **kwargs) }}
                     {% set focus_set = True %}
                     {% else %}
-                    {{ f() }}
+                    {{ f(**kwargs) }}
                     {% endif %}
                 </div>
                 {% if f.errors %}

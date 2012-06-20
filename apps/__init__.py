@@ -50,19 +50,29 @@ def configure_assets(app):
             output='css/style.css',
             debug=False)
 
-    coffee_script = Bundle('coffee/script.coffee',
+    js_libs = Bundle('js/libs/bootstrap/bootstrap.min.js',
+            Bundle('js/plugins.js', 
+                    filters='uglifyjs'),
+            filters='uglifyjs')
+
+    js_scripts = Bundle('coffee/script.coffee',
             filters='coffeescript',
-            output='gen/script.js',
+            output='css/script.js',
             debug=False)
 
-    assets.register('css_all', less_css,
-            filters='cssmin',
-            output='css/style.css',
+    assets.register('js_libs', js_libs, 
+            filters='uglifyjs,gzip',
+            output='gen/libs.js',
             debug=app.debug)
 
-    assets.register('js_all', coffee_script,
-            filters='uglifyjs',
-            output='js/script.js',
+    assets.register('js_scripts', js_scripts,
+            filters='uglifyjs,gzip',
+            output='gen/script.js',
+            debug=app.debug)
+
+    assets.register('css_base', less_css,
+            filters='cssmin,gzip',
+            output='gen/packed.css',
             debug=app.debug)
 
 

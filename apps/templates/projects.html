@@ -1,8 +1,4 @@
 {% extends "about.html" %}
 {% block content %}
-<div class="row-fluid">
-    <div class="span10">
-    {{ body|markup|safe }}
-    </div>
-</div>
+{{ body|safe }}
 {% endblock %}

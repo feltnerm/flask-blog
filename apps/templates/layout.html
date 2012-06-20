@@ -26,9 +26,11 @@
 
     <!-- CSS
   ================================================== -->
-    {% assets "css_all" %}
+    {% assets "css_base" %}
     <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
     {% endassets %}
+
+    {% block extra_css %}{% endblock %}
 
     <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -128,7 +130,7 @@
             <div class="span12">
         {% endif %}
             {% block content %}{% endblock %}
-        </div>
+            </div>
         </div>
     <hr />
         <footer class="footer">
@@ -150,9 +152,13 @@
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
     <script>window.jQuery || document.write("<script src='{{ STATIC_ROOT }}/js/libs/jqueryui/js/jquery-ui-1.8.18.min.js'>/x3c/script>")</script>
 
-    <script src="/static/js/libs/bootstrap/bootstrap.min.js"></script>
+    {% assets "js_libs" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
 
-    {% assets "js_all" %}
+    {% block extra_js %}{% endblock %}
+
+    {% assets "js_scripts" %}
     <script type="text/javascript" src="{{ ASSET_URL }}"></script>
     {% endassets %}
 

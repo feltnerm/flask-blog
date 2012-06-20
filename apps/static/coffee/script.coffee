@@ -1,1 +1,4 @@
 $ = jQuery 
+
+$ ->
+    return false

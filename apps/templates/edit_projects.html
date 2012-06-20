@@ -1,19 +1,25 @@
-{% extends "base.html" %}
-{% block adminbar %}
-{% if current_user.is_authenticated() %}
-<div class="adminbar muted">
-    <a href="/projects/edit">edit</a> | <a href="/projects/export">export</a>
-</div>
-{% endif %}
-{% endblock %}
+{% extends "layout.html" %}
 
 {% block content %}
-{% from "_formhelpers.html" import render_field %}
-<form class='projects-form' method="POST" action>
-    {{ form.hidden_tag() }}
-  <dl>
-    {{ render_field(form.body) }}
-  </dl>
-  {{ form.submit(class="button") }}
-</form>
+{% from "_library.html" import render_form %}
+    {{ render_form(form, class="text-editor", rows="30"
+    , style="width: 810px;") }}
+{% endblock %}
+
+{% block extra_css %}
+{% assets filters="cssmin,gzip", output="gen/wysihtml5.css", "css/libs/bootstrap-wysihtml5.css", 
+"css/libs/prettify.css" %}
+<link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
+{% endassets %}
+{% endblock %}
+
+{% block extra_js %}
+{% assets filters="uglifyjs,gzip", output="gen/wysihtml5.js", "js/libs/wysihtml5.js", "js/libs/bootstrap-wysihtml5.js", "js/libs/prettify.js" %}
+<script type='text/javascript' src="{{ ASSET_URL }}"></script>
+{% endassets %}
+<script type='text/javascript'>
+window.onload = function() {
+    $(".text-editor").wysihtml5({"html": true});
+}
+</script>
 {% endblock %}
