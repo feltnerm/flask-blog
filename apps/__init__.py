@@ -16,10 +16,11 @@ __email__ = "feltner.mj@gmail.com"
 __status__ = "Development"
 
 import os
+import sys
 
-import logging
-from logging import Formatter, StreamHandler
-from logging.handlers import RotatingFileHandler
+import logbook
+from logbook import RotatingFileHandler, StreamHandler
+from logbook.compat import RedirectLoggingHandler
 
 from flask import Flask, g, redirect, request, flash,  Markup, render_template, url_for
     
@@ -75,11 +76,14 @@ def configure_assets(app):
             output='gen/packed.css',
             debug=app.debug)
 
+    app.logger.info('Assets Registered')
+
 
 def configure_beforehandlers(app):
 
     @app.before_request
     def authenticate():
+        app.logger.debug('UserAuth: %s' % g.identity)
         g.user = getattr(g.identity, 'user', None)
 
 def configure_blueprints(app):
@@ -122,6 +126,7 @@ def configure_blueprints(app):
     #from todo import todo
     #app.register_blueprint(todo, url_prefix = '/todo')
 
+    app.logger.info('Blueprints and models registered.')
 
 def configure_errorhandlers(app):
     ''' Set up default HTTP error pages '''
@@ -140,6 +145,7 @@ def configure_errorhandlers(app):
 
     @app.errorhandler(500)
     def server_error(error):
+        app.logger.error('Server Error! %s' % error)
         return render_template("errors/500.html", error=error)
 
 def configure_extensions(app):
@@ -153,6 +159,8 @@ def configure_extensions(app):
 
     if app.debug:
         debugtoolbar = DebugToolbarExtension(app)
+
+    app.logger.info('Extensions initialized')
 
 def configure_il8n(app):
     """ Configure internationalization with Flask-Babel. """
@@ -174,6 +182,7 @@ def configure_identity(app):
     principal = Principal(app)
     @identity_loaded.connect_via(app)
     def on_identity_loaded(sender, identity):
+        app.logger.debug('User Identity Loaded: %s' % identity.name)
         user = db.User.find_one({"username": identity.name})
         identity.provides.add(RoleNeed(user.role))
         identity.user = user
@@ -181,37 +190,39 @@ def configure_identity(app):
 
     @login_manager.user_loader
     def load_user(userid):
+        app.logger.debug('User Session Loaded: %s' % helpers.to_oid(userid))
         return db.User.get_from_id(helpers.to_oid(userid))
 
     login_manager.setup_app(app)
 
+    app.logger.info('Identity Management Initialized')
+
 def configure_logging(app):
     ''' Set up a debug and error log in log/ '''
 
-    formatter = logging.Formatter(
-            '%(asctime)s %(levelname)s: %(message)s'
-            '[in %(pathname)s:%(lineno)d]')
     
+    app.logger.addHandler(RedirectLoggingHandler())
+    format_string = '{record.asctime} {record.levelname}:{record.message}'
+     
     if app.debug:
-        debug_handler = RotatingFileHandler('log/debug.log',
-                                            maxBytes = 100000,
-                                            backupCount = 10)
+        debug_handler = RotatingFileHandler(app.config['DEBUG_LOG'],
+                                            level=logbook.DEBUG,
+                                            max_size = 100000,
+                                            backup_count = 10)
 
-        debug_handler.setLevel(logging.DEBUG)
-        debug_handler.setFormatter(formatter)
-        app.logger.addHandler(debug_handler)
+        #app.logger.addHandler(debug_handler)
+        debug_handler.push_application()
 
-    error_handler = RotatingFileHandler('log/error.log',
-                                        maxBytes = 100000,
-                                        backupCount = 10)
+    error_handler = RotatingFileHandler(app.config['ERROR_LOG'],
+                                        level=logbook.ERROR,
+                                        max_size = 100000,
+                                        backup_count = 10)
 
-    error_handler.setLevel(logging.ERROR)
-    error_handler.setFormatter(formatter)
-    app.logger.addHandler(error_handler)
-    
-    info_handler = StreamHandler(logging.INFO)
-    info_handler.setFormatter(formatter)
-    app.logger.addHandler(info_handler)
+    #app.logger.addHandler(error_handler)
+    error_handler.push_application()
+    info_handler = StreamHandler(sys.stdout, level=logbook.INFO) 
+    #app.logger.addHandler(info_handler)
+    info_handler.push_application()
 
 def configure_template_filters(app):
     ''' Make filters to be used in templates. '''
@@ -253,6 +264,8 @@ def generate_app(config):
     app = Flask(__name__, static_folder = 'static', template_folder = 'templates')
     
     configure_app(app, config)
+    app.logger.debug('%s warming up' % app.config['SITE_NAME'])
+    app.logger.debug('Configuration used: %s' % config)
     configure_logging(app)
     configure_blueprints(app)
     configure_extensions(app)

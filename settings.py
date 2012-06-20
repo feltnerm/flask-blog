@@ -34,7 +34,6 @@ TEMPLATE_DIRS = (os.path.join(APPS_ROOT, 'templates'), )
 STATIC_ROOT = os.path.join(APPS_ROOT, 'static')
 HELPERS_ROOT = os.path.join(CURRENT_DIR, 'helpers')
 VENDOR_ROOT = os.path.join(CURRENT_DIR, 'vendor')
-LOGFILE = os.path.join(CURRENT_DIR, 'log/%s.log' % SITE_NAME) # ENTER APP NAME
 
 # ===========
 # Python Path
@@ -63,8 +62,10 @@ SECRET_KEY = """bJ3FiNZ0aQc9$S0!'HcmdZ("K10CUSfT432U$N2h&2#bCX2DFT6-GD,,"""
 # =======
 LOG_LEVEL = logging.DEBUG
 LOGGER_NAME = SITE_NAME
-DEBUG_LOG = 'logs/debug.log'
-ERROR_LOG = 'logs/error.log'
+LOG_DIR = os.path.join(CURRENT_DIR, 'log')
+LOGFILE = os.path.join(LOG_DIR, '%s.log' % SITE_NAME) # ENTER APP NAME
+DEBUG_LOG = os.path.join(LOG_DIR, 'debug.log')
+ERROR_LOG = os.path.join(LOG_DIR, 'error.log')
 
 # ====
 # Mail
