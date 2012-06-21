@@ -1,3 +1,28 @@
+{% macro wysihtml5() %}
+{% assets "bootstrap_wysihtml5_css" %}
+<link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
+{% endassets %}
+{% assets "bootstrap_wysihtml_js" %}
+<script type='text/javascript' src="{{ ASSET_URL }}"></script>
+{% endassets %}
+<script type='text/javascript'>
+var wysihtml5Editor = $('#text-editor').wysihtml5({
+        "html": true, 
+        "code": true, 
+        "stylesheets": ['/static/vendor/highlight/styles/github.css'],
+        "parserRules": wysihtml5ParserRules,
+        "events": {
+            "change": function () {
+                highlight();
+            },
+            "load": function () {
+                highlight();
+            },
+        }
+});
+</script>
+{% endmacro %}
+
 {% macro render_tags(tags) %}
     <div class="well entry-tags">
     <p><small>tags:
@@ -21,8 +46,8 @@
     </small></p>
     </div>
 {% endmacro %}
-{% macro render_form(form, cancel_url, extra=None) -%}
-<form action="" method="POST" class="form-horizontal">
+{% macro render_form(form, cancel_url, form_style='.form-horizontal', extra=None) -%}
+<form action="" method="POST" class="{{ form_style }}">
     <fieldset>
         {{ form.hidden_tag() }}
 

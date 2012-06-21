@@ -1,36 +1,30 @@
 {% extends "layout.html" %}
 {% from '_library.html' import render_tags %}
 {% block content %}
-{% if current_user.is_admin %}
-<div class="btn-group">
-    <a class="btn" href="{{ entry.url }}/edit"> <i class="icon-edit"></i> </a>
-    <a class="btn" href="{{ entry.url }}/stats"> <i class="icon-bar-chart"> </i> </a>
-</div>
-{% endif %}
 <div class="row-fluid">
     <div class="span8 entry-title">
         <h1><a href="{{ entry.url }}">{{ entry.title }}</a></h1>
-        <div class="row-fluid">
-            <div class="entry-body">
-                {{ entry.body|markup|safe }}
-            </div>
-        </div>
+    </div>
+    <div class="span8 entry-body">
+        {{ entry.body|safe }}
     </div>
 
     <div class="span2 entry-meta">
         <div class="entry-dates">
-        {{ entry.pub_date|format_date }}
-        {% if entry.edit_date %}
-        {{ entry.edit_date|format_date }}
-        {% endif %}
-        </div>
+        <ul>
+            <li>{{ entry.pub_date|format_date }}</li>
+            {% if entry.edit_date %}
+            <li>{{ entry.edit_date|format_date }}</li>
+            {% endif %}
+        </ul>
+    </div>
     
-    {% if current_user.is_authenticated() %}
+    {% if current_user.is_admin %}
+    <div class="well entry-admin">
+        
+    </div>
     {% endif %}
         {{ render_tags(entry.tags) }}
     </div>
-
-
-
 </div>
 {% endblock %}

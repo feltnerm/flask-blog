@@ -1,25 +1,35 @@
 {% extends "layout.html" %}
 
+{% from "_library.html" import wysihtml5, render_form %}
 {% block content %}
-{% from "_library.html" import render_form %}
     {{ render_form(form, class="text-editor", rows="30"
     , style="width: 810px;") }}
 {% endblock %}
 
-{% block extra_css %}
-{% assets filters="cssmin,gzip", output="gen/wysihtml5.css", "css/libs/bootstrap-wysihtml5.css", 
-"css/libs/prettify.css" %}
-<link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
-{% endassets %}
-{% endblock %}
-
 {% block extra_js %}
-{% assets filters="uglifyjs,gzip", output="gen/wysihtml5.js", "js/libs/wysihtml5.js", "js/libs/bootstrap-wysihtml5.js", "js/libs/prettify.js" %}
+{% assets "bootstrap_wysihtml_js" %}
 <script type='text/javascript' src="{{ ASSET_URL }}"></script>
 {% endassets %}
 <script type='text/javascript'>
-window.onload = function() {
-    $(".text-editor").wysihtml5({"html": true});
-}
+var wysihtml5Editor = $('.text-editor').wysihtml5({
+        "html": true, 
+        "code": true, 
+        "stylesheets": ['/static/vendor/highlight/styles/github.css'],
+        "parserRules": wysihtml5ParserRules,
+        "events": {
+            "change": function () {
+                highlight();
+            },
+            "load": function () {
+                highlight();
+            },
+        }
+});
 </script>
+{% endblock %}
+
+{% block extra_css %}
+{% assets "bootstrap_wysihtml5_css" %}
+<link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
+{% endassets %}
 {% endblock %}

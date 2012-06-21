@@ -26,14 +26,14 @@
                                "<h3>Insert Code</h3>" +
                            "</div>" +
                            "<div class='modal-body'>" +
-                               "<textarea value='' class='bootstrap-wysihtml5-insert-code input-xlarge'>" +
+                               "<textarea value='' class='bootstrap-wysihtml5-insert-code input-xlarge'></textarea>" +
                            "</div>" +
                            "<div class='modal-footer'>" +
                                "<a href='#' class='btn' data-dismiss='modal'>Cancel</a>" +
                                "<a href='#' class='btn btn-primary' data-dismiss='modal'>Insert code</a>" +
                            "</div>" +
                         "</div>" +
-                        "<a class='btn' data-wysihtml5-command='insertHTML' title='Insert code'><i class='icon-beaker'></i></a>" +
+                        "<a class='btn' data-wysihtml5-command='insertCode' title='Insert code'><i class='icon-beaker'></i></a>" +
                        "</li>",
         "lists":       "<li>" +
                            "<div class='btn-group'>" +
@@ -106,8 +106,6 @@
                 "h2": {},
                 "blockquote": {},
                 "u": 1,
-                "code": 1,
-                "pre":
                 "img": {
                     "check_attributes": {
                         "width": "numbers",
@@ -197,6 +195,10 @@
                     if(key == "image") {
                         this.initInsertImage(toolbar);
                     }
+
+                    if(key == "code") {
+                      this.initInsertCode(toolbar);
+                    }
                 }
             }
 
@@ -215,6 +217,41 @@
             toolbar.find(changeViewSelector).click(function(e) {
                 toolbar.find('a.btn').not(changeViewSelector).toggleClass('disabled');
             });
+        },
+
+        initInsertCode: function(toolbar) {
+            var self = this;
+            var insertCodeModal = toolbar.find('.bootstrap-wysihtml5-insert-code-modal');
+            var codeInput = insertCodeModal.find('.bootstrap-wysihtml5-insert-code')
+            var insertButton = insertCodeModal.find('a.btn-primary');
+            var initialValue = codeInput.val();
+
+            var insertCode = function () {
+              var text = codeInput.val();
+              codeInput.val(initialValue);
+              self.editor.composer.commands.exec("insertHTML", "<pre><code>"+text+"</code></pre>")
+            }
+
+            insertButton.click(insertCode);
+
+            insertCodeModal.on('shown', function() {
+                codeInput.focus();
+            });
+
+            insertCodeModal.on('hide', function() {
+                self.editor.currentView.element.focus();
+            });
+
+            toolbar.find('a[data-wysihtml5-command=insertCode]').click(function() {
+                insertCodeModal.modal('show');
+                insertCodeModal.on('click.dismiss.modal', '[data-dismiss="modal"]', function(e) {
+          e.stopPropagation();
+        });
+                return false;
+            });
+
+
+
         },
 
         initInsertImage: function(toolbar) {

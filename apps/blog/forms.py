@@ -17,13 +17,15 @@ class EntryForm(Form):
         validators = [required(message="Title required")])
    
     slug = TextField("Slug")
-    body = TextAreaField("Body",
-        validators = [required(message="Body required")])
-    
     tags = TextField("Tags")
     pub_date = DateTimeField("Published On:", id="date-input", format='%Y-%m-%d')
     publish = BooleanField('Publish?')
     delete = BooleanField("Delete?")
+    body = TextAreaField("Body", id='text-editor',
+        validators = [required(message="Body required")])
+    abstract = TextAreaField("Abstract")
+    
+    
     
     #@TODO: Validate field lengths, types, etc.
     #def validate(self):

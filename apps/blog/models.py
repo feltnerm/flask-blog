@@ -75,6 +75,7 @@ class Entry(Document):
         edit_date   -- the date of the most previous edit
         deleted     -- whether or not the post has been marked as 'deleted'
         delete_date -- the date of deletion (if applicable)
+        abstract    -- short teaser
     
     """
     
@@ -85,6 +86,7 @@ class Entry(Document):
                  'title': unicode,
                  'slug' : unicode,
                  'body' : unicode,
+                 'abstract': unicode,
                  'tags': list,
                  'published' : bool,
                  'pub_date': datetime,

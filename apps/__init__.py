@@ -46,35 +46,52 @@ def configure_assets(app):
     if not os.path.exists(assets_output_dir):
         os.mkdir(assets_output_dir)
 
-    less_css = Bundle('less/style.less',
-            filters='less',
-            output='css/style.css',
-            debug=False)
+    bootstrap_wysihtml5_css = Bundle(
+        'vendor/bootstrap/css/bootstrap-wysihtml5.css',
+        filters='cssmin',
+        output='gen/wysihtml5.css',
+        debug=app.debug
+        )
 
-    js_libs = Bundle('js/libs/bootstrap/bootstrap.min.js',
-            Bundle('js/plugins.js', 
-                    filters='uglifyjs'),
-            filters='uglifyjs')
+    bootstrap_wysihtml5_js = Bundle(
+        'vendor/bootstrap/js/bootstrap-wysihtml5-advanced.js',
+        'vendor/bootstrap/js/wysihtml5.js',
+        'vendor/bootstrap/js/bootstrap-wysihtml5.js',
+        filters='uglifyjs',
+        output='gen/wysihtml5.js',
+        debug=app.debug
+        )
 
-    js_scripts = Bundle('coffee/script.coffee',
-            filters='coffeescript',
-            output='css/script.js',
-            debug=False)
+    bootstrap_js = Bundle(
+        'vendor/bootstrap/js/bootstrap.min.js',
+        filters='uglifyjs')
 
-    assets.register('js_libs', js_libs, 
-            filters='uglifyjs,gzip',
-            output='gen/libs.js',
-            debug=app.debug)
+    script_js = Bundle(
+        'coffee/script.coffee',
+        filters='coffeescript',
+        output='js/script.js',
+        debug=False)
 
-    assets.register('js_scripts', js_scripts,
-            filters='uglifyjs,gzip',
-            output='gen/script.js',
-            debug=app.debug)
+    style_less = Bundle(
+        'less/style.less',
+        filters='less',
+        output='css/style.css',
+        debug=False)
 
-    assets.register('css_base', less_css,
-            filters='cssmin,gzip',
-            output='gen/packed.css',
-            debug=app.debug)
+    assets.register('js_base', bootstrap_js, script_js,
+        Bundle('vendor/highlight/highlight.pack.js'),
+        filters='uglifyjs',
+        output='gen/packed.js',
+        debug=app.debug)
+
+    assets.register('css_base', style_less,
+        Bundle('vendor/highlight/styles/github.css'),
+        filters='cssmin',
+        output='gen/packed.css',
+        debug=app.debug)
+
+    assets.register('bootstrap_wysihtml5_css', bootstrap_wysihtml5_css)
+    assets.register('bootstrap_wysihtml_js', bootstrap_wysihtml5_js)
 
     app.logger.info('Assets Registered')
 
