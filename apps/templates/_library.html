@@ -24,7 +24,7 @@ var wysihtml5Editor = $('#text-editor').wysihtml5({
 {% endmacro %}
 
 {% macro render_tags(tags) %}
-    <div class="well entry-tags">
+    <div class="entry-tags">
     <p><small>tags:
     {% for tag in tags %}
         {% if loop.length == 1 %}

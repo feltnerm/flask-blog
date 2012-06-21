@@ -1,8 +1,8 @@
 // Variables.less
 // Variables to customize the look and feel of Bootstrap
+// Swatch: Journal
+// Version: 2.0.4
 // -----------------------------------------------------
-
-
 
 // GLOBAL VALUES
 // --------------------------------------------------
@@ -13,7 +13,7 @@
 @black:                 #000;
 @grayDarker:            #222;
 @grayDark:              #333;
-@gray:                  #555;
+@gray:                  #888;
 @grayLight:             #999;
 @grayLighter:           #eee;
 @white:                 #fff;
@@ -21,31 +21,39 @@
 
 // Accent colors
 // -------------------------
-@blue:                  #369;
-@blueDark:              darken(@blue, 15%);
-@green:                 #22B24C;
-@red:                   #C00;
-@yellow:                #FCFADB;
-@orange:                #FF7F00;
-@pink:                  #CC99CC;
+@blue:                  #049cdb;
+@blueDark:              #0064cd;
+@green:                 #46a546;
+@red:                   #9d261d;
+@yellow:                #ffc40d;
+@orange:                #f89406;
+@pink:                  #c3325f;
 @purple:                #7a43b6;
+
+// Custom Color Scheme
+// http://kuler.adobe.com/#themeID/1925179
+@baseColor:     #272829;
+@lightAccent:   #BCDBB9;
+@lightestAccent: #545D61;
+@darkAccent:    #6B5A3A;
+@darkestAccent: #D99C45;
 
 
 // Scaffolding
 // -------------------------
-@bodyBackground:        #FCFBFD;
-@textColor:             @grayDarker;
+@bodyBackground:        @white;
+@textColor:             @grayDark;
 
 
 // Links
 // -------------------------
-@linkColor:             @textColor;
-@linkColorHover:        @gray;
+@linkColor:             @#08c;
+@linkColorHover:        darken(@linkColor, 15%);
 
 
 // Typography
 // -------------------------
-@sansFontFamily:        "Helvetica Neue", Helvetica, Arial, sans-serif;
+@sansFontFamily:        'Open Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
 @serifFontFamily:       Georgia, "Times New Roman", Times, serif;
 @monoFontFamily:        Menlo, Monaco, Consolas, "Courier New", monospace;
 
@@ -66,6 +74,7 @@
 @tableBackgroundHover:              #f5f5f5; // for hover
 @tableBorder:                       #ddd; // table and cell border
 
+
 // Buttons
 // -------------------------
 @btnBackground:                     @white;
@@ -81,7 +90,7 @@
 @btnSuccessBackground:              #62c462;
 @btnSuccessBackgroundHighlight:     #51a351;
 
-@btnWarningBackground:              lighten(@orange, 15%);
+@btnWarningBackground:              lighten(@orange, 10%);
 @btnWarningBackgroundHighlight:     @orange;
 
 @btnDangerBackground:               #ee5f5b;
@@ -144,7 +153,7 @@
 
 // Navbar
 // -------------------------
-@navbarHeight:                    55px;
+@navbarHeight:                    70px;
 @navbarBackground:                @bodyBackground;
 @navbarBackgroundHighlight:       @bodyBackground;
 
@@ -159,7 +168,7 @@
 @navbarSearchBackgroundFocus:     @white;
 @navbarSearchBorder:              darken(@navbarSearchBackground, 30%);
 @navbarSearchPlaceholderColor:    #ccc;
-@navbarBrandColor:                @navbarLinkColor;         @navbarLinkColor;
+@navbarBrandColor:                @navbarLinkColor;
 
 
 // Hero unit

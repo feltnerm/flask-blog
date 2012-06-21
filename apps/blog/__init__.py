@@ -67,6 +67,7 @@ def edit_entry(slug):
     form = EntryForm(title = entry.title,
                      slug = entry.slug,
                      body = entry.body,
+                     abstract = entry.abstract,
                      tags = entry.get_tags(),
                      pub_date = entry.pub_date,
                      publish = entry.published)
@@ -88,6 +89,8 @@ def edit_entry(slug):
         if form.delete.data:
             entry.delete = form.delete.data
             entry.delete_date = datetime.utcnow()
+
+        entry.abstract = form.abstract.data
         
         entry.save()
         

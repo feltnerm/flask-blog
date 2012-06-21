@@ -80,7 +80,7 @@ def configure_assets(app):
         output='gen/packed.js',
         debug=app.debug)
 
-    assets.register('css_base', style_less,
+    assets.register('css_base', 'css/style.css',
         Bundle('vendor/highlight/styles/github.css'),
         filters='cssmin',
         output='gen/packed.css',

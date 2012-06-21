@@ -2,29 +2,21 @@
 {% from '_library.html' import render_tags %}
 {% block content %}
 <div class="row-fluid">
-    <div class="span8 entry-title">
-        <h1><a href="{{ entry.url }}">{{ entry.title }}</a></h1>
-    </div>
-    <div class="span8 entry-body">
-        {{ entry.body|safe }}
+    <div class="span10 entry">
+        <div class="row-fluid entry-title">
+            <h1><a href="{{ entry.url }}">{{ entry.title }}</a></h1>
+        </div>
+
+        <div class="row-fluid entry-body">
+                {{ entry.body|safe }}
+        </div>
+
+        <div class="row-fluid entry-days">
+                <hr>
+                <p><small>{{ entry.pub_date|format_date }}</small></p>
+                {{ render_tags(entry.tags) }}
+        </div>
     </div>
 
-    <div class="span2 entry-meta">
-        <div class="entry-dates">
-        <ul>
-            <li>{{ entry.pub_date|format_date }}</li>
-            {% if entry.edit_date %}
-            <li>{{ entry.edit_date|format_date }}</li>
-            {% endif %}
-        </ul>
-    </div>
-    
-    {% if current_user.is_admin %}
-    <div class="well entry-admin">
-        
-    </div>
-    {% endif %}
-        {{ render_tags(entry.tags) }}
-    </div>
 </div>
 {% endblock %}

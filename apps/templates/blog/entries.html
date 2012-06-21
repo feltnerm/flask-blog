@@ -3,24 +3,26 @@
 {% block content %}
 {% for entry in entries %}
 <div class="row-fluid">
-    <div class="span8 entry-title">
-        <h1><a href="{{ entry.url }}">{{ entry.title }}</a></h1>
-	</div>
-
-    <div class="span8 entry-abstract">
-        {{ entry.abstract}}
-    </div>
-
-	<div class="span2 entry-meta">
-        <div class="entry-days">
-            {{ entry.pub_date|format_date }}
-            {% if entry.edit_date %}
-            {{ entry.edit_date|format_date }}
-            {% endif %}
+    <div class="span10 entry">
+        <div class="span8 entry-title">
+            <h1><a href="{{ entry.url }}">{{ entry.title }}</a></h1>
+            <div class="row-fluid">
+                <div class="span8 entry-abstract">
+                    {{ entry.abstract}}
+                </div>
+            </div>
+    	</div>
+        <div class="span2 entry-meta">
+            <div class="entry-days">
+                <p><small>{{ entry.pub_date|format_date }}</small></p>
+                <hr>
+            </div>
+            {{ render_tags(entry.tags) }}
         </div>
-        {{ render_tags(entry.tags) }}
-		</div>
+        
     </div>
+
+</div>
 {% endfor %}
 {% endblock %}
 
