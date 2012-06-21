@@ -18,10 +18,6 @@ __status__ = "Development"
 import os
 import sys
 
-import logbook
-from logbook import RotatingFileHandler, StreamHandler
-from logbook.compat import RedirectLoggingHandler
-
 from flask import Flask, g, redirect, request, flash,  Markup, render_template, url_for
     
 from flask.ext.assets import Environment, Bundle
@@ -214,32 +210,6 @@ def configure_identity(app):
 
     app.logger.info('Identity Management Initialized')
 
-def configure_logging(app):
-    ''' Set up a debug and error log in log/ '''
-
-    
-    app.logger.addHandler(RedirectLoggingHandler())
-    format_string = '{record.asctime} {record.levelname}:{record.message}'
-     
-    if app.debug:
-        debug_handler = RotatingFileHandler(app.config['DEBUG_LOG'],
-                                            level=logbook.DEBUG,
-                                            max_size = 100000,
-                                            backup_count = 10)
-
-        #app.logger.addHandler(debug_handler)
-        debug_handler.push_application()
-
-    error_handler = RotatingFileHandler(app.config['ERROR_LOG'],
-                                        level=logbook.ERROR,
-                                        max_size = 100000,
-                                        backup_count = 10)
-
-    #app.logger.addHandler(error_handler)
-    error_handler.push_application()
-    info_handler = StreamHandler(sys.stdout, level=logbook.INFO) 
-    #app.logger.addHandler(info_handler)
-    info_handler.push_application()
 
 def configure_template_filters(app):
     ''' Make filters to be used in templates. '''
@@ -283,7 +253,6 @@ def generate_app(config):
     configure_app(app, config)
     app.logger.debug('%s warming up' % app.config['SITE_NAME'])
     app.logger.debug('Configuration used: %s' % config)
-    configure_logging(app)
     configure_blueprints(app)
     configure_extensions(app)
     configure_assets(app)
