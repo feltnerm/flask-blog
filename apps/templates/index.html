@@ -2,52 +2,67 @@
 {% block extra_js %}
 <script>
 var socket = io.connect('http://localhost:8080');
-socket.on(
-  'tweet', function (data) {
+socket.on('tweet', function (data) {
     console.log(data);
-  });
-socket.on(
-  'track', function (data){
-    console.log(data);
+    $('#twitter-rt .realtimer-body').append(
+    "<div class='row-fluid'>" +
+        "<div class='span5 realtimer-row'>" +
+            "<p>"+data+"</p>" +
+        "</div>" +
+    "</div>"
+    )
 });
+
+socket.on('recent_tracks', function (data) {
+
+    console.log(data)
+    $('#lastfm-rt .realtimer-body').append(
+    "<div class='row-fluid'>" +
+        "<div class='span5 realtimer-row'>" +
+            "<p>"+data.artist.name+"</p>" +
+        "</div>" +
+    "</div>"
+    )
+});
+
+socket.on('new_track', function (data) {
+    console.log(data)
+    $('#lastfm-rt .realtimer-body').prepend(
+    "<div class='row-fluid'>" +
+        "<div class='span5 realtimer-row'>" +
+            "<p>"+data.artist.name+"</p>" +
+        "</div>" +
+    "</div>"
+    )
+});
+
+socket.on('debug', function (data) {
+    console.log(data)
+    });
+
 </script>
 {% endblock %}
 
 {% block content %}
-  <div class="row-fluid">
-    <div class="span4">
-      <h2>Heading</h2>
-      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-      <p><a class="btn" href="#">View details »</a></p>
-    </div><!--/span-->
-    <div class="span4">
-      <h2>Heading</h2>
-      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-      <p><a class="btn" href="#">View details »</a></p>
-    </div><!--/span-->
-    <div class="span4">
-      <h2>Heading</h2>
-      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-      <p><a class="btn" href="#">View details »</a></p>
-    </div><!--/span-->
-  </div><!--/row-->
-  <div class="row-fluid">
-    <div class="span4">
-      <h2>Heading</h2>
-      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-      <p><a class="btn" href="#">View details »</a></p>
-    </div><!--/span-->
-    <div class="span4">
-      <h2>Heading</h2>
-      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-      <p><a class="btn" href="#">View details »</a></p>
-    </div><!--/span-->
-    <div class="span4">
-      <h2>Heading</h2>
-      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-      <p><a class="btn" href="#">View details »</a></p>
-    </div><!--/span-->
-  </div><!--/row-->
-  </div>
+<div class="hero-unit">
+    <h1>Experientiarum</h1>
+    <p>An anthropomorphization of Mark Feltner onto the internets</p>
+</div>
+<div class="row-fluid">
+    <div class="span6 realtimer" id="twitter-rt">      
+        <div class="realtimer-header">
+            <h3>Twitter</h3>
+        </div>
+        <div class="realtimer-body">
+        </div>
+    </div>
+    <div class="span6 realtimer" id="lastfm-rt">
+        <div class="realtimer-header">
+            <h3>Last.fm</h3>
+        </div>
+        <div class="realtimer-body">
+        </div>
+    </div>
+</div><!--/row-->
 {% endblock %}
 

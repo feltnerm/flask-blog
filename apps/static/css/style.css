@@ -6330,23 +6330,6 @@ body {
   padding-top: 55px;
   padding-bottom: 40px;
 }
-.entry {
-  padding-top: 15px;
-  padding-bottom: 15px;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-}
-.entry-abstract {
-  font-size: 12px;
-}
 /*!
  * Bootstrap Responsive v2.0.4
  *
@@ -7682,16 +7665,6 @@ body {
     overflow: visible !important;
   }
 }
-/* ===== Primary Styles ========================================================
-   Author:
-   ========================================================================== */
-footer {
-  text-align: center;
-}
-#text-editor {
-  width: 810px;
-  height: 361px;
-}
 /* Custom Bootstrap Overrides */
 h1,
 h2,
@@ -8012,4 +7985,69 @@ pre.prettyprint,
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
+}
+/* ===== Primary Styles ========================================================
+   Author:
+   ========================================================================== */
+.content-block {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.entry {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+.entry-abstract {
+  font-size: 12px;
+}
+footer {
+  text-align: center;
+}
+#text-editor {
+  width: 810px;
+  height: 361px;
+}
+.realtimer {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-background-clip: 4px;
+  -moz-background-clip: 4px;
+  background-clip: 4px;
+  -webkit-background-clip: 4px;
+  -moz-background-clip: 4px;
+  background-clip: 4px;
+  boder-color: #000000;
+  background-color: #ffffff;
+}
+.realtimer .realtimer-header {
+  padding: 5px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-background-clip: 4px;
+  -moz-background-clip: 4px;
+  background-clip: 4px;
+  -webkit-background-clip: 4px;
+  -moz-background-clip: 4px;
+  background-clip: 4px;
+  background-color: #eeeeee;
+}
+.realtimer .realtimer-body {
+  padding: 7px;
+  background-color: #ffffff;
 }
