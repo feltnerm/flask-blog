@@ -54,7 +54,7 @@ io.sockets.on('connection', (socket) ->
                 success: (data) ->
                     recent_tracks = _.sortBy(data.recenttracks.track, (track) ->
                         return track.uts
-                    )
+                    ).reverse()
                     console.log(recent_tracks)
                     for track in recent_tracks
                         lastfm.request('track.getInfo',

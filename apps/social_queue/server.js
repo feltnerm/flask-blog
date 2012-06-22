@@ -73,7 +73,7 @@
             var recent_tracks, track, _i, _len, _results;
             recent_tracks = _.sortBy(data.recenttracks.track, function(track) {
               return track.uts;
-            });
+            }).reverse();
             console.log(recent_tracks);
             _results = [];
             for (_i = 0, _len = recent_tracks.length; _i < _len; _i++) {
