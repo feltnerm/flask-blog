@@ -14,7 +14,24 @@ How Can I Contact You?
 <li>email</li>
 <li><a rel="nofollow" target="_blank" href="http://www.twitter.com/feltnermj">twitter</a></li>
 <li><a rel="nofollow" target="_blank" href="http://www.github.com/feltnerm">github</a></li>
-</ul><br><br><pre><code class="css">ul.wysihtml5-toolbar <span>{
+</ul><br><pre><code class="coffeescript">(function() {
+  var twit, twitter, util;
+
+  util = require('util');
+
+  twitter = require('twitter');
+
+  twit = new twitter();
+
+  twit.stream('status/sample', function(stream) {
+    return stream.on('data', function(data) {
+      return console.log(util.inspect(data));
+    });
+  });
+
+}).call(this);
+
+</code></pre><pre><code class="css">ul.wysihtml5-toolbar <span>{
 	<span>margin<span>:<span> 0</span>;</span></span>
 	<span>padding<span>:<span> 0</span>;</span></span>
 	<span>display<span>: block;</span></span>

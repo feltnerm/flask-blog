@@ -28,5 +28,8 @@ $(function() {
   hljs.tabReplace = '    ';
   hljs.initHighlighting();
   highlight();
+  $('.entry:odd').css({
+    'background-color': '#eee'
+  });
   return false;
 });
