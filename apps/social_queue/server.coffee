@@ -27,41 +27,66 @@ connectTwitter = () ->
     )
     return {'node': twitter}
 
+lastfm = connectLastFm()
+twitter = connectTwitter()
+
+# Ordered (newest-to-oldest) collection of recent things
+current_recent_tracks = []
+latest_recent_tracks = []
+current_recent_tweets = []
+latest_recent_tweets = []
+
+compare_recent_tracks = (updated_recent_tracks) ->
+  update_recent_tracks = JSON.parse(JSON.stringify(updated_recent_tracks))
+  if _.isEmpty(current_recent_tracks)
+    console.log('current tracks empty: updating')
+    current_recent_tracks = updated_recent_tracks
+  latest_recent_tracks = updated_recent_tracks
+
+
+get_recent_tracks = () ->
+  console.log('Querying Last.FM')
+  lastfm.node.request('user.getRecentTracks',
+      user: 'plugitin'
+      limit: 5 
+      handlers:
+        success: (data) ->
+          if data
+            compare_recent_tracks(data.recenttracks.track)
+        error: (error) ->
+          console.log(error)
+    )
+
+get_recent_tweets = () ->
+
+  console.log('Polling twitter')
+ 
 io.sockets.on('connection', (socket) ->
-    
-    lastfm = connectLastFm()
-    twitter = connectTwitter()
 
-    lastfm.node.request('user.getRecentTracks',
-        user: 'plugitin'
-        limit: 6 
-        handlers:
-            success: (data) ->
-                recent_tracks = _.sortBy(data.recenttracks.track, (t) ->
-                    return t.uts
-                )
+  get_recent_tracks()
 
-                lastfm.stream.on('nowPlaying', (t) ->
-                    recent_tracks.push(t)
-                )
-                for t in recent_tracks.reverse()
-                    lastfm.node.request('track.getInfo',
-                        mbid: t.mbid
-                        handlers:
-                            success: (data) ->
-                                socket.emit('recent_tracks', data.track)
-                            error: (error) ->
-                                console.log(error.message)
-                    )
-            error: (error) ->
-                console.log(error.message)
-        )
+  lastfm_poller = setInterval( () ->
+    get_recent_tracks()
+    console.log('latest len: '+latest_recent_tracks.length)
+    console.log('current len: '+current_recent_tracks.length)
 
-    socket.on('error', (error) ->
-        console.log(error)
-    )
-    socket.on('disconnect', () ->
-        console.log('disconnected') 
-    )
+    if JSON.stringify(latest_recent_tracks) != JSON.stringify(current_recent_tracks)
+      console.log('difference!') 
+      new_tracks = _.difference(latest_recent_tracks, current_recent_tracks)
+      socket.emit('new_tracks', new_tracks)
+    else
+      console.log('same')
+  , 3000)
+
+  socket.emit('recent_tracks', current_recent_tracks)
+
+  socket.on('error', (error) ->
+    console.log(error)
+  )
+  socket.on('disconnect', () ->
+    clearInterval(lastfm_poller)
+    #clearInterval(twitter_poller)
+  )
 
 )
+
