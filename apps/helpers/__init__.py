@@ -5,6 +5,9 @@ import re
 from datetime import datetime
 from markdown import markdown
 
+from markdownextensions import mdx_video
+from githubmarkdown import gfm
+
 from flask import url_for
 from werkzeug.routing import BuildError
 
