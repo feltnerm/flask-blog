@@ -71,8 +71,8 @@ def configure_assets(app):
             debug=False)
     else:
         script_js = Bundle(
-                'js/script.js'
-                filters='jsmin'
+                'js/script.js',
+                filters='jsmin',
                 debug=False)
 
     style_less = Bundle(
