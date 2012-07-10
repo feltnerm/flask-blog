@@ -36,6 +36,7 @@ Markdown
 
 # Extensions
 Flask-Assets
+Flask-Admin
 cssmin
 Flask-Bcrypt
 Flask-Mail

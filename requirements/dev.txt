@@ -7,7 +7,6 @@
 Sphinx
 
 # Testing
-Flask-Admin
 Flask-DebugToolbar
 Flask-Testing
 nose
