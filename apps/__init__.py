@@ -69,7 +69,7 @@ def configure_assets(app):
             filters='coffeescript',
             output='js/script.js',
             debug=False)
-    else
+    else:
         script_js = Bundle(
                 'js/script.js'
                 filters='jsmin'
