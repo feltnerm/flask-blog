@@ -38,7 +38,6 @@ def configure_app(app, filename):
 
     app.config.from_pyfile(filename)
 
-
 def configure_assets(app):
     """ Set up Flask-Assets """
 
