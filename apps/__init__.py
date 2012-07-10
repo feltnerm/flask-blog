@@ -63,11 +63,17 @@ def configure_assets(app):
         'vendor/bootstrap/js/bootstrap.min.js',
         filters='jsmin')
 
-    script_js = Bundle(
-        'coffee/script.coffee',
-        filters='coffeescript',
-        output='js/script.js',
-        debug=False)
+    if app.debug:
+        script_js = Bundle(
+            'coffee/script.coffee',
+            filters='coffeescript',
+            output='js/script.js',
+            debug=False)
+    else
+        script_js = Bundle(
+                'js/script.js'
+                filters='jsmin'
+                debug=False)
 
     style_less = Bundle(
         'less/style.less',

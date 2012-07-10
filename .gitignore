@@ -11,7 +11,6 @@ pip-log.txt
 .coverage
 .tox
 
-apps/social_queue/*.js
 secret.py
 
 # Uncomment when you get logging set up
