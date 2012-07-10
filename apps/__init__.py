@@ -49,7 +49,6 @@ def configure_assets(app):
         'vendor/bootstrap/css/bootstrap-wysihtml5.css',
         filters='cssmin',
         output='gen/wysihtml5.css',
-        debug=app.debug
         )
 
     bootstrap_wysihtml5_js = Bundle(
@@ -58,7 +57,6 @@ def configure_assets(app):
         'vendor/bootstrap/js/bootstrap-wysihtml5.js',
         filters='jsmin',
         output='gen/wysihtml5.js',
-        debug=app.debug
         )
 
     bootstrap_js = Bundle(
@@ -78,9 +76,7 @@ def configure_assets(app):
         debug=False)
 
     assets.register('js_base', bootstrap_js, script_js,
-        Bundle(
-            os.path.join(app.config['STATIC_ROOT'], 'vendor/highlight/highlight.pack.js')
-            ),
+        Bundle('vendor/highlight/highlight.pack.js'),
         filters='jsmin',
         output='gen/packed.js',
         debug=app.debug)
