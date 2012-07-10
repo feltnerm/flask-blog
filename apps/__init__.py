@@ -56,14 +56,14 @@ def configure_assets(app):
         'vendor/bootstrap/js/bootstrap-wysihtml5-advanced.js',
         'vendor/bootstrap/js/wysihtml5.js',
         'vendor/bootstrap/js/bootstrap-wysihtml5.js',
-        filters='uglifyjs',
+        filters='jsmin',
         output='gen/wysihtml5.js',
         debug=app.debug
         )
 
     bootstrap_js = Bundle(
         'vendor/bootstrap/js/bootstrap.min.js',
-        filters='uglifyjs')
+        filters='jsmin')
 
     script_js = Bundle(
         'coffee/script.coffee',
@@ -79,7 +79,7 @@ def configure_assets(app):
 
     assets.register('js_base', bootstrap_js, script_js,
         Bundle('vendor/highlight/highlight.pack.js'),
-        filters='uglifyjs',
+        filters='jsmin',
         output='gen/packed.js',
         debug=app.debug)
 
