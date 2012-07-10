@@ -78,7 +78,9 @@ def configure_assets(app):
         debug=False)
 
     assets.register('js_base', bootstrap_js, script_js,
-        Bundle('vendor/highlight/highlight.pack.js'),
+        Bundle(
+            os.path.join(app.config['STATIC_ROOT'], 'vendor/highlight/highlight.pack.js')
+            ),
         filters='jsmin',
         output='gen/packed.js',
         debug=app.debug)
