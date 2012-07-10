@@ -21,7 +21,6 @@ import sys
 from flask import Flask, g, redirect, request, flash,  Markup, render_template, url_for
     
 from flask.ext.assets import Environment, Bundle
-from flask_debugtoolbar import DebugToolbarExtension
 from flask.ext.login import LoginManager
 from flask.ext.principal import Principal, RoleNeed, UserNeed, identity_loaded
 
@@ -175,6 +174,7 @@ def configure_extensions(app):
     db.init_app(app)
 
     if app.debug:
+        from flask_debugtoolbar import DebugToolbarExtension
         debugtoolbar = DebugToolbarExtension(app)
 
     app.logger.info('Extensions initialized')
