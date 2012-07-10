@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from flaskext.wtf import Form, TextField, TextAreaField, SubmitField, \
+from flask.ext.wtf import Form, TextField, TextAreaField, SubmitField, \
     BooleanField, SelectField, SelectMultipleField, ValidationError, \
     DateTimeField, required, optional
 

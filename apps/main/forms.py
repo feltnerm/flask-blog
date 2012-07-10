@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from flaskext.wtf import Form, SubmitField, TextAreaField, required
+from flask.ext.wtf import Form, SubmitField, TextAreaField, required
 
 class DerpForm(Form):
 

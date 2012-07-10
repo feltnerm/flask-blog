@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from flaskext.wtf import Form, TextField, SubmitField, PasswordField, \
+from flask.ext.wtf import Form, TextField, SubmitField, PasswordField, \
     BooleanField, required, equal_to
 
 from apps.extensions import db
