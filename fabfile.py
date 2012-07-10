@@ -57,7 +57,7 @@ env.PROJECT_VENV = 'blog'
 env.user = "mark"
 env.roledefs = {
     'local': ['localhost'],
-    'web': ['23.21.160.20']
+    'web': ['vivid-fire-8342.herokuapp.com']
     #'app': ['app.uwplatt.edu',
     #'dev': ['dev.uwplatt.edu'],
     #'ldap': ['ldap.uwplatt.ed'],
