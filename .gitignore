@@ -12,7 +12,6 @@ pip-log.txt
 .tox
 
 apps/social_queue/*.js
-settings.py
 secret.py
 
 # Uncomment when you get logging set up
