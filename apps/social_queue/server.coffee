@@ -42,7 +42,7 @@ compare_recent_tracks = (updated_recent_tracks) ->
     console.log('current tracks empty: updating')
     current_recent_tracks = updated_recent_tracks
   latest_recent_tracks = updated_recent_tracks
-
+  console.log(latest_recent_tracks)
 
 get_recent_tracks = () ->
   console.log('Querying Last.FM')
@@ -51,6 +51,7 @@ get_recent_tracks = () ->
       limit: 5 
       handlers:
         success: (data) ->
+          console.log('Got some data!')
           if data
             compare_recent_tracks(data.recenttracks.track)
         error: (error) ->
@@ -60,10 +61,12 @@ get_recent_tracks = () ->
 get_recent_tweets = () ->
 
   console.log('Polling twitter')
+
+get_recent_tracks()
  
 io.sockets.on('connection', (socket) ->
 
-  get_recent_tracks()
+  socket.emit('recent_tracks', current_recent_tracks)
 
   lastfm_poller = setInterval( () ->
     get_recent_tracks()
@@ -77,8 +80,6 @@ io.sockets.on('connection', (socket) ->
     else
       console.log('same')
   , 3000)
-
-  socket.emit('recent_tracks', current_recent_tracks)
 
   socket.on('error', (error) ->
     console.log(error)

@@ -11,6 +11,7 @@ pip-log.txt
 .coverage
 .tox
 
+apps/social_queue/*.js
 settings.py
 secret.py
 
