@@ -222,15 +222,15 @@ def configure_logging(app):
     logger_setup = logbook.NestedSetup([
         logbook.NullHandler(),
         # DEBUG Handler
-        logbook.RotatingFileHandler(app.config['DEBUG_LOG'],
-            level=logbook.DEBUG,
-            max_size=100000,
-            backup_count = 10),
+        #logbook.RotatingFileHandler(app.config['DEBUG_LOG'],
+        #    level=logbook.DEBUG,
+        #    max_size=100000,
+        #    backup_count = 10),
         # ERROR Handler
-        logbook.RotatingFileHandler(app.config['ERROR_LOG'],
-            level=logbook.ERROR,
-            max_size=100000,
-            backup_count = 10),
+        #logbook.RotatingFileHandler(app.config['ERROR_LOG'],
+        #    level=logbook.ERROR,
+        #    max_size=100000,
+        #    backup_count = 10),
         logbook.StreamHandler(sys.stdout, level=logbook.INFO),
         ])
         
