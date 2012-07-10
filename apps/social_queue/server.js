@@ -64,7 +64,7 @@ compare_recent_tracks = function(updated_recent_tracks) {
     current_recent_tracks = updated_recent_tracks;
   }
   latest_recent_tracks = updated_recent_tracks;
-  return current_recent_tracks = _.z;
+  return console.log(latest_recent_tracks);
 };
 
 get_recent_tracks = function() {
@@ -74,6 +74,7 @@ get_recent_tracks = function() {
     limit: 5,
     handlers: {
       success: function(data) {
+        console.log('Got some data!');
         if (data) return compare_recent_tracks(data.recenttracks.track);
       },
       error: function(error) {
@@ -87,9 +88,11 @@ get_recent_tweets = function() {
   return console.log('Polling twitter');
 };
 
+get_recent_tracks();
+
 io.sockets.on('connection', function(socket) {
   var lastfm_poller;
-  get_recent_tracks();
+  socket.emit('recent_tracks', current_recent_tracks);
   lastfm_poller = setInterval(function() {
     var new_tracks;
     get_recent_tracks();
@@ -103,7 +106,6 @@ io.sockets.on('connection', function(socket) {
       return console.log('same');
     }
   }, 3000);
-  socket.emit('recent_tracks', current_recent_tracks);
   socket.on('error', function(error) {
     return console.log(error);
   });

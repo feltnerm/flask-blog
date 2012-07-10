@@ -25,6 +25,10 @@ from flask_debugtoolbar import DebugToolbarExtension
 from flask.ext.login import LoginManager
 from flask.ext.principal import Principal, RoleNeed, UserNeed, identity_loaded
 
+import logbook
+from logbook import RotatingFileHandler, StreamHandler
+from logbook.compat import RedirectLoggingHandler
+
 from apps import helpers
 from apps.extensions import admin, babel, bcrypt, cache, db, mail
 from apps.users.models import from_identity
@@ -210,6 +214,27 @@ def configure_identity(app):
 
     app.logger.info('Identity Management Initialized')
 
+def configure_logging(app):
+    ''' Set up a debug and error log in log/ '''
+
+    
+    app.logger.addHandler(RedirectLoggingHandler())
+    logger_setup = logbook.NestedSetup([
+        logbook.NullHandler(),
+        # DEBUG Handler
+        logbook.RotatingFileHandler(app.config['DEBUG_LOG'],
+            level=logbook.DEBUG,
+            max_size=100000,
+            backup_count = 10),
+        # ERROR Handler
+        logbook.RotatingFileHandler(app.config['ERROR_LOG'],
+            level=logbook.ERROR,
+            max_size=100000,
+            backup_count = 10),
+        logbook.StreamHandler(sys.stdout, level=logbook.INFO),
+        ])
+        
+    logger_setup.push_application()
 
 def configure_template_filters(app):
     ''' Make filters to be used in templates. '''
@@ -251,6 +276,7 @@ def generate_app(config):
     app = Flask(__name__, static_folder = 'static', template_folder = 'templates')
     
     configure_app(app, config)
+    configure_logging(app)
     app.logger.debug('%s warming up' % app.config['SITE_NAME'])
     app.logger.debug('Configuration used: %s' % config)
     configure_blueprints(app)
