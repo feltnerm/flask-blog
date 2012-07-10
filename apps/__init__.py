@@ -17,6 +17,7 @@ __status__ = "Development"
 
 import os
 import sys
+import urlparse
 
 from flask import Flask, g, redirect, request, flash,  Markup, render_template, url_for
     
@@ -34,6 +35,7 @@ from apps.users.models import from_identity
 
 def configure_app(app, filename):
     """ Load the app's configuration. """
+
     app.config.from_pyfile(filename)
 
 

@@ -10,7 +10,7 @@ import logging
 # ================
 
 SITE_NAME = 'experientiarum' #ENTER SITE NAME!
-#SITE_URL = ''
+SITE_URL = ''
 #ADMINS = []
 #SERVER_EMAIL = '{{ DEFAULT_MAIL_SENDER }}'
 
@@ -70,12 +70,11 @@ ERROR_LOG = os.path.join(LOG_DIR, 'error.log')
 # ====
 # Mail
 # ====
-#MAIL_SERVER = '{{ MAIL_SERVER }}'
-#MAIL_PORT = {{ MAIL_PORT }}
-#MAIL_USERNAME = '{{ MAIL_USERNAME }}'
-#MAIL_PASSWORD = '{{ MAIL_PASSWORD }}'
-#DEFAULT_MAIL_SENDER = '{{ DEFAULT_MAIL_SENDER }}'
-#MAIL_DEBUG = DEBUG
+MAIL_SERVER = '{{ MAIL_SERVER }}'
+MAIL_USERNAME = '{{ MAIL_USERNAME }}'
+MAIL_PASSWORD = '{{ MAIL_PASSWORD }}'
+MAIL_API_KEY = '{{ MAIL_API_KEY }}'
+MAIL_DEBUG = DEBUG
 
 # =======
 # MongoDB
@@ -89,7 +88,8 @@ MONGODB_PORT = {{ MONGODB_PORT }}
 # =====
 # Cache
 # =====
-CACHE_TYPE = 'null'
+#CACHE_TYPE = 'null'
 CACHE_DEFAULT_TIMEOUT = 300
-#CACHE_TYPE = 'memcached'
+CACHE_TYPE = 'memcached'
 #CACHE_MEMCACHED_SERVERS = ['{{ MEMCACHED_SERVER }}:{{ MEMCACHED_PORT }}']
+CACHE_MEMCACHED_SERVERS = ['{{ MEMCACHE_USERNAME }}:{{ MEMCACHE_PASSWORD }}@{{ MEMCACHE_SERVER }}:{{ MEMCACHE_PORT }}',]

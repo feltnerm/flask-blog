@@ -8,8 +8,10 @@ import os
 import os.path
 import platform
 import urllib2
+import urlparse
 from pprint import pprint
 
+from jinja2 import Environment, FileSystemLoader
 from fabric.colors import *
 from fabric.api import *
 from fabric.contrib.console import *
@@ -84,10 +86,63 @@ def dev():
     server()
     env.roles = ['dev']
 
-
 # ========
 # Settings
 # ========
+@task
+def make_l_settings():
+    """ Creates a new settings.py (locally) """
+
+    settings = dict()
+    # Prompt User for Settings
+    pblue("Enter your environment settings.")
+    settings['PRODUCTION'] = False
+    if confirm(blue("Are these settings for a production server?")):
+            settings['PRODUCTION'] = True
+    pblue('##### DATABASE SETUP #####')
+    mongolab_uri = os.environ.get('MONGOLAB_URI') 
+    if mongolab_uri:
+        url = urlparse.urlparse(mongolab_uri)
+    else:
+        url = urlparse.urlparse('mongodb://username:password@localhost:27017/db_name')
+    settings['MONGODB_HOST'] = prompt(magenta('MONGODB_HOST:'), 
+            default=url.hostname)
+    settings['MONGODB_PORT'] = prompt(magenta('MONGODB_PORT:'),
+            default=url.port)
+    settings['MONGODB_DATABASE'] = prompt(magenta('MONGODB_DATABASE:'),
+            default=url.path[1:])
+    settings['MONGODB_USERNAME'] = prompt(magenta('MONGODB_USERNAME:'),
+            default=url.username)
+    settings['MONGODB_PASSWORD'] = prompt(magenta('MONGODB_PASSWORD:'),
+            default=url.password)
+    
+    pblue('##### MAIL SETUP #####')
+    settings['MAIL_SERVER'] = prompt(magenta('MAIL_SERVER:'),
+            default=os.environ.get('MAILGUN_SMTP_SERVER'))
+    settings['MAIL_USERNAME'] = prompt(magenta('MAIL_USERNAME:'),
+            default=os.environ.get('MAILGUN_SMTP_LOGIN'))
+    settings['MAIL_PASSWORD'] = prompt(magenta('MAIL_PASSWORD:'),
+            default=os.environ.get('MAILGUN_SMTP_PASSWORD'))
+    settings['MAIL_PORT'] = prompt(magenta('MAIL_PORT:'),
+            default=os.environ.get('MAILGUN_SMTP_PORT'))
+    settings['MAIL_API_KEY'] = prompt(magenta('MAIL_API_KEY:'),
+            default=os.environ.get('MAILGUN_API_KEY'))
+
+    pblue('##### MEMCACHE SETUP #####')
+    settings['MEMCACHE_SERVER'] = prompt(magenta('MEMCACHE_SERVER:'))
+    settings['MEMCACHE_USERNAME'] = prompt(magenta('MEMCACHE_USERNAME:'))
+    settings['MEMCACHE_PASSWORD'] = prompt(magenta('MEMCACHE_PASSWORD:'))
+    settings['MEMCACHE_PORT'] = prompt(magenta('MEMCACHE_PORT:'))
+
+
+    if confirm(yellow("Verify everything looks correct?")):
+        settings['SECRET_KEY'] = binascii.b2a_hqx(os.urandom(42))
+   
+        jenv = Environment(loader=FileSystemLoader('.'))
+        text = jenv.get_template('settings.py.template').render(**settings or {})
+        with open('settings.py', 'w') as outputfile:
+            outputfile.write(text)
+
 @task
 def make_settings():
     """ Creates a new settings.py """

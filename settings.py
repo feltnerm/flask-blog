@@ -10,7 +10,7 @@ import logging
 # ================
 
 SITE_NAME = 'experientiarum' #ENTER SITE NAME!
-#SITE_URL = ''
+SITE_URL = ''
 #ADMINS = []
 #SERVER_EMAIL = ''
 
@@ -55,7 +55,7 @@ BABEL_DEFAULT_LOCALE = 'en'
 BABEL_DEFAULT_TIMEZONE = 'utc'
 ASSETS_DEBUG = DEBUG
 INDEX_TEMPLATE = 'index.html'
-SECRET_KEY = """"CpL9hh$8$aFPm-fDLp2,8d0KRAp41J`$h6lQ6-b1&Q,GZZ6L)+`'#MD"""
+SECRET_KEY = """e)FpKGR-lakI4M+lXPLHdFUD0b6!&,(TlHY2XQ6T&D[#haQU)J,HVp!i"""
 
 # =======
 # Logging
@@ -70,26 +70,26 @@ ERROR_LOG = os.path.join(LOG_DIR, 'error.log')
 # ====
 # Mail
 # ====
-#MAIL_SERVER = ''
-#MAIL_PORT = 
-#MAIL_USERNAME = ''
-#MAIL_PASSWORD = ''
-#DEFAULT_MAIL_SENDER = ''
-#MAIL_DEBUG = DEBUG
+MAIL_SERVER = 'smtp.mailgun.org'
+MAIL_USERNAME = 'postmaster@app5809676.mailgun.org'
+MAIL_PASSWORD = '9xlp0hl9xiq0'
+MAIL_API_KEY = 'key-3bh8scnsdpibkumo83ir1t7ynswizmt6'
+MAIL_DEBUG = DEBUG
 
 # =======
 # MongoDB
 # =======
 MONGODB_DATABASE = 'heroku_app5809676'
-MONGODB_USERNAME = 'blog'
-MONGODB_PASSWORD = os.environ['MONGODB_PASSWORD']
-MONGODB_HOST = 'ds035607.mongolab.com'
+MONGODB_USERNAME = 'heroku_app5809676'
+MONGODB_PASSWORD = 'k8vaht13in9q55i1i6hi6cq968'
+MONGODB_HOST = 'ds035607-a.mongolab.com'
 MONGODB_PORT = 35607
 
 # =====
 # Cache
 # =====
-CACHE_TYPE = 'null'
+#CACHE_TYPE = 'null'
 CACHE_DEFAULT_TIMEOUT = 300
-#CACHE_TYPE = 'memcached'
+CACHE_TYPE = 'memcached'
 #CACHE_MEMCACHED_SERVERS = [':']
+CACHE_MEMCACHED_SERVERS = ['app5809676%40heroku.com:AP+fzP2q3svbbmnU@:',]
