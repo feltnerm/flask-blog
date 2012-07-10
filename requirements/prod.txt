@@ -32,6 +32,7 @@ Flask-Principal
 Flask-Login
 
 #
+jsmin
 Markdown
 
 # Extensions
