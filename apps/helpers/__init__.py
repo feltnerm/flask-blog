@@ -5,17 +5,10 @@ import re
 from datetime import datetime
 from markdown import markdown
 
-from markdownextensions import mdx_video
-from githubmarkdown import gfm
-
 from flask import url_for
 from werkzeug.routing import BuildError
 
 from pymongo.son_manipulator import ObjectId
-
-from pygments import highlight
-from pygments.lexers import get_lexer_by_name
-from pygments.formatters import HtmlFormatter
 
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
