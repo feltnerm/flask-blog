@@ -129,9 +129,12 @@ def make_l_settings():
             default=os.environ.get('MAILGUN_API_KEY'))
 
     pblue('##### MEMCACHE SETUP #####')
-    settings['MEMCACHE_SERVER'] = prompt(magenta('MEMCACHE_SERVER:'))
-    settings['MEMCACHE_USERNAME'] = prompt(magenta('MEMCACHE_USERNAME:'))
-    settings['MEMCACHE_PASSWORD'] = prompt(magenta('MEMCACHE_PASSWORD:'))
+    settings['MEMCACHE_SERVER'] = prompt(magenta('MEMCACHE_SERVER:'),
+            default=os.environ.get('MEMCACHE_SERVERS')
+    settings['MEMCACHE_USERNAME'] = prompt(magenta('MEMCACHE_USERNAME:'),
+            default=os.environ.get('MEMCACHE_USERNAME')
+    settings['MEMCACHE_PASSWORD'] = prompt(magenta('MEMCACHE_PASSWORD:'),
+            default=os.environ.get('MEMCACHE_PASSWORD')
     settings['MEMCACHE_PORT'] = prompt(magenta('MEMCACHE_PORT:'))
 
 
