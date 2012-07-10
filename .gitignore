@@ -12,6 +12,7 @@ pip-log.txt
 .tox
 
 secret.py
+settings.py
 
 # Uncomment when you get logging set up
 log/*.log*
