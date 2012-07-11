@@ -50,7 +50,7 @@ if '/vendor' not in ''.join(sys.path):
 PRODUCTION = True 
 DEVELOPMENT = not PRODUCTION
 
-DEBUG = not PRODUCTION
+DEBUG = True
 TESTING = DEBUG
 BABEL_DEFAULT_LOCALE = 'en'
 BABEL_DEFAULT_TIMEZONE = 'utc'
