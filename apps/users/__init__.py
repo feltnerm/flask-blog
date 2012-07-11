@@ -1,4 +1,5 @@
 from datetime import datetime
+import logging
 
 from flask import Blueprint, render_template, abort, request, redirect, \
     url_for, current_app, flash, session, g
@@ -20,12 +21,14 @@ users = Blueprint('users', __name__)
 def login():
 
     form = LoginForm()
+    logger = logging.getLogger('encephalo')
 
     if form.validate_on_submit():
         user, authenticated = authenticate(form.username.data, form.password.data)  
         if authenticated:
             login_user(user, remember=form.remember.data)
             identity_changed.send(current_app._get_current_object(), identity=Identity(user.username))
+            logger.info('User <%s> authenticated and logged in' % user)
             user.last_login = datetime.utcnow()
             user.save()
             return redirect(request.args.get("next") or url_for('main.index'))
@@ -55,7 +58,7 @@ def reauth():
 def register():
    
     form = RegisterForm()
-    
+    logger = logging.getLogger()    
     if form.validate_on_submit():
         if not get_by_username(form.username.data):
             user = db.User()
@@ -64,6 +67,7 @@ def register():
             user.save()
             login_user(user) 
             identity_changed.send(current_app._get_current_object(), identity=Identity(user.username))
+            logger.info('User <%s> registered and logged in' % user)
             flash(u"Welcome %s" % user.username)
             return redirect(url_for('main.index'))
         flash('Username %s already taken!' % form.username.data)

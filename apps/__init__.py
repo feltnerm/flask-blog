@@ -231,7 +231,6 @@ def configure_identity(app):
     principal = Principal(app)
     @identity_loaded.connect_via(app)
     def on_identity_loaded(sender, identity):
-        app.logger.debug('User Identity Loaded: %s' % identity.name)
         user = db.User.find_one({"username": identity.name})
         identity.provides.add(RoleNeed(user.role))
         identity.user = user
@@ -239,7 +238,6 @@ def configure_identity(app):
 
     @login_manager.user_loader
     def load_user(userid):
-        app.logger.debug('User Session Loaded: %s' % helpers.to_oid(userid))
         return db.User.get_from_id(helpers.to_oid(userid))
 
     login_manager.setup_app(app)
