@@ -53,6 +53,7 @@ def configure_app(app, filename):
     setdefault(app.config, 'MONGODB_HOST', url.hostname)
     setdefault(app.config, 'MONGODB_PORT', url.port)
     setdefault(app.config, 'MONGODB_DATABASE', url.path[1:])
+    setdefault(app.config, 'MONGODB_USERNAME', url.username)
     setdefault(app.config, 'MONGODB_PASSWORD', url.password)
 
     setdefault(app.config, 'MAIL_SERVER', os.environ.get('MAILGUN_SMTP_SERVER'))
