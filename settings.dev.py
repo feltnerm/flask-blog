@@ -10,8 +10,8 @@ import binascii
 # Server Settings
 # ================
 
-SITE_NAME = 'experientiarum' #ENTER SITE NAME!
-#SITE_URL = ''
+SITE_NAME = 'encephalo' #ENTER SITE NAME!
+SITE_URL = 'encephalo.herokuapp.com'
 #ADMINS = []
 #SERVER_EMAIL = ''
 

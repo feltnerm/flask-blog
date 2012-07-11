@@ -44,18 +44,23 @@ def configure_app(app, filename):
         url = urlparse.urlparse(mongolab_uri)
     else:
         url = urlparse.urlparse('mongodb://localhost:27017/blog')
-    app.config.setdefault('PRODUCTION', True)
-    app.config.setdefault('MONGODB_HOST', url.hostname)
-    app.config.setdefault('MONGODB_PORT', url.port)
-    app.config.setdefault('MONGODB_DATABASE', url.path[1:])
-    app.config.setdefault('MONGODB_PASSWORD', url.password)
 
-    app.config.setdefault('MAIL_SERVER', os.environ.get('MAILGUN_SMTP_SERVER'))
-    app.config.setdefault('MAIL_PORT', os.environ.get('MAILGUN_SMTP_PORT'))
-    app.config.setdefault('MAIL_USERNAME', os.environ.get('MAILGUN_SMTP_LOGIN'))
-    app.config.setdefault('MAIL_PASSWORD', os.environ.get('MAILGUN_SMTP_PASSWORD'))
-    app.config.setdefault('MAILGUN_API_KEY', os.environ.get('MAILGUN_API_KEY'))
-    app.config.setdefault('CACHE_MEMCACHED_SERVERS', 
+    def setdefault(d, key, value):
+        if d.get(key) is None:
+            d[key] = value
+
+    setdefault(app.config, 'PRODUCTION', True)
+    setdefault(app.config, 'MONGODB_HOST', url.hostname)
+    setdefault(app.config, 'MONGODB_PORT', url.port)
+    setdefault(app.config, 'MONGODB_DATABASE', url.path[1:])
+    setdefault(app.config, 'MONGODB_PASSWORD', url.password)
+
+    setdefault(app.config, 'MAIL_SERVER', os.environ.get('MAILGUN_SMTP_SERVER'))
+    setdefault(app.config, 'MAIL_PORT', os.environ.get('MAILGUN_SMTP_PORT'))
+    setdefault(app.config, 'MAIL_USERNAME', os.environ.get('MAILGUN_SMTP_LOGIN'))
+    setdefault(app.config, 'MAIL_PASSWORD', os.environ.get('MAILGUN_SMTP_PASSWORD'))
+    setdefault(app.config, 'MAILGUN_API_KEY', os.environ.get('MAILGUN_API_KEY'))
+    setdefault(app.config, 'CACHE_MEMCACHED_SERVERS', 
             ["%s:%s@%s" % (
                 os.environ.get('MEMCACHED_USERNAME'), 
                 os.environ.get('MEMCACHED_PASSWORD'),
@@ -63,7 +68,7 @@ def configure_app(app, filename):
                     )
                 ]
         )
-    app.config.setdefault('SECRET_KEY', binascii.b2a_hqx(os.urandom(42)))
+    setdefault(app.config, 'SECRET_KEY', binascii.b2a_hqx(os.urandom(42)))
 
     app.logger.info(app.config)
 
