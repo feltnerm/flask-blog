@@ -318,8 +318,8 @@ def bootstrap():
     
 @task
 def deploy():
-    build_assets()
     clean()
+    build_assets()
     local('git push origin master')
     local('git push heroku master')
 

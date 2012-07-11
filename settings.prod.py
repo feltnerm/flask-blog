@@ -11,9 +11,9 @@ import binascii
 # ================
 
 SITE_NAME = 'experientiarum' #ENTER SITE NAME!
-#SITE_URL = ''
+#SITE_URL = None
 #ADMINS = []
-#SERVER_EMAIL = ''
+#SERVER_EMAIL = None
 
 
 # ======================
@@ -39,9 +39,9 @@ VENDOR_ROOT = os.path.join(CURRENT_DIR, 'vendor')
 # ===========
 # Python Path
 # ===========
-if '/helpers' not in ''.join(sys.path):
+if '/helpers' not in None.join(sys.path):
     sys.path.append(HELPERS_ROOT)
-if '/vendor' not in ''.join(sys.path):
+if '/vendor' not in None.join(sys.path):
     sys.path.append(VENDOR_ROOT)
 
 # ===============
@@ -71,19 +71,19 @@ ERROR_LOG = os.path.join(LOG_DIR, 'error.log')
 # ====
 # Mail
 # ====
-MAIL_SERVER = ''
-MAIL_USERNAME = ''
-MAIL_PASSWORD = ''
+MAIL_SERVER = None
+MAIL_USERNAME = None
+MAIL_PASSWORD = None
 MAIL_DEBUG = DEBUG
 
 # =======
 # MongoDB
 # =======
-MONGODB_DATABASE = ''
-MONGODB_HOST = ''
-MONGODB_PORT = None 
-MONGODB_USERNAME = ''
-MONGODB_PASSWORD = ''
+MONGODB_DATABASE = None 
+MONGODB_HOST = None
+MONGODB_PORT = None
+MONGODB_USERNAME = None
+MONGODB_PASSWORD = None
 # =====
 # Cache
 # =====
