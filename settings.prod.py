@@ -11,9 +11,9 @@ import binascii
 # ================
 
 SITE_NAME = 'experientiarum' #ENTER SITE NAME!
-SITE_URL = ''
+#SITE_URL = ''
 #ADMINS = []
-#SERVER_EMAIL = '{{ DEFAULT_MAIL_SENDER }}'
+#SERVER_EMAIL = ''
 
 
 # ======================
@@ -47,7 +47,7 @@ if '/vendor' not in ''.join(sys.path):
 # ===============
 # Global Settings
 # ===============
-PRODUCTION = True
+PRODUCTION = True 
 DEVELOPMENT = not PRODUCTION
 
 DEBUG = not PRODUCTION
@@ -56,7 +56,7 @@ BABEL_DEFAULT_LOCALE = 'en'
 BABEL_DEFAULT_TIMEZONE = 'utc'
 ASSETS_DEBUG = DEBUG
 INDEX_TEMPLATE = 'index.html'
-SECRET_KEY = binascii.b2a_hqx(os.urandom(42)) 
+SECRET_KEY = """+(F53TeALGZIkQ)JVfe3C91m8Y0C)'dp4@)+-kmrc+)140K(e2XQY-p5"""
 
 # =======
 # Logging
@@ -71,29 +71,24 @@ ERROR_LOG = os.path.join(LOG_DIR, 'error.log')
 # ====
 # Mail
 # ====
-MAIL_SERVER = os.environ.get('MAILGUN_SMTP_SERVER')
-MAIL_USERNAME = os.environ.get('MAILGUN_SMTP_LOGIN')
-MAIL_PASSWORD = os.environ.get('MAILGUN_SMTP_PASSWORD')
-MAIL_API_KEY = os.environ.get('MAILGUN_SMT_PORT')
+MAIL_SERVER = ''
+MAIL_USERNAME = ''
+MAIL_PASSWORD = ''
 MAIL_DEBUG = DEBUG
 
 # =======
 # MongoDB
 # =======
-mongolab_uri = os.environ.get('MONGOLAB_URI') 
-if mongolab_uri:
-    url = urlparse.urlparse(mongolab_uri)
-MONGODB_DATABASE = url.path[1:]
-MONGODB_HOST = url.hostname
-MONGODB_PORT = url.port
-MONGODB_USERNAME = url.username
-MONGODB_PASSWORD = url.password
-
+MONGODB_DATABASE = ''
+MONGODB_HOST = ''
+MONGODB_PORT = None 
+MONGODB_USERNAME = ''
+MONGODB_PASSWORD = ''
 # =====
 # Cache
 # =====
-#CACHE_TYPE = 'null'
-CACHE_DEFAULT_TIMEOUT = 300
-CACHE_TYPE = 'memcached'
-#CACHE_MEMCACHED_SERVERS = ['{{ MEMCACHED_SERVER }}:{{ MEMCACHED_PORT }}']
-CACHE_MEMCACHED_SERVERS = [os.environ.get('MEMCACHE_USERNAME')+':'+os.environ.get('MEMCACHE_PASSWORD')+'@'+os.environ.get('MEMCACHE_SERVER'),]
+CACHE_TYPE = 'null'
+#CACHE_DEFAULT_TIMEOUT = 300
+#CACHE_TYPE = 'memcached'
+#CACHE_MEMCACHED_SERVERS = [':']
+#CACHE_MEMCACHED_SERVERS = [os.environ.get('MEMCACHE_USERNAME')+':'+os.environ.get('MEMCACHE_PASSWORD')+'@'+os.environ.get('MEMCACHE_SERVER'),]

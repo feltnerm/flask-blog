@@ -4,6 +4,7 @@ import sys
 import os
 import os.path
 import logging
+import binascii
 
 # ================
 # Server Settings
@@ -12,7 +13,7 @@ import logging
 SITE_NAME = 'experientiarum' #ENTER SITE NAME!
 #SITE_URL = ''
 #ADMINS = []
-#SERVER_EMAIL = ''
+#SERVER_EMAIL = '{{ DEFAULT_MAIL_SENDER }}'
 
 
 # ======================
@@ -46,7 +47,7 @@ if '/vendor' not in ''.join(sys.path):
 # ===============
 # Global Settings
 # ===============
-PRODUCTION = False
+PRODUCTION = {{ PRODUCTION }} 
 DEVELOPMENT = not PRODUCTION
 
 DEBUG = not PRODUCTION
@@ -55,7 +56,7 @@ BABEL_DEFAULT_LOCALE = 'en'
 BABEL_DEFAULT_TIMEZONE = 'utc'
 ASSETS_DEBUG = DEBUG
 INDEX_TEMPLATE = 'index.html'
-SECRET_KEY = """bJ3FiNZ0aQc9$S0!'HcmdZ("K10CUSfT432U$N2h&2#bCX2DFT6-GD,,"""
+SECRET_KEY = """{{ SECRET_KEY }}"""
 
 # =======
 # Logging
@@ -70,26 +71,24 @@ ERROR_LOG = os.path.join(LOG_DIR, 'error.log')
 # ====
 # Mail
 # ====
-#MAIL_SERVER = ''
-#MAIL_PORT = 
-#MAIL_USERNAME = ''
-#MAIL_PASSWORD = ''
-#DEFAULT_MAIL_SENDER = ''
-#MAIL_DEBUG = DEBUG
+MAIL_SERVER = '{{ MAIL_SERVER }}'
+MAIL_USERNAME = '{{ MAIL_USERNAME }}'
+MAIL_PASSWORD = '{{ MAIL_PASSWORD }}'
+MAIL_DEBUG = DEBUG
 
 # =======
 # MongoDB
 # =======
-MONGODB_DATABASE = 'experientiarum'
-MONGODB_USERNAME = ''
-MONGODB_PASSWORD = ''
-MONGODB_HOST = 'localhost'
-MONGODB_PORT = 27017
-
+MONGODB_DATABASE = '{{ MONGODB_DATABASE }}'
+MONGODB_HOST = '{{ MONGODB_HOST }}'
+MONGODB_PORT = {{ MONGODB_PORT }}
+MONGODB_USERNAME = '{{ MONGODB_USERNAME }}'
+MONGODB_PASSWORD = '{{ MONGODB_PASSWORD }}'
 # =====
 # Cache
 # =====
 CACHE_TYPE = 'null'
-CACHE_DEFAULT_TIMEOUT = 300
+#CACHE_DEFAULT_TIMEOUT = 300
 #CACHE_TYPE = 'memcached'
-#CACHE_MEMCACHED_SERVERS = [':']
+#CACHE_MEMCACHED_SERVERS = ['{{ MEMCACHED_SERVER }}:{{ MEMCACHED_PORT }}']
+#CACHE_MEMCACHED_SERVERS = [os.environ.get('MEMCACHE_USERNAME')+':'+os.environ.get('MEMCACHE_PASSWORD')+'@'+os.environ.get('MEMCACHE_SERVER'),]

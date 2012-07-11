@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-# EC2: ubuntu@23.21.160.20
-#!/usr/bin/env python
 
 import binascii
 import datetime
@@ -11,6 +9,7 @@ import urllib2
 import urlparse
 from pprint import pprint
 
+import cssmin
 from jinja2 import Environment, FileSystemLoader
 from fabric.colors import *
 from fabric.api import *
@@ -66,10 +65,7 @@ env.roledefs = {
 }
 
 def server():
-    env.PROJECT_ROOT = '~/blog' 
-    env.user = "ubuntu" 
-    env.key_filename = "~/.ssh/webserverkey.pem"
-
+    env.PROJECT_ROOT = '/app/'
 
 @task
 def web():
@@ -89,9 +85,7 @@ def dev():
 # ========
 # Settings
 # ========
-@task
-def make_l_settings():
-    """ Creates a new settings.py (locally) """
+def get_settings():
 
     settings = dict()
     # Prompt User for Settings
@@ -99,77 +93,61 @@ def make_l_settings():
     settings['PRODUCTION'] = False
     if confirm(blue("Are these settings for a production server?")):
             settings['PRODUCTION'] = True
-    pblue('##### DATABASE SETUP #####')
-    mongolab_uri = os.environ.get('MONGOLAB_URI') 
-    if mongolab_uri:
-        url = urlparse.urlparse(mongolab_uri)
-    else:
-        url = urlparse.urlparse('mongodb://username:password@localhost:27017/db_name')
-    settings['MONGODB_HOST'] = prompt(magenta('MONGODB_HOST:'), 
-            default=url.hostname)
-    settings['MONGODB_PORT'] = prompt(magenta('MONGODB_PORT:'),
-            default=url.port)
-    settings['MONGODB_DATABASE'] = prompt(magenta('MONGODB_DATABASE:'),
-            default=url.path[1:])
-    settings['MONGODB_USERNAME'] = prompt(magenta('MONGODB_USERNAME:'),
-            default=url.username)
-    settings['MONGODB_PASSWORD'] = prompt(magenta('MONGODB_PASSWORD:'),
-            default=url.password)
-    
-    pblue('##### MAIL SETUP #####')
-    settings['MAIL_SERVER'] = prompt(magenta('MAIL_SERVER:'),
-            default=os.environ.get('MAILGUN_SMTP_SERVER'))
-    settings['MAIL_USERNAME'] = prompt(magenta('MAIL_USERNAME:'),
-            default=os.environ.get('MAILGUN_SMTP_LOGIN'))
-    settings['MAIL_PASSWORD'] = prompt(magenta('MAIL_PASSWORD:'),
-            default=os.environ.get('MAILGUN_SMTP_PASSWORD'))
-    settings['MAIL_PORT'] = prompt(magenta('MAIL_PORT:'),
-            default=os.environ.get('MAILGUN_SMTP_PORT'))
-    settings['MAIL_API_KEY'] = prompt(magenta('MAIL_API_KEY:'),
-            default=os.environ.get('MAILGUN_API_KEY'))
 
-    pblue('##### MEMCACHE SETUP #####')
-    settings['MEMCACHE_SERVER'] = prompt(magenta('MEMCACHE_SERVER:'),
-            default=os.environ.get('MEMCACHE_SERVERS')
-    settings['MEMCACHE_USERNAME'] = prompt(magenta('MEMCACHE_USERNAME:'),
-            default=os.environ.get('MEMCACHE_USERNAME')
-    settings['MEMCACHE_PASSWORD'] = prompt(magenta('MEMCACHE_PASSWORD:'),
-            default=os.environ.get('MEMCACHE_PASSWORD')
-    settings['MEMCACHE_PORT'] = prompt(magenta('MEMCACHE_PORT:'))
-
-
-    if confirm(yellow("Verify everything looks correct?")):
-        settings['SECRET_KEY'] = binascii.b2a_hqx(os.urandom(42))
-   
-        jenv = Environment(loader=FileSystemLoader('.'))
-        text = jenv.get_template('settings.py.template').render(**settings or {})
-        with open('settings.py', 'w') as outputfile:
-            outputfile.write(text)
-
-@task
-def make_settings():
-    """ Creates a new settings.py """
-    
-    settings = dict()
-
-    # Prompt User for Settings
-    pblue("Enter your environment settings.")
-    settings['PRODUCTION'] = False
-    if confirm(blue("Are these settings for a production server?")):
-            settings['PRODUCTION'] = True
     puts('')
+    pblue('##### DATABASE SETUP #####')
     settings['MONGODB_HOST'] = prompt(magenta('MONGODB_HOST:'))
     settings['MONGODB_PORT'] = prompt(magenta('MONGODB_PORT:'))
     settings['MONGODB_DATABASE'] = prompt(magenta('MONGODB_DATABASE:'))
     settings['MONGODB_USERNAME'] = prompt(magenta('MONGODB_USERNAME:'))
     settings['MONGODB_PASSWORD'] = prompt(magenta('MONGODB_PASSWORD:'))
+
+    puts('')
+    pblue('##### MAIL SETUP #####')
+    settings['MAIL_SERVER'] = prompt(magenta('MAIL_SERVER:'))
+    settings['MAIL_USERNAME'] = prompt(magenta('MAIL_USERNAME:'))
+    settings['MAIL_PASSWORD'] = prompt(magenta('MAIL_PASSWORD:'))
+    settings['MAIL_PORT'] = prompt(magenta('MAIL_PORT:'))
+    settings['MAIL_API_KEY'] = prompt(magenta('MAIL_API_KEY:')) 
+
+    puts('')
+    pblue('##### MEMCACHE SETUP #####')
+    settings['MEMCACHE_SERVER'] = prompt(magenta('MEMCACHE_SERVER:'))
+    settings['MEMCACHE_USERNAME'] = prompt(magenta('MEMCACHE_USERNAME:'))
+    settings['MEMCACHE_PASSWORD'] = prompt(magenta('MEMCACHE_PASSWORD:'))
     if confirm(yellow("Verify everything looks correct?")):
         settings['SECRET_KEY'] = binascii.b2a_hqx(os.urandom(42))
 
+        return settings
+
+    return None
+
+@task
+def make_local_settings():
+    """ Creates a new settings.py (locally) """
+    
+    settings = get_settings()
+    if settings:
+        jenv = Environment(loader=FileSystemLoader('.'))
+        text = jenv.get_template('settings.template.py').render(**settings or {})
+        outputfile_name = 'settings.dev.py'
+        if settings['PRODUCTION']:
+            outputfile_name = 'settings.prod.py'
+        with open(outputfile_name, 'w') as outputfile:
+            outputfile.write(text)
+
+@task
+def make_settings():
+    """ Creates a new settings.py """
+    settings = get_settings()
+    if settings:
+        outputfile_name = 'settings.dev.py'
+        if settings['PRODUCTION']:
+            outputfile_name = 'settings.prod.py'
         with cd(env.PROJECT_ROOT):
             with prefix('workon %s' % env.PROJECT_VENV): 
-                upload_template('settings.py.template', 
-                        os.path.join(env.PROJECT_ROOT, 'settings.py'), 
+                upload_template('settings.template.py', 
+                    os.path.join(env.PROJECT_ROOT, outputfile_name), 
                         context=settings, use_jinja=True, backup=False)
 
 # ======================
@@ -192,16 +170,35 @@ def console():
 
 @task
 def less():
-    local('lessc apps/static/less/style.less apps/static/css/style.css')
+    with lcd('apps/static/less'):
+        local('lessc style.less ../css/style.css')
 
 @task
 def coffee():
-    local('coffee -b --compile --output apps/static/js/ apps/static/coffee/*.coffee')
+    with lcd('apps/static/coffee'):
+        local('coffee -b --compile --output ../js/ *.coffee')
 
 @task
-def compile():
+def uglify():
+    with lcd('apps/static/js'):
+        local('uglifyjs script.js >> script.min.js')
+        local('uglifyjs plugins.js >> plugins.min.js')
+
+@task
+def cssmin():
+    with lcd('apps/static/css'):
+        local('cat *.css | cssmin > style.min.css')
+@task
+def watch_coffee():
+    with lcd('apps/static/coffee'):
+        local('coffee -o ../js/ --watch --compile ./*coffee')
+
+@task
+def build_assets():
     less()
     coffee()
+    uglify()
+    cssmin()
 
 @task
 def test():
@@ -232,6 +229,15 @@ def freeze():
 def clone():
     pass
     run('git clone git@github.com:feltnerm/blog.git %s' % env.PROJECT_ROOT)
+
+@task
+def commit():
+    build_assets()
+    clean()
+
+    print "Commit message: "
+    commit_message = raw_input()
+    local("git commit -am \"%s\"" % commit_message)
 
 @task
 def pull():
@@ -293,7 +299,7 @@ def boilerplate():
         pred('Project already exists!')
 
 # =========
-# Bootstrap
+# Deployment
 # =========
 @task
 def bootstrap():
@@ -310,6 +316,12 @@ def bootstrap():
     #with cd(env.PROJECT_ROOT):
         #run('mkdir log/')
     
+@task
+def deploy():
+    build_assets()
+    clean()
+    local('git push origin master')
+    local('git push heroku master')
 
 # ===============
 # Setup :: Common
@@ -321,6 +333,10 @@ def bootstrap():
 @task
 def clean():
     rmpyc()
+    with lcd('apps/static/'):
+        local('rm -rf js/*.js')
+        local('rm -rf css/*.css')
+        local('rm -rf gen/*')
 
 @task
 def pychecker():

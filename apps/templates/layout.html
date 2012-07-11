@@ -26,9 +26,12 @@
 
     <!-- CSS
   ================================================== -->
-    {% assets "css_base" %}
-    <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
-    {% endassets %}
+    {% if config.debug %}
+    <link rel='stylesheet' type='text/css' href='/static/css/style.css
+    {% else %}
+    <link rel='stylesheet' type='text/css' href='/static/css/style.min.css'>
+    {% endif %}
+    <link rel='stylesheet' type='text/css' href='/static/vendor/highlight/styles/github.min.css'>
 
     {% block extra_css %}{% endblock %}
 
@@ -143,10 +146,18 @@
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
     <script>window.jQuery || document.write("<script src='/static/vendor/jqueryui/js/jquery-ui-1.8.18.min.js'>/x3c/script>")</script>
 
-    {% assets "js_base" %}
-    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-    {% endassets %}
-
+    <!-- Twitter Bootstrap -->
+    <script type="text/javascript" src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Source Code Syntax Highlighting -->
+    <script type="text/javascript" src="/static/vendor/highlight/highlight.pack.js"></script>
+    <!-- Custom JS -->
+    {% if config.debug %}
+    <script type="text/javascript" src="/static/js/script.js"></script>
+    {% else %}
+    <script type='text/javascript' src='/static/js/script.min.js'></script>
+    {% endif %}
+    
+    <!-- Extra JS -->
     {% block extra_js %}{% endblock %}
 
     <script>

@@ -18,6 +18,7 @@ __status__ = "Development"
 import os
 import sys
 import urlparse
+import binascii
 
 from flask import Flask, g, redirect, request, flash,  Markup, render_template, url_for
     
@@ -38,6 +39,34 @@ def configure_app(app, filename):
 
     app.config.from_pyfile(filename)
 
+    mongolab_uri = os.environ.get('MONGOLAB_URI')
+    if mongolab_uri: 
+        url = urlparse.urlparse(mongolab_uri)
+    else:
+        url = urlparse.urlparse('mongodb://localhost:27017/blog')
+    app.config.setdefault('PRODUCTION', True)
+    app.config.setdefault('MONGODB_HOST', url.hostname)
+    app.config.setdefault('MONGODB_PORT', url.port)
+    app.config.setdefault('MONGODB_DATABASE', url.path[1:])
+    app.config.setdefault('MONGODB_PASSWORD', url.password)
+
+    app.config.setdefault('MAIL_SERVER', os.environ.get('MAILGUN_SMTP_SERVER'))
+    app.config.setdefault('MAIL_PORT', os.environ.get('MAILGUN_SMTP_PORT'))
+    app.config.setdefault('MAIL_USERNAME', os.environ.get('MAILGUN_SMTP_LOGIN'))
+    app.config.setdefault('MAIL_PASSWORD', os.environ.get('MAILGUN_SMTP_PASSWORD'))
+    app.config.setdefault('MAILGUN_API_KEY', os.environ.get('MAILGUN_API_KEY'))
+    app.config.setdefault('CACHE_MEMCACHED_SERVERS', 
+            ["%s:%s@%s" % (
+                os.environ.get('MEMCACHED_USERNAME'), 
+                os.environ.get('MEMCACHED_PASSWORD'),
+                os.environ.get('MEMCACHED_SERVER')
+                    )
+                ]
+        )
+    app.config.setdefault('SECRET_KEY', binascii.b2a_hqx(os.urandom(42)))
+
+    app.logger.info(app.config)
+
 def configure_assets(app):
     """ Set up Flask-Assets """
 
@@ -45,6 +74,11 @@ def configure_assets(app):
     assets_output_dir = os.path.join(app.config['STATIC_ROOT'], 'gen')
     if not os.path.exists(assets_output_dir):
         os.mkdir(assets_output_dir)
+
+    ## SITE REQUIRED
+    # bootstrap
+    #   /vendor/boostrap/js/bootstrap.min.js
+    #   /vendor/bootstrap/css/
 
     bootstrap_wysihtml5_css = Bundle(
         'vendor/bootstrap/css/bootstrap-wysihtml5.css',
@@ -56,43 +90,27 @@ def configure_assets(app):
         'vendor/bootstrap/js/bootstrap-wysihtml5-advanced.js',
         'vendor/bootstrap/js/wysihtml5.js',
         'vendor/bootstrap/js/bootstrap-wysihtml5.js',
-        filters='jsmin',
+        filters='rjsmin',
         output='gen/wysihtml5.js',
         )
 
-    bootstrap_js = Bundle(
-        'vendor/bootstrap/js/bootstrap.min.js',
-        filters='jsmin')
+    assets.register('js_base', 
+            'vendor/bootstrap/js/bootstrap.min.js',
+            'vendor/highlight/highlight.pack.js',
+            'js/plugins.js',
+            'js/script.js',
+            filters='rjsmin',
+            output='gen/packed.js',
+            debug=app.debug
+        )
 
-    if app.debug:
-        script_js = Bundle(
-            'coffee/script.coffee',
-            filters='coffeescript',
-            output='js/script.js',
-            debug=False)
-    else:
-        script_js = Bundle(
-                'js/script.js',
-                filters='jsmin',
-                debug=False)
-
-    style_less = Bundle(
-        'less/style.less',
-        filters='less',
-        output='css/style.css',
-        debug=False)
-
-    assets.register('js_base', bootstrap_js, script_js,
-        Bundle('vendor/highlight/highlight.pack.js'),
-        filters='jsmin',
-        output='gen/packed.js',
-        debug=app.debug)
-
-    assets.register('css_base', 'css/style.css',
-        Bundle('vendor/highlight/styles/github.css'),
-        filters='cssmin',
-        output='gen/packed.css',
-        debug=app.debug)
+    assets.register('css_base',
+            'vendor/highlight/styles/github.css',
+            'css/style.css',
+            filters='cssmin',
+            output='gen/packed.css',
+            debug=app.debug
+        )
 
     assets.register('bootstrap_wysihtml5_css', bootstrap_wysihtml5_css)
     assets.register('bootstrap_wysihtml_js', bootstrap_wysihtml5_js)
@@ -178,9 +196,12 @@ def configure_extensions(app):
     mail.init_app(app)
     db.init_app(app)
 
-    if app.debug:
+    try:
         from flask_debugtoolbar import DebugToolbarExtension
         debugtoolbar = DebugToolbarExtension(app)
+        app.logger.info('Debug Toolbar Initialized')
+    except ImportError, e:
+        pass
 
     app.logger.info('Extensions initialized')
 

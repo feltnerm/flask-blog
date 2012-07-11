@@ -12,7 +12,7 @@ def main(argv=None):
     ''' Main function to run the server '''
 
     if not argv:
-        argv = 'settings.py'
+        argv = 'settings.dev.py'
     config = os.path.abspath(argv)
     
     app = generate_app(config)

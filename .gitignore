@@ -11,9 +11,6 @@ pip-log.txt
 .coverage
 .tox
 
-secret.py
-settings.py
-
 # Uncomment when you get logging set up
 log/*.log*
 

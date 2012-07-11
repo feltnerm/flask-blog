@@ -3,5 +3,5 @@
 import os
 from apps import generate_app
 
-config = os.path.abspath('settings.py.prod')
+config = os.path.abspath('settings.prod.py')
 app = generate_app(config)
