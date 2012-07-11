@@ -39,9 +39,9 @@ VENDOR_ROOT = os.path.join(CURRENT_DIR, 'vendor')
 # ===========
 # Python Path
 # ===========
-if '/helpers' not in None.join(sys.path):
+if '/helpers' not in ''.join(sys.path):
     sys.path.append(HELPERS_ROOT)
-if '/vendor' not in None.join(sys.path):
+if '/vendor' not in ''.join(sys.path):
     sys.path.append(VENDOR_ROOT)
 
 # ===============
@@ -56,7 +56,6 @@ BABEL_DEFAULT_LOCALE = 'en'
 BABEL_DEFAULT_TIMEZONE = 'utc'
 ASSETS_DEBUG = DEBUG
 INDEX_TEMPLATE = 'index.html'
-SECRET_KEY = """+(F53TeALGZIkQ)JVfe3C91m8Y0C)'dp4@)+-kmrc+)140K(e2XQY-p5"""
 
 # =======
 # Logging
@@ -71,19 +70,12 @@ ERROR_LOG = os.path.join(LOG_DIR, 'error.log')
 # ====
 # Mail
 # ====
-MAIL_SERVER = None
-MAIL_USERNAME = None
-MAIL_PASSWORD = None
 MAIL_DEBUG = DEBUG
 
 # =======
 # MongoDB
 # =======
-MONGODB_DATABASE = None 
-MONGODB_HOST = None
-MONGODB_PORT = None
-MONGODB_USERNAME = None
-MONGODB_PASSWORD = None
+
 # =====
 # Cache
 # =====
