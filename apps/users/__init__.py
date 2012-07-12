@@ -28,12 +28,11 @@ def login():
         if authenticated:
             login_user(user, remember=form.remember.data)
             identity_changed.send(current_app._get_current_object(), identity=Identity(user.username))
-            logger.info('User <%s> authenticated and logged in' % user)
+            logger.debug('User <%s> authenticated and logged in' % user)
             user.last_login = datetime.utcnow()
             user.save()
             return redirect(request.args.get("next") or url_for('main.index'))
-        else:
-            flash('Sorry, invalid login', 'error')
+    flash('Sorry, invalid login', 'error')
     return render_template('users/login.html', form=form)
 
 
@@ -67,7 +66,7 @@ def register():
             user.save()
             login_user(user) 
             identity_changed.send(current_app._get_current_object(), identity=Identity(user.username))
-            logger.info('User <%s> registered and logged in' % user)
+            logger.debug('User <%s> registered and logged in' % user)
             flash(u"Welcome %s" % user.username)
             return redirect(url_for('main.index'))
         flash('Username %s already taken!' % form.username.data)

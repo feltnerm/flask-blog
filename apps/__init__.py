@@ -68,7 +68,7 @@ def configure_app(app, filename):
         )
     setdefault(app.config, 'SECRET_KEY', binascii.b2a_hqx(os.urandom(42)))
 
-    app.logger.info(app.config)
+    app.logger.debug(app.config)
 
 def configure_assets(app):
     """ Set up Flask-Assets """
@@ -118,7 +118,7 @@ def configure_assets(app):
     assets.register('bootstrap_wysihtml5_css', bootstrap_wysihtml5_css)
     assets.register('bootstrap_wysihtml_js', bootstrap_wysihtml5_js)
 
-    app.logger.info('Assets Registered')
+    app.logger.debug('Assets Registered')
 
 
 def configure_beforehandlers(app):
@@ -168,7 +168,7 @@ def configure_blueprints(app):
     #from todo import todo
     #app.register_blueprint(todo, url_prefix = '/todo')
 
-    app.logger.info('Blueprints and models registered.')
+    app.logger.debug('Blueprints and models registered.')
 
 def configure_errorhandlers(app):
     ''' Set up default HTTP error pages '''
@@ -202,11 +202,11 @@ def configure_extensions(app):
     try:
         from flask_debugtoolbar import DebugToolbarExtension
         debugtoolbar = DebugToolbarExtension(app)
-        app.logger.info('Debug Toolbar Initialized')
+        app.logger.debug('Debug Toolbar Initialized')
     except ImportError, e:
         pass
 
-    app.logger.info('Extensions initialized')
+    app.logger.debug('Extensions initialized')
 
 def configure_il8n(app):
     """ Configure internationalization with Flask-Babel. """
@@ -239,7 +239,7 @@ def configure_identity(app):
 
     login_manager.setup_app(app)
 
-    app.logger.info('Identity Management Initialized')
+    app.logger.debug('Identity Management Initialized')
 
 def configure_logging(app):
     ''' Set up a debug and error log in log/ '''
