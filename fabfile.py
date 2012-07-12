@@ -240,8 +240,8 @@ def clone():
 
 @task
 def commit():
-    build_assets()
     clean()
+    build_assets()
 
     print "Commit message: "
     commit_message = raw_input()
