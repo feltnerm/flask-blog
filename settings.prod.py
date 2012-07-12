@@ -12,7 +12,7 @@ import urlparse
 # ================
 
 SITE_NAME = 'encephalo' #ENTER SITE NAME!
-SITE_URL = 'encephalo.herokuapp.com'
+#SITE_URL = 'encephalo.herokuapp.com'
 #ADMINS = []
 #SERVER_EMAIL = None
 
