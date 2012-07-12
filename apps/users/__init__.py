@@ -20,7 +20,7 @@ users = Blueprint('users', __name__)
 @users.route('/login', methods = ['GET', 'POST'])
 def login():
 
-    form = LoginForm(request.form)
+    form = LoginForm()
     logger = logging.getLogger('encephalo')
 
     if form.validate_on_submit():
@@ -54,21 +54,21 @@ def reauth():
         return redirect(request.args.get('next') or url_for('main.index'))
     return render_template('reauth.html')
 
-@users.route('/register', methods = ['GET', 'POST'])
-def register():
-   
-    form = RegisterForm(request.form)
-    logger = logging.getLogger()    
-    if form.validate_on_submit():
-        if not get_by_username(form.username.data):
-            user = db.User()
-            user.username = form.username.data
-            user._set_password(form.password1.data)
-            user.save()
-            login_user(user) 
-            identity_changed.send(current_app._get_current_object(), identity=Identity(user.username))
-            logger.debug('User <%s> registered and logged in' % user)
-            flash(u"Welcome %s" % user.username)
-            return redirect(url_for('main.index'))
-        flash('Username %s already taken!' % form.username.data)
-    return render_template('users/register.html', form=form)
+#@users.route('/register', methods = ['GET', 'POST'])
+#def register():
+#   
+#    form = RegisterForm()
+#    logger = logging.getLogger()    
+#    if form.validate_on_submit():
+#        if not get_by_username(form.username.data):
+#            user = db.User()
+#            user.username = form.username.data
+#            user._set_password(form.password1.data)
+#            user.save()
+#            login_user(user) 
+#            identity_changed.send(current_app._get_current_object(), identity=Identity(user.username))
+#            logger.debug('User <%s> registered and logged in' % user)
+           # flash(u"Welcome %s" % user.username)
+#            return redirect(url_for('main.index'))
+#        flash('Username %s already taken!' % form.username.data)
+#    return render_template('users/register.html', form=form)

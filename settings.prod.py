@@ -48,7 +48,7 @@ if '/vendor' not in ''.join(sys.path):
 # ===============
 # Global Settings
 # ===============
-PRODUCTION = True 
+PRODUCTION = False
 DEVELOPMENT = not PRODUCTION
 
 DEBUG = not PRODUCTION
