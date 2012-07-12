@@ -35,37 +35,34 @@ from apps.extensions import admin, babel, bcrypt, cache, db, mail
 from apps.users.models import from_identity
 
 def configure_app(app, filename):
-    """ Load the app's configuration. """
+    """ Load the app's configuration. First, loads configuration defaults from 
+    a pyfile, then overrides those defaults with what is found in the
+    environment variables.
+    """
 
     app.config.from_pyfile(filename)
-
-    mongolab_uri = os.environ.get('MONGOLAB_URI')
-    if mongolab_uri: 
-        url = urlparse.urlparse(mongolab_uri)
-    else:
-        url = urlparse.urlparse('mongodb://localhost:27017/blog')
 
     def setdefault(d, key, value):
         if d.get(key) is None:
             d[key] = value
 
     setdefault(app.config, 'PRODUCTION', True)
-    setdefault(app.config, 'MONGODB_HOST', url.hostname)
-    setdefault(app.config, 'MONGODB_PORT', url.port)
-    setdefault(app.config, 'MONGODB_DATABASE', url.path[1:])
-    setdefault(app.config, 'MONGODB_USERNAME', url.username)
-    setdefault(app.config, 'MONGODB_PASSWORD', url.password)
+    setdefault(app.config, 'MONGODB_HOST', os.environ.get('MONGODB_HOST'))
+    setdefault(app.config, 'MONGODB_PORT', os.environ.get('MONGODB_PORT'))
+    setdefault(app.config, 'MONGODB_DATABASE', os.environ.get('MONGODB_DATABASE'))
+    setdefault(app.config, 'MONGODB_USERNAME', os.environ.get('MONGODB_USERNAME'))
+    setdefault(app.config, 'MONGODB_PASSWORD', os.environ.get('MONGODB_PASSWORD'))
 
-    setdefault(app.config, 'MAIL_SERVER', os.environ.get('MAILGUN_SMTP_SERVER'))
-    setdefault(app.config, 'MAIL_PORT', os.environ.get('MAILGUN_SMTP_PORT'))
-    setdefault(app.config, 'MAIL_USERNAME', os.environ.get('MAILGUN_SMTP_LOGIN'))
-    setdefault(app.config, 'MAIL_PASSWORD', os.environ.get('MAILGUN_SMTP_PASSWORD'))
+    setdefault(app.config, 'MAIL_SERVER', os.environ.get('MAIL_SERVER'))
+    setdefault(app.config, 'MAIL_PORT', os.environ.get('MAIL_PORT'))
+    setdefault(app.config, 'MAIL_USERNAME', os.environ.get('MAIL_USERNAME'))
+    setdefault(app.config, 'MAIL_PASSWORD', os.environ.get('MAIL_PASSWORD'))
     setdefault(app.config, 'MAILGUN_API_KEY', os.environ.get('MAILGUN_API_KEY'))
     setdefault(app.config, 'CACHE_MEMCACHED_SERVERS', 
             ["%s:%s@%s" % (
-                os.environ.get('MEMCACHED_USERNAME'), 
-                os.environ.get('MEMCACHED_PASSWORD'),
-                os.environ.get('MEMCACHED_SERVER')
+                os.environ.get('MEMCACHE_USERNAME'), 
+                os.environ.get('MEMCACHE_PASSWORD'),
+                os.environ.get('MEMCACHE_SERVERS')
                     )
                 ]
         )
@@ -261,6 +258,7 @@ def configure_logging(app):
         #    level=logbook.ERROR,
         #    max_size=100000,
         #    backup_count = 10),
+        logbook.StreamHandler(sys.stderr, level=logbook.WARNING),
         logbook.StreamHandler(sys.stdout, level=logbook.INFO),
         ])
         

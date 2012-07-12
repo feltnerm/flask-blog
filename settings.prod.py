@@ -5,6 +5,7 @@ import os
 import os.path
 import logging
 import binascii
+import urlparse
 
 # ================
 # Server Settings
@@ -62,10 +63,6 @@ INDEX_TEMPLATE = 'index.html'
 # =======
 LOG_LEVEL = logging.DEBUG
 LOGGER_NAME = SITE_NAME
-LOG_DIR = os.path.join(CURRENT_DIR, 'log')
-LOGFILE = os.path.join(LOG_DIR, '%s.log' % SITE_NAME) # ENTER APP NAME
-DEBUG_LOG = os.path.join(LOG_DIR, 'debug.log')
-ERROR_LOG = os.path.join(LOG_DIR, 'error.log')
 
 # ====
 # Mail
@@ -80,7 +77,6 @@ MAIL_DEBUG = DEBUG
 # Cache
 # =====
 CACHE_TYPE = 'null'
-#CACHE_DEFAULT_TIMEOUT = 300
+CACHE_DEFAULT_TIMEOUT = 300
 #CACHE_TYPE = 'memcached'
-#CACHE_MEMCACHED_SERVERS = [':']
-#CACHE_MEMCACHED_SERVERS = [os.environ.get('MEMCACHE_USERNAME')+':'+os.environ.get('MEMCACHE_PASSWORD')+'@'+os.environ.get('MEMCACHE_SERVER'),]
+#CACHE_MEMCACHED_SERVERS = [os.environ.get('MEMCACHE_USERNAME')+':'+os.environ.get('MEMCACHE_PASSWORD')+'@'+os.environ.get('MEMCACHE_SERVERS'),]

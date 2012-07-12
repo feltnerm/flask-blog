@@ -105,19 +105,20 @@ def get_settings():
     puts('')
     pblue('##### MAIL SETUP #####')
     settings['MAIL_SERVER'] = prompt(magenta('MAIL_SERVER:'))
+    settings['MAIL_PORT'] = prompt(magenta('MAIL_PORT:'))
     settings['MAIL_USERNAME'] = prompt(magenta('MAIL_USERNAME:'))
     settings['MAIL_PASSWORD'] = prompt(magenta('MAIL_PASSWORD:'))
-    settings['MAIL_PORT'] = prompt(magenta('MAIL_PORT:'))
-    settings['MAIL_API_KEY'] = prompt(magenta('MAIL_API_KEY:')) 
+    settings['MAILGUN_API_KEY'] = prompt(magenta('MAIL_API_KEY:')) 
 
     puts('')
     pblue('##### MEMCACHE SETUP #####')
     settings['MEMCACHE_SERVER'] = prompt(magenta('MEMCACHE_SERVER:'))
     settings['MEMCACHE_USERNAME'] = prompt(magenta('MEMCACHE_USERNAME:'))
     settings['MEMCACHE_PASSWORD'] = prompt(magenta('MEMCACHE_PASSWORD:'))
+    secret_key = binascii.b2a_hqx(os.urandom(42)) 
+    pred('\nSECRET KEY: %s' % secret_key)
     if confirm(yellow("Verify everything looks correct?")):
-        settings['SECRET_KEY'] = binascii.b2a_hqx(os.urandom(42))
-
+        settings['SECRET_KEY'] = secret_key
         return settings
 
     return None
@@ -131,19 +132,15 @@ def make_local_settings():
         jenv = Environment(loader=FileSystemLoader('.'))
         text = jenv.get_template('settings.template.py').render(**settings or {})
         outputfile_name = 'settings.dev.py'
-        if settings['PRODUCTION']:
-            outputfile_name = 'settings.prod.py'
         with open(outputfile_name, 'w') as outputfile:
             outputfile.write(text)
 
 @task
 def make_settings():
-    """ Creates a new settings.py """
+    """ Creates a new settings.dev.py """
     settings = get_settings()
     if settings:
         outputfile_name = 'settings.dev.py'
-        if settings['PRODUCTION']:
-            outputfile_name = 'settings.prod.py'
         with cd(env.PROJECT_ROOT):
             with prefix('workon %s' % env.PROJECT_VENV): 
                 upload_template('settings.template.py', 
@@ -153,6 +150,17 @@ def make_settings():
 # ======================
 # Environment Operations
 # ======================
+@task
+def set_env():
+    settings = get_settings()
+    if settings:
+        for key in settings:
+            item = settings.get(key)
+            if isinstance(item, bool):
+                item = str(item)
+            os.environ[key] = item
+            local("export %s='%s'" % (key, item))
+            print os.getenv(key)
 @task
 def make_venv():
     if run('python3 --version', True):
