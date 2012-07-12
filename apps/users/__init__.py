@@ -20,7 +20,7 @@ users = Blueprint('users', __name__)
 @users.route('/login', methods = ['GET', 'POST'])
 def login():
 
-    form = LoginForm()
+    form = LoginForm(request.form)
     logger = logging.getLogger('encephalo')
 
     if form.validate_on_submit():
@@ -32,7 +32,8 @@ def login():
             user.last_login = datetime.utcnow()
             user.save()
             return redirect(request.args.get("next") or url_for('main.index'))
-    flash('Sorry, invalid login', 'error')
+        else:
+            flash('Sorry, invalid login', 'error')
     return render_template('users/login.html', form=form)
 
 
@@ -56,7 +57,7 @@ def reauth():
 @users.route('/register', methods = ['GET', 'POST'])
 def register():
    
-    form = RegisterForm()
+    form = RegisterForm(request.form)
     logger = logging.getLogger()    
     if form.validate_on_submit():
         if not get_by_username(form.username.data):
