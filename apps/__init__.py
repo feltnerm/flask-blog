@@ -48,13 +48,13 @@ def configure_app(app, filename):
 
     setdefault(app.config, 'PRODUCTION', True)
     setdefault(app.config, 'MONGODB_HOST', os.environ.get('MONGODB_HOST'))
-    setdefault(app.config, 'MONGODB_PORT', os.environ.get('MONGODB_PORT'))
+    setdefault(app.config, 'MONGODB_PORT', int(os.environ.get('MONGODB_PORT')))
     setdefault(app.config, 'MONGODB_DATABASE', os.environ.get('MONGODB_DATABASE'))
     setdefault(app.config, 'MONGODB_USERNAME', os.environ.get('MONGODB_USERNAME'))
     setdefault(app.config, 'MONGODB_PASSWORD', os.environ.get('MONGODB_PASSWORD'))
 
     setdefault(app.config, 'MAIL_SERVER', os.environ.get('MAIL_SERVER'))
-    setdefault(app.config, 'MAIL_PORT', os.environ.get('MAIL_PORT'))
+    setdefault(app.config, 'MAIL_PORT', int(os.environ.get('MAIL_PORT')))
     setdefault(app.config, 'MAIL_USERNAME', os.environ.get('MAIL_USERNAME'))
     setdefault(app.config, 'MAIL_PASSWORD', os.environ.get('MAIL_PASSWORD'))
     setdefault(app.config, 'MAILGUN_API_KEY', os.environ.get('MAILGUN_API_KEY'))
