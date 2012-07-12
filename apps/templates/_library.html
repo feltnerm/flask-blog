@@ -46,8 +46,8 @@ var wysihtml5Editor = $('#text-editor').wysihtml5({
     </small></p>
     </div>
 {% endmacro %}
-{% macro render_form(form, cancel_url, form_style='.form-horizontal', extra=None) -%}
-<form action="" method="POST" class="{{ form_style }}">
+{% macro render_form(form, cancel_url, endpoint='', form_style='.form-horizontal', extra=None) -%}
+<form action="{{ endpoint }}" method="POST" class="{{ form_style }}">
     <fieldset>
         {{ form.hidden_tag() }}
 

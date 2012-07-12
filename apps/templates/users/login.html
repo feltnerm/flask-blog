@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
 {% block content %}
 {% from "_library.html" import render_form %}
-    {{ render_form(form) }}
+    {{ render_form(form, endpoint='/login') }}
 {% endblock %}
