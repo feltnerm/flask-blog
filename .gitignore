@@ -14,6 +14,7 @@ pip-log.txt
 # Uncomment when you get logging set up
 log/*.log*
 
+settings.dev.py
 # Uncomment when you get Flask-Assets (static content extension)
 # set up
 apps/static/.webassets-cache/*
