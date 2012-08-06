@@ -17,6 +17,9 @@ from fabric.contrib.console import *
 from fabric.contrib.files import *
 from fabric.utils import *
 
+from flaskext.bcrypt import Bcrypt
+bcrypt = Bcrypt()
+
 """
     fabfile
 
@@ -93,6 +96,13 @@ def get_settings():
     settings['PRODUCTION'] = False
     if confirm(blue("Are these settings for a production server?")):
             settings['PRODUCTION'] = True
+
+    puts('')
+    pblue('##### ADMIN SETUP #####')
+    settings['ADMIN_USERNAME'] = prompt(magenta('ADMIN_USERNAME:'))
+    admin_password = prompt(magenta('ADMIN_PASSWORD:'))
+    admin_password_hashed = bcrypt.generate_password_hash(admin_password)
+    settings['ADMIN_PASSWORD_HASH'] = admin_password_hashed
 
     puts('')
     pblue('##### DATABASE SETUP #####')

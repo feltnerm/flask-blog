@@ -1,5 +1,15 @@
 {% extends "layout.html" %}
 {% block content %}
-{% from "_library.html" import render_form %}
-    {{ render_form(form, endpoint='/login') }}
+<form action='{{ url_for("users.login") }}' method='POST' class=''>
+    <label for='POST-username'>Username:</label>
+    <input id='POST-username' type='text' name='username'>
+
+    <label for='POST-password'>Password:</label>
+    <input id='POST-password' type='password' name='password'>
+
+    <label for='POST-remember'>Remember</label>
+    <input id='POST-remember' type='checkbox' checked='True' name='remember'>
+
+    <input type='submit' value='Login'>
+</form>
 {% endblock %}

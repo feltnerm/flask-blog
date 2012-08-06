@@ -1,5 +1,19 @@
 #!/usr/bin/env python
 
+"""
+  A lot of these settings are generate via the fabfile. Check out
+  make_settings in there.
+
+  i.e., 
+  $ fab make_settings
+
+  or
+
+  $ fab make_local_settings
+
+""" 
+
+
 import sys
 import os
 import os.path
@@ -10,10 +24,10 @@ import binascii
 # Server Settings
 # ================
 
-SITE_NAME = 'encephalo' #ENTER SITE NAME!
-SITE_URL = 'encephalo.herokuapp.com'
-#ADMINS = []
-#SERVER_EMAIL = '{{ DEFAULT_MAIL_SENDER }}'
+SITE_NAME = '' 
+SITE_URL = ''
+ADMIN_USERNAME = '{{ ADMIN_USERNAME }}'
+ADMIN_PASSWORD_HASH = """{{ ADMIN_PASSWORD_HASH}}"""
 
 
 # ======================
@@ -34,15 +48,14 @@ APPS_DIRS = (
 TEMPLATE_DIRS = (os.path.join(APPS_ROOT, 'templates'), )
 STATIC_ROOT = os.path.join(APPS_ROOT, 'static')
 HELPERS_ROOT = os.path.join(CURRENT_DIR, 'helpers')
-VENDOR_ROOT = os.path.join(CURRENT_DIR, 'vendor')
+
 
 # ===========
 # Python Path
 # ===========
 if '/helpers' not in ''.join(sys.path):
     sys.path.append(HELPERS_ROOT)
-if '/vendor' not in ''.join(sys.path):
-    sys.path.append(VENDOR_ROOT)
+
 
 # ===============
 # Global Settings
@@ -58,6 +71,7 @@ ASSETS_DEBUG = DEBUG
 INDEX_TEMPLATE = 'index.html'
 SECRET_KEY = """{{ SECRET_KEY }}"""
 
+
 # =======
 # Logging
 # =======
@@ -68,13 +82,6 @@ LOGFILE = os.path.join(LOG_DIR, '%s.log' % SITE_NAME) # ENTER APP NAME
 DEBUG_LOG = os.path.join(LOG_DIR, 'debug.log')
 ERROR_LOG = os.path.join(LOG_DIR, 'error.log')
 
-# ====
-# Mail
-# ====
-MAIL_SERVER = '{{ MAIL_SERVER }}'
-MAIL_USERNAME = '{{ MAIL_USERNAME }}'
-MAIL_PASSWORD = '{{ MAIL_PASSWORD }}'
-MAIL_DEBUG = DEBUG
 
 # =======
 # MongoDB
@@ -84,6 +91,8 @@ MONGODB_HOST = '{{ MONGODB_HOST }}'
 MONGODB_PORT = {{ MONGODB_PORT }}
 MONGODB_USERNAME = '{{ MONGODB_USERNAME }}'
 MONGODB_PASSWORD = '{{ MONGODB_PASSWORD }}'
+
+
 # =====
 # Cache
 # =====

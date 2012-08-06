@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+"""
+    DEPRECATED!
+"""
+
 
 from flask.ext.wtf import Form, TextField, SubmitField, PasswordField, \
     BooleanField, required, equal_to

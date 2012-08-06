@@ -7,7 +7,6 @@ import argparse
 from apps import generate_app
 
     
-
 def main(argv=None):
     ''' Main function to run the server '''
 
@@ -23,6 +22,7 @@ def main(argv=None):
         app.run()
     
     return 0
+
 
 if __name__ == '__main__':
     status = main()

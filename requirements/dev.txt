@@ -1,6 +1,6 @@
 ## Everything a developer needs. If it is a basic package required by the site
 ## then it goes in requirements/prod.txt. If it's a package for developers 
-# (testing, docs, etc.) it goes in this file.
+## (testing, docs, etc.) it goes in this file.
 -r prod.txt
 
 # Documentation

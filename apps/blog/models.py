@@ -69,13 +69,13 @@ class Entry(Document):
         title       -- title of the Entry
         slug        -- shortened version of the Entry title
         body        -- the actual text of the Entry
+        abstract    -- short teaser
         tags        -- a list of tags pertaining to this Entry
         published   -- whether or not the post has been marked as 'published'
         pub_date    -- the date the Entry was originally published
         edit_date   -- the date of the most previous edit
         deleted     -- whether or not the post has been marked as 'deleted'
         delete_date -- the date of deletion (if applicable)
-        abstract    -- short teaser
     
     """
     

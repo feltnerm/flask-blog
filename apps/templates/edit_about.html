@@ -1,35 +1,10 @@
 {% extends "layout.html" %}
 
-{% from "_library.html" import wysihtml5, render_form %}
 {% block content %}
-    {{ render_form(form, class="text-editor", rows="30"
-    , style="width: 810px;") }}
 {% endblock %}
 
 {% block extra_js %}
-{% assets "bootstrap_wysihtml_js" %}
-<script type='text/javascript' src="{{ ASSET_URL }}"></script>
-{% endassets %}
-<script type='text/javascript'>
-var wysihtml5Editor = $('.text-editor').wysihtml5({
-        "html": true, 
-        "code": true, 
-        "stylesheets": ['/static/vendor/highlight/styles/github.css'],
-        "parserRules": wysihtml5ParserRules,
-        "events": {
-            "change": function () {
-                highlight();
-            },
-            "load": function () {
-                highlight();
-            },
-        }
-});
-</script>
 {% endblock %}
 
 {% block extra_css %}
-{% assets "bootstrap_wysihtml5_css" %}
-<link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
-{% endassets %}
 {% endblock %}

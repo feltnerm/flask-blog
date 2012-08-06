@@ -1,3 +1,4 @@
+{#
 {% macro wysihtml5() %}
 {% assets "bootstrap_wysihtml5_css" %}
 <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
@@ -22,6 +23,7 @@ var wysihtml5Editor = $('#text-editor').wysihtml5({
 });
 </script>
 {% endmacro %}
+#}
 
 {% macro render_tags(tags) %}
     <div class="entry-tags">

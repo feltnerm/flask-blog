@@ -1,35 +1,86 @@
 {% extends "layout.html" %}
 
-{% from "_library.html" import wysihtml5, render_form %}
 {% block content %}
-    {{ render_form(form, class="entry-new-form") }}
+<form action='' method='POST' class=''>
+    <label for='POST-entry-title'>Title: </label>
+    <input id='POST-entry-title' type='text' name='entry-title' value='{{ entry.title }}'>
+
+    <label for='POST-entry-abstract'>Abstract: </label>
+    <textarea id='POST-entry-abstract' name='entry-abstract'>{{ entry.abstract }}</textarea>
+
+    <label for='POST-entry-tags'>Tags: </label>
+    <input id='POST-entry-tags' type='text' name='entry-tags' value='{{ entry.tags }}'>
+
+    <label for='POST-entry-publish'>Publish: </label>
+    <input id='POST-entry-publish' type='checkbox' name='entry-publish' value='{{ entry.publish }}'>
+
+    <label for='POST-entry-delete'>Delete: </label>
+    <input id='POST-entry-delete' type='checkbox' name='entry-delete' value='{{ entry.deleted }}'>
+
+    <div id="wysihtml5-toolbar" style="display: none;"> 
+    <a data-wysihtml5-command="bold" title="CTRL+B">bold</a> |
+        <a data-wysihtml5-command="italic" title="CTRL+I">italic</a> |
+        <a data-wysihtml5-command="createLink">insert link</a> |
+        <a data-wysihtml5-command="insertImage">insert image</a> |
+        <a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h1">h1</a> |
+        <a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2">h2</a> |
+        <a data-wysihtml5-command="insertUnorderedList">insertUnorderedList</a> |
+        <a data-wysihtml5-command="insertOrderedList">insertOrderedList</a> |
+        <a data-wysihtml5-command="foreColor" data-wysihtml5-command-value="red">red</a> |
+        <a data-wysihtml5-command="foreColor" data-wysihtml5-command-value="green">green</a> |
+        <a data-wysihtml5-command="foreColor" data-wysihtml5-command-value="blue">blue</a> |
+        <a data-wysihtml5-command="undo">undo</a> |
+        <a data-wysihtml5-command="redo">redo</a> |
+        <a data-wysihtml5-command="insertSpeech">speech</a>
+        <a data-wysihtml5-action="change_view">switch to html view</a>
+        
+        <div data-wysihtml5-dialog="createLink" style="display: none;">
+          <label>
+            Link:
+            <input data-wysihtml5-dialog-field="href" value="http://">
+          </label>
+          <a data-wysihtml5-dialog-action="save">OK</a>&nbsp;<a data-wysihtml5-dialog-action="cancel">Cancel</a>
+        </div>
+        
+        <div data-wysihtml5-dialog="insertImage" style="display: none;">
+          <label>
+            Image:
+            <input data-wysihtml5-dialog-field="src" value="http://">
+          </label>
+          <label>
+            Align:
+            <select data-wysihtml5-dialog-field="className">
+              <option value="">default</option>
+              <option value="wysiwyg-float-left">left</option>
+              <option value="wysiwyg-float-right">right</option>
+            </select>
+          </label>
+          <a data-wysihtml5-dialog-action="save">OK</a>&nbsp;<a data-wysihtml5-dialog-action="cancel">Cancel</a>
+        </div>
+        
+      </div>
+      <textarea id="wysihtml5-textarea" placeholder="Enter text ..." autofocus name='entry-body'>{{ entry.body|escape }}</textarea>
+      <br><input type="reset" value="Reset form!">
+      <br><input type="submit" value="Submit"> 
+
+    </div>
+</form>
 {% endblock %}
 
 {% block extra_js %}
-{% assets "bootstrap_wysihtml_js" %}
-<script type='text/javascript' src="{{ ASSET_URL }}"></script>
-{% endassets %}
-$('#text-editor').
+<script type='text/javascript' src='/static/js/wysihtml5/parser_rules_advanced.js'></script>
+<script type='text/javascript' src='/static/js/wysihtml5/wysihtml5.min.js'></script>
 <script type='text/javascript'>
-var wysihtml5Editor = $('#text-editor').wysihtml5({
-        "html": true, 
-        "code": true, 
-        "stylesheets": ['/static/vendor/highlight/styles/github.css'],
-        "parserRules": wysihtml5ParserRules,
-        "events": {
-            "change": function () {
-                highlight();
-            },
-            "load": function () {
-                highlight();
-            },
-        }
-});
+    var editor = new wysihtml5.Editor('wysihtml5-textarea', {
+        toolbar: 'wysihtml5-toolbar',
+        stylesheets: ['/static/css/editor.css'], 
+        parserRules: wysihtml5ParserRules
+        });
+
+    var log = document.getElementById('log');
+
 </script>
 {% endblock %}
 
 {% block extra_css %}
-{% assets "bootstrap_wysihtml5_css" %}
-<link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
-{% endassets %}
 {% endblock %}

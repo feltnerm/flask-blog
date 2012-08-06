@@ -1,3 +1,6 @@
+## Python packages that are required to run the production site.
+## i.e., minimum required dependencies to make 'er run.
+
 # Install compiled stuff first
 -r compiled.txt
 
@@ -24,23 +27,10 @@ Logbook
 python-memcached
 Flask-Cache
 
-# Admin
-Flask-Script
-
 # User Auth
 Flask-Principal
 Flask-Login
 
-#
-jsmin
-Markdown
-
 # Extensions
-Flask-Assets
-Flask-Admin
-cssmin
 Flask-Bcrypt
-Flask-Mail
-Flask-Themes
 Flask-Uploads
-Flask-WTF
