@@ -18,12 +18,8 @@ from flask import Flask, g, redirect, request, flash, render_template, url_for
     
 from flask.ext.login import LoginManager
 
-import logbook
-from logbook import RotatingFileHandler, StreamHandler
-from logbook.compat import RedirectLoggingHandler
-
 from apps import helpers
-from apps.extensions import admin, babel, bcrypt, cache, db, mail
+from apps.extensions import babel, bcrypt, cache, db
 
 from apps.users import User
 
@@ -59,7 +55,6 @@ def configure_app(app, filename):
     """
 
     app.config.from_pyfile(filename)
-    app.logger.debug(app.config)
 
 
 def configure_assets(app):
@@ -110,8 +105,6 @@ def configure_assets(app):
     assets.register('bootstrap_wysihtml5_css', bootstrap_wysihtml5_css)
     assets.register('bootstrap_wysihtml_js', bootstrap_wysihtml5_js)
 
-    app.logger.debug('Assets Registered')
-
 
 def configure_blueprints(app):
     ''' Register blueprints. '''
@@ -150,7 +143,6 @@ def configure_blueprints(app):
     #from todo import todo
     #app.register_blueprint(todo, url_prefix = '/todo')
 
-    app.logger.debug('Blueprints and models registered.')
 
 def configure_errorhandlers(app):
     ''' Set up default HTTP error pages '''
@@ -186,11 +178,8 @@ def configure_extensions(app):
         try:
             from flask_debugtoolbar import DebugToolbarExtension
             debugtoolbar = DebugToolbarExtension(app)
-            app.logger.debug('Debug Toolbar Initialized')
         except ImportError, e:
-            app.logger.debug('Could not import Flask-DebugToolbar extension')
-
-    app.logger.debug('Extensions initialized')
+            pass
 
 
 def configure_il8n(app):
@@ -226,23 +215,6 @@ def configure_logging(app):
 
     
     app.logger.addHandler(RedirectLoggingHandler())
-    logger_setup = logbook.NestedSetup([
-        logbook.NullHandler(),
-        # DEBUG Handler
-        #logbook.RotatingFileHandler(app.config['DEBUG_LOG'],
-        #    level=logbook.DEBUG,
-        #    max_size=100000,
-        #    backup_count = 10),
-        # ERROR Handler
-        #logbook.RotatingFileHandler(app.config['ERROR_LOG'],
-        #    level=logbook.ERROR,
-        #    max_size=100000,
-        #    backup_count = 10),
-        logbook.StreamHandler(sys.stderr, level=logbook.WARNING),
-        logbook.StreamHandler(sys.stdout, level=logbook.INFO),
-        ])
-        
-    logger_setup.push_application()
 
 
 def configure_template_filters(app):
@@ -266,7 +238,6 @@ def generate_app(config):
     configure_logging(app)
     configure_extensions(app)
     configure_blueprints(app)
-    #configure_assets(app)
     configure_identity(app)
     configure_errorhandlers(app)
     configure_il8n(app)
