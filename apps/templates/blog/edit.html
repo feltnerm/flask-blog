@@ -16,30 +16,30 @@
 
     <label for='POST-entry-delete'>Delete: </label>
     <input id='POST-entry-delete' type='checkbox' name='entry-delete' value='{{ entry.deleted }}'>
-
+    
     <div id="wysihtml5-toolbar" style="display: none;"> 
-    <a data-wysihtml5-command="bold" title="CTRL+B">bold</a> |
-        <a data-wysihtml5-command="italic" title="CTRL+I">italic</a> |
-        <a data-wysihtml5-command="createLink">insert link</a> |
-        <a data-wysihtml5-command="insertImage">insert image</a> |
-        <a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h1">h1</a> |
-        <a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2">h2</a> |
-        <a data-wysihtml5-command="insertUnorderedList">insertUnorderedList</a> |
-        <a data-wysihtml5-command="insertOrderedList">insertOrderedList</a> |
-        <a data-wysihtml5-command="foreColor" data-wysihtml5-command-value="red">red</a> |
-        <a data-wysihtml5-command="foreColor" data-wysihtml5-command-value="green">green</a> |
-        <a data-wysihtml5-command="foreColor" data-wysihtml5-command-value="blue">blue</a> |
-        <a data-wysihtml5-command="undo">undo</a> |
-        <a data-wysihtml5-command="redo">redo</a> |
-        <a data-wysihtml5-command="insertSpeech">speech</a>
-        <a data-wysihtml5-action="change_view">switch to html view</a>
+        <a class='button' data-wysihtml5-command="bold" title="CTRL+B"><b>bold</b></a> |
+        <a class='button' data-wysihtml5-command="italic" title="CTRL+I"><i>i</i></a> |
+        <a class='button' data-wysihtml5-command="createLink">link</a> |
+        <a data-wysihtml5-command="insertImage">image</a> |
+        <a class='button' data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h1">h1</a> |
+        <a class='button' data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2">h2</a> |
+        <a class='button' data-wysihtml5-command="insertUnorderedList">ul</a> |
+        <a class='button' data-wysihtml5-command="insertOrderedList">ol</a> |
+        <a class='button' data-wysihtml5-command="foreColor" data-wysihtml5-command-value="red">red</a> |
+        <a class='button' data-wysihtml5-command="foreColor" data-wysihtml5-command-value="green">green</a> |
+        <a class='button' data-wysihtml5-command="foreColor" data-wysihtml5-command-value="blue">blue</a> |
+        <a class='button' data-wysihtml5-command="undo">undo</a> |
+        <a class='button' data-wysihtml5-command="redo">redo</a> |
+        <a class='button' data-wysihtml5-command="insertSpeech">speech</a>
+        <a class='button' data-wysihtml5-action="change_view">switch to html view</a>
         
         <div data-wysihtml5-dialog="createLink" style="display: none;">
           <label>
             Link:
             <input data-wysihtml5-dialog-field="href" value="http://">
           </label>
-          <a data-wysihtml5-dialog-action="save">OK</a>&nbsp;<a data-wysihtml5-dialog-action="cancel">Cancel</a>
+          <a class='button' data-wysihtml5-dialog-action="save">OK</a>&nbsp;<a class='button' data-wysihtml5-dialog-action="cancel">Cancel</a>
         </div>
         
         <div data-wysihtml5-dialog="insertImage" style="display: none;">
@@ -55,7 +55,7 @@
               <option value="wysiwyg-float-right">right</option>
             </select>
           </label>
-          <a data-wysihtml5-dialog-action="save">OK</a>&nbsp;<a data-wysihtml5-dialog-action="cancel">Cancel</a>
+          <a class='button' data-wysihtml5-dialog-action="save">OK</a>&nbsp;<a class='button' data-wysihtml5-dialog-action="cancel">Cancel</a>
         </div>
         
       </div>

@@ -1,18 +1,24 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="entry">
+<article id="{{ entry.slug }}_entry-solo">
+<div class="entry-solo">
+
     <div class="entry-title">
         <h2><a href="{{ entry.url }}">{{ entry.title }}</a></h2>
-            <div class="entry-body">
-                {{ entry.body|safe }}
-            </div>
     </div>
+
+    <div class="entry-days">
+        <p><small>{{ entry.pub_date }}</small></p>
+    </div>
+
+    <div class="entry-body">
+        {{ entry.body|safe }}
+    </div>
+
     <div class="entry-meta">
-        <div class="entry-days">
-            <p><small>{{ entry.pub_date }}</small></p>
-            <hr>
-        </div>
         {{ entry.tags }}
     </div>
+
 </div>
+</article>
 {% endblock %}

@@ -14,22 +14,25 @@ from apps.extensions import db
 def get_by_date(year=None, month=None, day=None):
     """ Retrieve one or more entries based on the year, month, and/or day. """
 
-    entries = db.Entry.find()
+    entries = db.Entry.find({'deleted':False, 'published': True})
+    if year is None and month is None and day is None:
+        return entries
     
     matches = []
     for entry in entries:
     
-        if entry.pub_date.year == year:
+        if year == entry.pub_date.year and month == entry.pub_date.month and day == entry.pub_date.day:
             matches.append(entry)
-        if entry.pub_date.month == month:
-            matches.append(entry)
-        if entry.pub_date.day == day:
-            matches.append(day)
+        
+        elif day is None:
+            if entry.pub_date.year == year and entry.pub_date.month == month:
+                matches.append(entry)
 
-    if matches:        
-        return matches
-    else:
-        abort(404)
+            elif month is None:
+                if entry.pub_date.year == year:
+                    matches.append(entry)
+
+    return matches
 
 def get_by_slug(slug, published = True, deleted = False):
     """ Retrieve one entry or return a 404 error. """
@@ -41,10 +44,11 @@ def get_by_slug(slug, published = True, deleted = False):
 def get_by_tags(tags):
    
     result = []
-    for tag in tags.split('+'):
-        for r in db.Entry.find({"tags":tag, "deleted":False, "published":True}).sort('pub_date',-1):
-            if not r in result:
-                result.append(r)
+    for r in db.Entry.find({"deleted":False, "published":True}).sort('pub_date',-1):
+        for tag in tags.split("+"):
+            if tag in r.tags:
+                if not r in result:
+                    result.append(r)
     return result
 
 

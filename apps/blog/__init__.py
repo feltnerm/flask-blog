@@ -53,7 +53,7 @@ def edit_entry(slug):
         title = request.form.get('entry-title')
         abstract = request.form.get('entry-abstract')
         tags = request.form.get('entry-tags')
-        publish = request.form.get('entry-publish', 'off') == 'on'
+        published = request.form.get('entry-publish', 'off') == 'on'
         body = request.form.get('entry-body')
         # If the title has changed, then change the slug
         if title != entry.title:
@@ -64,7 +64,7 @@ def edit_entry(slug):
         entry.set_tags(tags)
         entry.edit_date = datetime.utcnow()
 
-        entry.publish = publish
+        entry.published = published
 
         entry.deleted = request.form.get('entry-delete', 'off') == 'on'
 
@@ -87,7 +87,7 @@ def new_entry():
         title = request.form.get('entry-title')
         abstract = request.form.get('entry-abstract')
         tags = request.form.get('entry-tags')
-        publish = request.form.get('entry-publish', 'off') == 'on'
+        published = request.form.get('entry-publish', 'off') == 'on'
         body = request.form.get('entry-body')
 
         entry = db.Entry()
@@ -101,6 +101,7 @@ def new_entry():
             entry.slug += '-%s' % (pre_entries.count() + 1,)
         entry.body = body
         entry.set_tags(tags)
+        entry.published = published
         
         entry.pub_date = datetime.utcnow()
 
@@ -127,51 +128,40 @@ def recent_entries():
                 published=entry.pub_date)
     return feed.get_response()
 
-#@TODO: make it all work.
 @blog.route('/archive')
-@blog.route('/archive/<year>')
-@blog.route('/archive/<year>/<month>')
-@blog.route('/archive/<year>/<month>/<day>')
-@blog.route('/archive/<year>/<month>/<day>/<slug>')
-def archive(year = None, month = None, day = None, slug = None):
-    
-    if slug:
-        entry = get_by_slug(slug)
-        return render_template('blog/entry.html', entry=entry)
+@blog.route('/archive/<int:year>')
+@blog.route('/archive/<int:year>/<int:month>')
+@blog.route('/archive/<int:year>/<int:month>/<int:day>')
+def archive(year = None, month = None, day = None):
     
     entries = get_by_date(year, month, day)
-    return render_template('blog/list.html', entries=entries)
+    return render_template('blog/entries.html', entries=entries)
 
-#@TODO: make it all work
 @blog.route('/t/<tags>')
 def tags(tags = None):
     entries = get_by_tags(tags)
-    return render_template('blog/list.html', entries=entries
-            , count = len(entries))
+    return render_template('blog/entries.html', entries=entries) 
 
 @blog.route('/deleted')
 @blog.route('/deleted/<slug>')
+@login_required
 def deleted(slug=None):
-    entries = []
     if slug:
-        entry = db.Entry.find_one({'slug': slug, 'deleted':True})
-        entries.append(entry)
-    else:
-        entries = db.Entry.find({'deleted': True}).sort('pub_date', -1)
-
-    return render_template('/blog/list.html', entries = entries)
+        entry = get_by_slug(slug, deleted=True)
+        return render_template('/blog/entry.html', entry=entry)
+    entries = db.Entry.find({'deleted': True}).sort('pub_date', -1)
+    return render_template('/blog/entries.html', entries=entries)
 
 @blog.route('/drafts')
-@blog.route('/drafs/<slug>')
+@blog.route('/drafts/<slug>')
+@login_required
 def drafs(slug=None):
-    entries = []
     if slug:
         entry = get_by_slug(slug, published=False)
-        entries.append(entry)
-    else:
-        entries = db.Entry.find({'deleted': False
-                                 , 'published': False}).sort('pub_date', -1)
+        return render_template('/blog/entry.html', entry=entry)
+    entries = db.Entry.find({'deleted': False
+                             , 'published': False}).sort('pub_date', -1)
 
-    return render_template('/blog/list.html', entries = entries)
+    return render_template('/blog/entries.html', entries = entries)
         
         

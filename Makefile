@@ -6,7 +6,7 @@ clean:
 	rm -rf apps/static/css/*.css
 	rm -rf apps/static/js/*.js
 less:
-	lessc apps/static/less/style.less apps/static/css/style.css
+	lessc -c --yui-compress apps/static/less/style.less apps/static/css/style.css
 
 coffee:
 	coffee -b -l --compile --output apps/static/js/ apps/static/coffee/*.coffee

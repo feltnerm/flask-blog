@@ -1,22 +1,26 @@
 {% extends "layout.html" %}
-{% from '_library.html' import render_tags %}
 {% block content %}
+<section id="entry-many">
 {% for entry in entries %}
-<div class="entry">
-    <div class="entry-title">
-        <h2><a href="{{ entry.url }}">{{ entry.title }}</a></h2>
-            <div class="entry-abstract">
-                {{ entry.abstract}}
-            </div>
-    </div>
-    <div class="entry-meta">
-        <div class="entry-days">
-            <p><small>{{ entry.pub_date }}</small></p>
-            <hr>
+    {% if loop.index == 1 %}
+    <div class='row'>
+    {% endif %}
+
+    <article id="{{ entry.slug }}_entry-many" class="eight columns {{ loop.cycle('alpha', 'omega', 'alpha') }}">
+        <div class="entry-title">
+            <h4><a href="{{ entry.url }}">{{ entry.title }}</a></h4>
         </div>
-        {{ entry.tags }}
+        <div class="entry-abstract">
+            <p>{{ entry.abstract}}</p>
+        </div>
+    </article>
+
+    {% if loop.index % 2 == 0 %}
     </div>
-</div>
+    <div class='row'>
+    {% endif %}
+
 {% endfor %}
+</section>
 {% endblock %}
 
